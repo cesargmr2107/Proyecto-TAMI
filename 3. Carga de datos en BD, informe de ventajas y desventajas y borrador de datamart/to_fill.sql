@@ -1,15 +1,3 @@
-/***********************************************************************/
-/* 1.- Configuración inicial de la BD                                  */
-/***********************************************************************/
-
-DROP DATABASE IF EXISTS `HOTEL_DB`;
-
-CREATE DATABASE IF NOT EXISTS `HOTEL_DB` DEFAULT CHARACTER SET utf8 COLLATE utf8_spanish_ci;
-USE `HOTEL_DB`;
-
-CREATE USER IF NOT EXISTS dbadmin@'%' IDENTIFIED BY 'dbadmin';
-GRANT ALL PRIVILEGES ON `HOTEL_DB`.* TO dbadmin@'%';
-
 /**************************************************/
 /* 2.- Creamos las tablas de nuestro Diagrama EER */
 /**************************************************/
