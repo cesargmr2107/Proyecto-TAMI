@@ -1,0 +1,6 @@
+- Fechas de inicio, fin y noche en reserva
+- Fecha de nacimiento máxima de persona (18 años): 2001
+- Precio de reserva calculado con precio_noche de hospedaje
+- Última actualización mínima: 2005 (ej)
+- Comprobar que un espacio_instalacion no pueda ser espacio_hospedaje (viceversa)
+- Comprobar que un cliente sea empresa, huesped o agencia (no cliente a secas)
