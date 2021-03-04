@@ -42,8 +42,8 @@ function updateFechaUltimaActualizacion () {
         
         while ($tupla = mysqli_fetch_assoc($tuplas)) {
 
-            $random_stamp = rand($stamp_inicio, $stamp_fin);
-            $fecha = date("Y-m-d", $random_stamp);
+            $mt_random_stamp = mt_rand($stamp_inicio, $stamp_fin);
+            $fecha = date("Y-m-d", $mt_random_stamp);
 
             $sql = "UPDATE 
                     ". $entidad ." 
@@ -70,12 +70,12 @@ function updateFechaNacimiento(){
 
     while ($tupla = mysqli_fetch_assoc($tuplas)) {
 
-        $random_fecha = date("Y-m-d", rand($fecha_limite_superior, $fecha_limite_inferior));
+        $mt_random_fecha = date("Y-m-d", mt_rand($fecha_limite_superior, $fecha_limite_inferior));
         
         $sql = "UPDATE 
                     PERSONA 
                 SET
-                    FECHA_NACIMIENTO = '". $random_fecha ."' 
+                    FECHA_NACIMIENTO = '". $mt_random_fecha ."' 
                 WHERE
                    NUM_ID = '". $tupla["NUM_ID"] ."';
                 "
@@ -95,13 +95,13 @@ function updatePrecioReserva () {
     }
 
     while ($tupla = mysqli_fetch_assoc($tuplas)) {
-        $dias_entrada = rand(1,20);
-        $dias_reserva = rand(0,400);
+        $dias_entrada = mt_rand(1,20);
+        $dias_reserva = mt_rand(0,400);
         $id_espacio = $tupla["ID_ESPACIO"];
 
         $fecha_limite_superior = 1293836400; //Hace 10 años
         $fecha_limite_inferior = 1614797076; //hoy
-        $fecha_entrada = rand($fecha_limite_superior, $fecha_limite_inferior);
+        $fecha_entrada = mt_rand($fecha_limite_superior, $fecha_limite_inferior);
 
         $fecha_salida = date("Y-m-d", strtotime(' +'.$dias_entrada.' day', $fecha_entrada));
         $fecha_reserva = date("Y-m-d", strtotime(' -'.$dias_reserva.' day', $fecha_entrada));
@@ -137,7 +137,57 @@ function updatePrecioReserva () {
         }
     }
 } 
+function updateLocalizacion() {
+    $localizaciones = [
+        ["pais" => "Espanha", "ciudad" => "Vigo"],
+        ["pais" => "Espanha", "ciudad" => "Madrid"],
+        ["pais" => "Espanha", "ciudad" => "Barcelona"],
+        ["pais" => "Libano", "ciudad" => "Beirut"],
+        ["pais" => "Argentina", "ciudad" => "Buenos Aires"],
+        ["pais" => "Argentina", "ciudad" => "Mar del Plata"],
+        ["pais" => "Venezuela", "ciudad" => "Caracas"],
+        ["pais" => "Venezuela", "ciudad" => "Maracay"],
+        ["pais" => "Islandia", "ciudad" => "Reiquiavik"],
+        ["pais" => "Islandia", "ciudad" => "Vestmannaeyjar"],
+        ["pais" => "Suiza", "ciudad" => "Zug"],
+        ["pais" => "Suiza", "ciudad" => "Berna"],
+        ["pais" => "Japon", "ciudad" => "Hokkaido"],
+        ["pais" => "Japon", "ciudad" => "Tokio"],
+        ["pais" => "Grecia", "ciudad" => "Atenas"],
+        ["pais" => "Grecia", "ciudad" => "Tripoli"],
+        ["pais" => "Ghana", "ciudad" => "Kumasi"],
+        ["pais" => "Ghana", "ciudad" => "Acra"],
+        ["pais" => "Canada", "ciudad" => "Vancouver"],
+        ["pais" => "Canada", "ciudad" => "Toronto"]
+    ];
 
+    $mysql = ConnectDB();
+    $sql = "SELECT * FROM HOTEL ";
+
+    if (!$tuplas = $mysql->query($sql)) {
+        return false;
+    }
+
+    while ($tupla = mysqli_fetch_assoc($tuplas)) { 
+        $rand_loc = $localizaciones[mt_rand(0,19)];
+        $sql = "UPDATE 
+                    HOTEL 
+                SET
+                    LOCALIDAD = '". $rand_loc["pais"] ."',
+                    PROVINCIA = '". $rand_loc["ciudad"] ."'
+                WHERE
+                    ID_HOTEL = '". $tupla["ID_HOTEL"] ."';
+                "
+        ;
+
+        if (!$mysql->query($sql)) {
+            print("\nError al actualizar Precio de la reserva");
+        }
+    
+    }
+}
+
+updateLocalizacion();
 updatePrecioReserva();
 updateFechaNacimiento();
 updateFechaUltimaActualizacion();
