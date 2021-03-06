@@ -139,9 +139,9 @@ function updatePrecioReserva () {
 } 
 function updateLocalizacion() {
     $localizaciones = [
-        ["pais" => "Espanha", "ciudad" => "Vigo"],
-        ["pais" => "Espanha", "ciudad" => "Madrid"],
-        ["pais" => "Espanha", "ciudad" => "Barcelona"],
+        ["pais" => "España", "ciudad" => "Vigo"],
+        ["pais" => "España", "ciudad" => "Madrid"],
+        ["pais" => "España", "ciudad" => "Barcelona"],
         ["pais" => "Libano", "ciudad" => "Beirut"],
         ["pais" => "Argentina", "ciudad" => "Buenos Aires"],
         ["pais" => "Argentina", "ciudad" => "Mar del Plata"],
