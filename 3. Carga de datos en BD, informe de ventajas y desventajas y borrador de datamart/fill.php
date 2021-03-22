@@ -3,7 +3,7 @@
 
 function ConnectDB()
 {
-    $connetion = new mysqli("localhost", "dbadmin", "dbadmin", "HOTEL_DB");
+    $connetion = new mysqli("localhost", "dbadmin", "dbadmin", "HOTEL");
 
     if ($connetion->connect_error) {
         die("ERROR: Conecction failed " . $connetion->connect_error);
@@ -197,22 +197,22 @@ function updateLocalizacion()
 {
     $distancias = ['< 500m', '< 1Km', '< 2Km', '< 3Km', '< 5Km'];
     $localizaciones = [
-        ["pais" => "España", "ciudad" => "Vigo"],
-        ["pais" => "España", "ciudad" => "Madrid"],
-        ["pais" => "España", "ciudad" => "Barcelona"],
-        ["pais" => "Libano", "ciudad" => "Beirut"],
+        ["pais" => "Spain", "ciudad" => "Vigo"],
+        ["pais" => "Spain", "ciudad" => "Madrid"],
+        ["pais" => "Spain", "ciudad" => "Barcelona"],
+        ["pais" => "Lebanon", "ciudad" => "Beirut"],
         ["pais" => "Argentina", "ciudad" => "Buenos Aires"],
         ["pais" => "Argentina", "ciudad" => "Mar del Plata"],
         ["pais" => "Venezuela", "ciudad" => "Caracas"],
         ["pais" => "Venezuela", "ciudad" => "Maracay"],
-        ["pais" => "Islandia", "ciudad" => "Reiquiavik"],
-        ["pais" => "Islandia", "ciudad" => "Vestmannaeyjar"],
-        ["pais" => "Suiza", "ciudad" => "Zug"],
-        ["pais" => "Suiza", "ciudad" => "Berna"],
-        ["pais" => "Japon", "ciudad" => "Hokkaido"],
-        ["pais" => "Japon", "ciudad" => "Tokio"],
-        ["pais" => "Grecia", "ciudad" => "Atenas"],
-        ["pais" => "Grecia", "ciudad" => "Tripoli"],
+        ["pais" => "Iceland", "ciudad" => "Reiquiavik"],
+        ["pais" => "Iceland", "ciudad" => "Vestmannaeyjar"],
+        ["pais" => "Switzerland", "ciudad" => "Zug"],
+        ["pais" => "Switzerland", "ciudad" => "Berna"],
+        ["pais" => "Japan", "ciudad" => "Hokkaido"],
+        ["pais" => "Japan", "ciudad" => "Tokio"],
+        ["pais" => "Greek", "ciudad" => "Atenas"],
+        ["pais" => "Greek", "ciudad" => "Tripoli"],
         ["pais" => "Ghana", "ciudad" => "Kumasi"],
         ["pais" => "Ghana", "ciudad" => "Acra"],
         ["pais" => "Canada", "ciudad" => "Vancouver"],
@@ -247,10 +247,10 @@ function updateLocalizacion()
 function updatePaisAgencia()
 {
     $paises = [
-        "España", "Portugal", "Suiza", "Libano", "Suecia",
-        "Canada", "Ghana", "Japon", "Grecia", "Argentina", "Venezuela",
-        "Libano", "Islandia", "Irlanda", "Ejipto", "Aruba", "Estonia",
-        "Lituania", "Belgica", "Laos"
+        "Spain", "Portugal", "Switzerland", "Lebanon", "Sweden",
+        "Canada", "Ghana", "Japan", "Greek", "Argentina", "Venezuela",
+        "Lebanon", "Iceland", "Ireland", "Egypt", "Aruba", "Estonia",
+        "Lithuania", "Belgium", "Laos"
     ];
 
     $mysql = ConnectDB();
@@ -281,10 +281,10 @@ function cambiarPaisNacionalidadHuesped()
 {
     $mysql = ConnectDB();
     $paises = [
-        "España", "Portugal", "Suiza", "Libano", "Suecia",
-        "Canada", "Ghana", "Japon", "Grecia", "Argentina", "Venezuela",
-        "Libano", "Islandia", "Irlanda", "Ejipto", "Aruba", "Estonia",
-        "Lituania", "Belgica", "Laos"
+        "Spain", "Portugal", "Switzerland", "Lebanon", "Sweden",
+        "Canada", "Ghana", "Japan", "Greek", "Argentina", "Venezuela",
+        "Lebanon", "Iceland", "Ireland", "Egypt", "Aruba", "Estonia",
+        "Lithuania", "Belgium", "Laos"
     ];
 
     //Limitamos los paises de residencia de la tabla Huesped
@@ -315,10 +315,10 @@ function updateResidenciaHuesped()
 {
     $mysql = ConnectDB();
     $paises = [
-        "España", "Portugal", "Suiza", "Libano", "Suecia",
-        "Canada", "Ghana", "Japon", "Grecia", "Argentina", "Venezuela",
-        "Libano", "Islandia", "Irlanda", "Ejipto", "Aruba", "Estonia",
-        "Lituania", "Belgica", "Laos"
+        "Spain", "Portugal", "Switzerland", "Lebanon", "Sweden",
+        "Canada", "Ghana", "Japan", "Greek", "Argentina", "Venezuela",
+        "Lebanon", "Iceland", "Ireland", "Egypt", "Aruba", "Estonia",
+        "Lithuania", "Belgium", "Laos"
     ];
     cambiarPaisNacionalidadHuesped();
 
@@ -355,7 +355,31 @@ function updateResidenciaHuesped()
         }
     }
 }
+function updatePrecioNoche(){
+    $mysql = ConnectDB();
+    $sql = "SELECT * FROM ESPACIO_HOSPEDAJE";
 
+    if (!$tuplas = $mysql->query($sql)) {
+        return false;
+    }
+
+    while ($tupla = mysqli_fetch_assoc($tuplas)) { 
+        $rand = mt_rand(0, 999);
+        $sql = "UPDATE 
+                        ESPACIO_HOSPEDAJE 
+                    SET
+                        PRECIO_NOCHE = '" . $rand . "'
+                    WHERE
+                        ID_ESPACIO = '" . $tupla["ID_ESPACIO"] . "';
+                    ";
+
+            if (!$mysql->query($sql)) {
+                print("\nError al actualizar las localizaciones de la agencia");
+            }
+    }
+
+}
+updatePrecioNoche();
 updatePaisAgencia(); //No depende de nada
 updateDistanciasHotel(); //No depende de nada
 updateLocalizacion(); //No depdende de nada

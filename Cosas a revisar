@@ -1,0 +1,19 @@
+
+TODO:
+==========================================
++ Quitar dirección del diagrama del datamart
++ Poner cuatrimestre en vez de trimestre en el diagrama del datamart
++ Quitar medidas precalculadas en paso 4 y pasarlas al paso 5
++ Revisar que tipos de dato sean finales
++ Cuando revisar y añadir más atributos
++ Sustituir distancia a playa por un valor
++ Cambiar diagrama de jerarquía de cuando
+- Diagrama final del DWH ROLAP
+
+DUDAS
+==========================================
+- Medida 'importe_medio' en tabla de hechos y si está bien como se plantea para dwh
+- ¿Valor precalculado es la medida o el atributo usado para calcularla?
+- Dimensión tiempo, tablas/atributos de origen
+- Paso 8.1: ¿justificar elección de atributos? 
+- ¿Nuestras consultas están bien / son suficientes?
