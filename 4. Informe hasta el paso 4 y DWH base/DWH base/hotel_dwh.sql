@@ -1,6 +1,46 @@
-CREATE DATABASE 'hotel_dwh';
+DROP DATABASE `hotel_dwh`;
+
+CREATE DATABASE `hotel_dwh`;
 
 USE `hotel_dwh`;
+
+
+DROP TABLE IF EXISTS `fact_reserva`;
+
+CREATE TABLE `fact_reserva` (
+
+  # IDS
+  `reserva_key` int(8) NOT NULL AUTO_INCREMENT,
+  `id_reserva` VARCHAR(9) NOT NULL, 
+  
+  # FOREIGN KEYS
+  `espacio_hospedaje_key` INT(8) NOT NULL,
+  `fecha_entrada` INT(8) NOT NULL,
+  `fecha_salida` INT(8) NOT NULL,
+  `huesped_key` INT(8) NOT NULL,
+  `hotel_key` INT(8) NOT NULL,
+  
+  # METRICS
+  `numero_reservas` INTEGER NOT NULL,
+  `descuento_aplicado` FLOAT(10,2) NOT NULL,
+  `importe_medio` FLOAT(10,2) NOT NULL,
+  `importe_bruto` FLOAT(10,2) NOT NULL,
+  `importe_final` FLOAT(10,2) NOT NULL,
+  `duracion` INT(8) NOT NULL,
+
+  # TIMESTAMP
+  `ultima_actualizacion_reserva` datetime NOT NULL,
+
+  # KEY CONSTRAINTS
+  PRIMARY KEY (`reserva_key`),
+  FOREIGN KEY (`espacio_hospedaje_key`) REFERENCES `dim_espacio_hospedaje`(`espacio_hospedaje_key`),
+  FOREIGN KEY (`fecha_entrada`) REFERENCES `dim_fecha`(`date_key`),
+  FOREIGN KEY (`fecha_salida`) REFERENCES `dim_fecha`(`date_key`),
+  FOREIGN KEY (`huesped_key`) REFERENCES `dim_huesped`(`huesped_key`),
+  FOREIGN KEY (`hotel_key`) REFERENCES `dim_hotel` (`hotel_key`)
+  
+)ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
+
 
 
 DROP TABLE IF EXISTS `dim_hotel`;
@@ -8,50 +48,31 @@ DROP TABLE IF EXISTS `dim_hotel`;
 CREATE TABLE `dim_hotel` (
     
     # DIMENSION KEY
-    `HOTEL_KEY` int(8) NOT NULL AUTO_INCREMENT,
+    `hotel_key` int(8) NOT NULL AUTO_INCREMENT,
 
     # DIMENSION ATRIBUTES
-    `ID_HOTEL` varchar(6) COLLATE utf8_spanish_ci NOT NULL,
-    `CALLE` varchar(32) COLLATE utf8_spanish_ci NOT NULL,
-    `PAIS` varchar(32) COLLATE utf8_spanish_ci NOT NULL,
-    `CIUDAD` varchar(32) COLLATE utf8_spanish_ci NOT NULL,
-    `ESTRELLAS` decimal(1,0) UNSIGNED NOT NULL,
-    `NOMBRE` varchar(40) COLLATE utf8_spanish_ci NOT NULL,
-    `PARKING` enum('ABIERTO','CERRADO') COLLATE utf8_spanish_ci DEFAULT NULL,
-    `TRASLADO_AEROPUERTO` enum('Sí','No') COLLATE utf8_spanish_ci NOT NULL,
-    `VALORACION` decimal(2,1) NOT NULL,
-    `TIPO` enum('HISTORICO','CONCEPTUAL','MODERNO','TRADICIONAL') COLLATE utf8_spanish_ci NOT NULL,
-    `TIENE_ASCENSOR` enum('Sí','No') COLLATE utf8_spanish_ci NOT NULL,
-    `PRESUPUESTO` decimal(11,2) NOT NULL,
-    `INGRESOS` decimal(11,2) NOT NULL,
-    `PRES_MARKETING` decimal(11,2) NOT NULL,
-    `TIENE_SH` enum('Sí','No') COLLATE utf8_spanish_ci NOT NULL,
-    `DISTANCIA_CENTRO` enum('< 500m','< 1Km','< 2Km','< 3Km','< 5Km') COLLATE utf8_spanish_ci DEFAULT NULL,
-    `DISTANCIA_PLAYA` enum('< 500m','< 1Km','< 2Km','< 3Km','< 5Km') COLLATE utf8_spanish_ci DEFAULT NULL,
-    `ULTIMA_ACTUALIZACION` datetime NOT NULL,
-    
-    PRIMARY KEY (`HOTEL_KEY`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
+    `id_hotel` varchar(9) COLLATE utf8_spanish_ci NOT NULL,
+    `distancia_playa` varchar(5) COLLATE utf8_spanish_ci NOT NULL,
+    `distancia_centro` varchar(5) COLLATE utf8_spanish_ci NOT NULL,
+    `temperatura` varchar(15)  COLLATE utf8_spanish_ci NOT NULL,
+    `poblacion` INT(10) NOT NULL,
+    `servicio_habitaciones` varchar(3)  COLLATE utf8_spanish_ci NOT NULL,
+    `ingresos` decimal(11,2) NOT NULL,
+    `valoracion` decimal(2,1) NOT NULL,
+    `tiene_ascensor` varchar(3) COLLATE utf8_spanish_ci NOT NULL,
+    `traslado_aeropuerto` varchar(3) COLLATE utf8_spanish_ci NOT NULL,
+    `parking` varchar(8) COLLATE utf8_spanish_ci NOT NULL,
+    `presupuesto` decimal(11,2) NOT NULL,
+    `pres_marketing` decimal(11,2) NOT NULL,
+    `pais` varchar(32) COLLATE utf8_spanish_ci NOT NULL,
+    `estrellas` decimal(1,0) UNSIGNED NOT NULL,
+    `tipo_hotel` decimal(1,0) UNSIGNED NOT NULL,
+    `ciudad` varchar(58) COLLATE utf8_spanish_ci NOT NULL,
 
-DROP TABLE IF EXISTS `dim_espacio`;
-CREATE TABLE `dim_espacio` (
-
-    # DIMENSION KEY
-    `ID_ESPACIO` varchar(9) COLLATE utf8_spanish_ci NOT NULL,
+    # TIMESTAMP
+    `ultima_actualizacion_hotel` datetime NOT NULL,    
     
-    
-    `NOMBRE` varchar(40) COLLATE utf8_spanish_ci DEFAULT NULL,
-    `SUPERFICIE` float(6,3) UNSIGNED NOT NULL,
-    `ID_HOTEL` varchar(6) COLLATE utf8_spanish_ci NOT NULL,
-    `ID_ESPACIO_CONT` varchar(9) COLLATE utf8_spanish_ci DEFAULT NULL,
-    `TIENE_INTERNET` enum('Sí','No') COLLATE utf8_spanish_ci NOT NULL,
-    `TIENE_VISTAS` enum('Sí','No') COLLATE utf8_spanish_ci NOT NULL DEFAULT 'No',
-    `ESTA_CLIMATIZADO` enum('Sí','No') COLLATE utf8_spanish_ci NOT NULL,
-    `TIPO_ESPACIO` enum('ESPACIO_HOSPEDAJE','ESPACIO_INSTALACION','ESPACIO_TRABAJO') COLLATE utf8_spanish_ci NOT NULL DEFAULT 'ESPACIO_HOSPEDAJE',
-    `ULTIMA_ACTUALIZACION` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
-    PRIMARY KEY (`ID_ESPACIO`),
-    KEY `ID_HOTEL` (`ID_HOTEL`),
-    KEY `ID_ESPACIO_CONT` (`ID_ESPACIO_CONT`)
+    PRIMARY KEY (`hotel_key`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
 
 
@@ -59,55 +80,87 @@ DROP TABLE IF EXISTS `dim_espacio_hospedaje`;
 CREATE TABLE `dim_espacio_hospedaje` (
 
     # DIMENSION KEY
-    `ESPACIO_HOSPEDAJE_KEY` int(8) NOT NULL AUTO_INCREMENT,
+    `espacio_hospedaje_key` int(8) NOT NULL AUTO_INCREMENT,
 
     # DIMENSION ATRIBUTES
-    `ID_ESPACIO` varchar(9) COLLATE utf8_spanish_ci NOT NULL,
-    `NUM_BANHOS` decimal(1,0) DEFAULT NULL,
-    `NUM_CAMAS` decimal(1,0) NOT NULL,
-    `TIENE_TERRAZA` enum('Sí','No') COLLATE utf8_spanish_ci NOT NULL,
-    `ADMITE_FUMADORES` enum('Sí','No') COLLATE utf8_spanish_ci NOT NULL,
-    `ADMITE_MASCOTAS` enum('Sí','No') COLLATE utf8_spanish_ci NOT NULL,
-    `CANCELACION_GRATIS` enum('Sí','No') COLLATE utf8_spanish_ci NOT NULL,
-    `MOVILIDAD_ADAPTADA` enum('Sí','No') COLLATE utf8_spanish_ci NOT NULL,
-    `PRECIO_NOCHE` decimal(5,2) NOT NULL,
-    `LUMINOSIDAD` enum('BAJA','MEDIA','ALTA') COLLATE utf8_spanish_ci NOT NULL,
-    `TIPO_HOSPEDAJE` enum('APARTAMENTO','HABITACION') COLLATE utf8_spanish_ci NOT NULL,
-    `ULTIMA_ACTUALIZACION` datetime NOT NULL,
+    `id_espacio` varchar(9) NOT NULL,
+    `num_banhos` decimal(1,0) NOT NULL,
+    `num_camas` decimal(1,0) COLLATE utf8_spanish_ci NOT NULL,
+    `tiene_terraza` varchar(3) COLLATE utf8_spanish_ci NOT NULL,
+    `admite_fumadores` varchar(3) COLLATE utf8_spanish_ci NOT NULL,
+    `admite_mascotas` varchar(3) COLLATE utf8_spanish_ci NOT NULL,
+    `tiene_cancelacion_gratis` varchar(3) COLLATE utf8_spanish_ci NOT NULL,
+    `tiene_movilidad_adaptada` varchar(3) COLLATE utf8_spanish_ci NOT NULL,
+    `precio_noche` varchar(13) COLLATE utf8_spanish_ci NOT NULL,
+    `luminosidad` varchar(5) COLLATE utf8_spanish_ci NOT NULL,
+    `tipo_alojamiento` varchar(12) COLLATE utf8_spanish_ci NOT NULL,
+    `superficie` varchar(8) COLLATE utf8_spanish_ci NOT NULL, 
+    `tiene_internet` varchar(3) COLLATE utf8_spanish_ci NOT NULL,
+    `tiene_vistas` varchar(3) COLLATE utf8_spanish_ci NOT NULL,
+    `tiene_climatizacion` varchar(3) COLLATE utf8_spanish_ci NOT NULL,
 
-    PRIMARY KEY (`ESPACIO_HOSPEDAJE_KEY`)
+    # TIMESTAMP
+    `ultima_actualizacion_hospedaje` datetime NOT NULL,    
+    
+    PRIMARY KEY (`espacio_hospedaje_key`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
 
 
 DROP TABLE IF EXISTS `dim_huesped`;
 CREATE TABLE `dim_huesped` (
-  `NUM_ID` varchar(9) COLLATE utf8_spanish_ci NOT NULL,
-  `ID_CLIENTE` varchar(9) COLLATE utf8_spanish_ci DEFAULT NULL,
-  `NACIONALIDAD` varchar(20) COLLATE utf8_spanish_ci NOT NULL,
-  `NUM_TARJETA` varchar(19) COLLATE utf8_spanish_ci DEFAULT NULL,
-  `FAMILIA_NUMEROSA` enum('Sí','No') COLLATE utf8_spanish_ci NOT NULL,
-  `ESTADO_CIVIL` enum('Soltero','Casado','Viúdo','Divorciado') COLLATE utf8_spanish_ci DEFAULT NULL,
-  `SITUACION_LABORAL` enum('Empresario','Autónomo','Asalariado','Cooperativista','En paro','Jubilado') COLLATE utf8_spanish_ci DEFAULT NULL,
-  `MEDIO_TRANSPORTE` enum('Coche','Avión','Tren','Moto','Bus','Camión') COLLATE utf8_spanish_ci DEFAULT NULL,
-  `COMO_CONOCISTE` enum('Internet','Publicidad','Conocidos','Otros') COLLATE utf8_spanish_ci DEFAULT NULL,
-  `TRAE_MASCOTA` enum('Sí','No') COLLATE utf8_spanish_ci DEFAULT NULL,
-  `PAIS_RESIDENCIA` varchar(40) COLLATE utf8_spanish_ci NOT NULL,
-  `ES_VIP` enum('Sí','No') COLLATE utf8_spanish_ci NOT NULL DEFAULT 'No',
-  `ULTIMA_ACTUALIZACION` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
-  PRIMARY KEY (`NUM_ID`),
-  UNIQUE KEY `ID_CLIENTE` (`ID_CLIENTE`),
-  UNIQUE KEY `NUM_TARJETA` (`NUM_TARJETA`)
+
+  # DIMENSION KEY
+  `huesped_key` int(10) NOT NULL AUTO_INCREMENT,
+
+  # DIMENSION ATRIBUTES
+  `num_id` varchar(9) COLLATE utf8_spanish_ci NOT NULL,
+  `descubrimiento` varchar(15) COLLATE utf8_spanish_ci NOT NULL,
+  `tiene_familia_numerosa` varchar(3) COLLATE utf8_spanish_ci NOT NULL,
+  `edad` varchar(12) COLLATE utf8_spanish_ci NOT NULL,
+  `genero` varchar(12) COLLATE utf8_spanish_ci NOT NULL,
+  `nacionalidad` varchar(20) COLLATE utf8_spanish_ci NOT NULL,
+  `es_cliente_vip` varchar(3) COLLATE utf8_spanish_ci NOT NULL,
+  `situacion_civil` decimal(1,0) COLLATE utf8_spanish_ci NOT NULL,
+  `medio_transporte` varchar(10) COLLATE utf8_spanish_ci NOT NULL,
+  `ingresos_medios` varchar(10) COLLATE utf8_spanish_ci NOT NULL,
+  `pais_residencia` varchar(40) COLLATE utf8_spanish_ci NOT NULL,
+  
+  # TIMESTAMP
+  `ultima_actualizacion_huesped` datetime NOT NULL,    
+    
+  PRIMARY KEY (`huesped_key`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
 
+DROP TABLE IF EXISTS `dim_date`;
 
-DROP TABLE IF EXISTS `dim_persona`;
-CREATE TABLE `dim_persona` (
-  `NUM_ID` varchar(9) COLLATE utf8_spanish_ci NOT NULL,
-  `NOMBRE` varchar(40) COLLATE utf8_spanish_ci NOT NULL,
-  `TELEFONO` varchar(31) COLLATE utf8_spanish_ci NOT NULL,
-  `FECHA_NACIMIENTO` date DEFAULT NULL,
-  `GENERO` enum('Masculino','Femenino','Otro') COLLATE utf8_spanish_ci DEFAULT NULL,
-  `ULTIMA_ACTUALIZACION` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
-  PRIMARY KEY (`NUM_ID`),
-  UNIQUE KEY `TELEFONO` (`TELEFONO`)
+CREATE TABLE `dim_fecha` (
+  `date_key` int(8) NOT NULL,
+  `date_value` date NOT NULL,
+  `date_short` char(12) NOT NULL,
+  `date_medium` char(16) NOT NULL,
+  `date_long` char(24) NOT NULL,
+  `date_full` char(32) NOT NULL,
+  `day_in_year` smallint(5) NOT NULL,
+  `day_in_month` tinyint(3) NOT NULL,
+  `is_first_day_in_month` char(10) NOT NULL,
+  `is_last_day_in_month` char(10) NOT NULL,
+  `day_abbreviation` char(3) NOT NULL,
+  `day_name` char(12) NOT NULL,
+  `week_in_year` tinyint(3) NOT NULL,
+  `week_in_month` tinyint(3) NOT NULL,
+  `is_first_day_in_week` char(10) NOT NULL,
+  `is_last_day_in_week` char(10) NOT NULL,
+  `month_number` tinyint(3) NOT NULL,
+  `month_abbreviation` char(3) NOT NULL,
+  `month_name` char(12) NOT NULL,
+  `year2` char(2) NOT NULL,
+  `year4` smallint(5) NOT NULL,
+  `quarter_name` char(2) NOT NULL,
+  `quarter_number` tinyint(3) NOT NULL,
+  `year_quarter` char(7) NOT NULL,
+  `year_month_number` char(7) NOT NULL,
+  `year_month_abbreviation` char(8) NOT NULL,
+  PRIMARY KEY (`date_key`),
+  UNIQUE KEY `date` (`date_value`) USING BTREE,
+  UNIQUE KEY `date_value` (`date_value`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
