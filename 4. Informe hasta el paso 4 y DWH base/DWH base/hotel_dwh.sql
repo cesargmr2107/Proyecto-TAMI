@@ -131,35 +131,21 @@ CREATE TABLE `dim_huesped` (
   PRIMARY KEY (`huesped_key`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
 
-DROP TABLE IF EXISTS `dim_date`;
+DROP TABLE IF EXISTS `dim_fecha`;
 
 CREATE TABLE `dim_fecha` (
   `date_key` int(8) NOT NULL,
   `date_value` date NOT NULL,
-  `date_short` char(12) NOT NULL,
-  `date_medium` char(16) NOT NULL,
-  `date_long` char(24) NOT NULL,
-  `date_full` char(32) NOT NULL,
-  `day_in_year` smallint(5) NOT NULL,
+
   `day_in_month` tinyint(3) NOT NULL,
+  `day_name` char(12) NOT NULL,
   `is_first_day_in_month` char(10) NOT NULL,
   `is_last_day_in_month` char(10) NOT NULL,
-  `day_abbreviation` char(3) NOT NULL,
-  `day_name` char(12) NOT NULL,
-  `week_in_year` tinyint(3) NOT NULL,
-  `week_in_month` tinyint(3) NOT NULL,
-  `is_first_day_in_week` char(10) NOT NULL,
-  `is_last_day_in_week` char(10) NOT NULL,
   `month_number` tinyint(3) NOT NULL,
-  `month_abbreviation` char(3) NOT NULL,
-  `month_name` char(12) NOT NULL,
-  `year2` char(2) NOT NULL,
-  `year4` smallint(5) NOT NULL,
-  `quarter_name` char(2) NOT NULL,
+  `week_in_year` tinyint(3) NOT NULL,
   `quarter_number` tinyint(3) NOT NULL,
-  `year_quarter` char(7) NOT NULL,
-  `year_month_number` char(7) NOT NULL,
-  `year_month_abbreviation` char(8) NOT NULL,
+  `year4` smallint(5) NOT NULL,
+    
   PRIMARY KEY (`date_key`),
   UNIQUE KEY `date` (`date_value`) USING BTREE,
   UNIQUE KEY `date_value` (`date_value`)
