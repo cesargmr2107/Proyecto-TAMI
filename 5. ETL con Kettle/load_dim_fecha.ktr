@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
 <transformation>
   <info>
     <name>load_dim_fecha</name>
@@ -428,8 +429,8 @@
     <created_user>-</created_user>
     <created_date>2021/04/07 19:30:00.152</created_date>
     <modified_user>-</modified_user>
-    <modified_date>2021/04/07 20:48:22.721</modified_date>
-    <key_for_session_key/>
+    <modified_date>2021/04/08 09:08:36.139</modified_date>
+    <key_for_session_key>H4sIAAAAAAAAAAMAAAAAAAAAAAA=</key_for_session_key>
     <is_key_private>N</is_key_private>
   </info>
   <notepads>
@@ -437,7 +438,7 @@
       <note>Generate</note>
       <xloc>168</xloc>
       <yloc>197</yloc>
-      <width>55</width>
+      <width>66</width>
       <heigth>28</heigth>
       <fontname>Microsoft Sans Serif</fontname>
       <fontsize>8</fontsize>
@@ -458,8 +459,8 @@
       <note>Transformation</note>
       <xloc>167</xloc>
       <yloc>287</yloc>
-      <width>104</width>
-      <heigth>28</heigth>
+      <width>111</width>
+      <heigth>30</heigth>
       <fontname/>
       <fontsize>-1</fontsize>
       <fontbold>N</fontbold>
@@ -479,7 +480,7 @@
       <note>Load</note>
       <xloc>169</xloc>
       <yloc>377</yloc>
-      <width>35</width>
+      <width>41</width>
       <heigth>28</heigth>
       <fontname>Microsoft Sans Serif</fontname>
       <fontsize>8</fontsize>
@@ -504,8 +505,8 @@
     <access>Native</access>
     <database>hotel_dwh</database>
     <port>3306</port>
-    <username>dbadmin</username>
-    <password>Encrypted 2be98afc86aa7f2e4cb1dac71da9fa6d4</password>
+    <username>root</username>
+    <password>Encrypted </password>
     <servername/>
     <data_tablespace/>
     <index_tablespace/>
@@ -686,14 +687,6 @@ var date_key = year4 + month_number + (day_in_month&lt;10?"0":"") + day_in_month
         <replace>N</replace>
       </field>
       <field>
-        <name>next_day</name>
-        <rename>next_day</rename>
-        <type>String</type>
-        <length>-1</length>
-        <precision>-1</precision>
-        <replace>N</replace>
-      </field>
-      <field>
         <name>is_first_day_in_month</name>
         <rename>is_first_day_in_month</rename>
         <type>String</type>
@@ -759,7 +752,7 @@ var date_key = year4 + month_number + (day_in_month&lt;10?"0":"") + day_in_month
       </output>
     </remotesteps>
     <GUI>
-      <xloc>480</xloc>
+      <xloc>512</xloc>
       <yloc>288</yloc>
       <draw>Y</draw>
     </GUI>
@@ -794,7 +787,7 @@ var date_key = year4 + month_number + (day_in_month&lt;10?"0":"") + day_in_month
       </output>
     </remotesteps>
     <GUI>
-      <xloc>320</xloc>
+      <xloc>352</xloc>
       <yloc>288</yloc>
       <draw>Y</draw>
     </GUI>
@@ -886,7 +879,7 @@ var date_key = year4 + month_number + (day_in_month&lt;10?"0":"") + day_in_month
       </output>
     </remotesteps>
     <GUI>
-      <xloc>320</xloc>
+      <xloc>352</xloc>
       <yloc>208</yloc>
       <draw>Y</draw>
     </GUI>
@@ -970,7 +963,7 @@ var date_key = year4 + month_number + (day_in_month&lt;10?"0":"") + day_in_month
       </output>
     </remotesteps>
     <GUI>
-      <xloc>480</xloc>
+      <xloc>512</xloc>
       <yloc>400</yloc>
       <draw>Y</draw>
     </GUI>

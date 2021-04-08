@@ -5,8 +5,8 @@
     <access>Native</access>
     <database>hotel_dwh</database>
     <port>3306</port>
-    <username>dbadmin</username>
-    <password>Encrypted 2be98afc86aa7f2e4cb1dac71da9fa6d4</password>
+    <username>root</username>
+    <password>Encrypted </password>
     <servername/>
     <data_tablespace/>
     <index_tablespace/>
