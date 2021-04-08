@@ -437,7 +437,7 @@
   <notepads>
     <notepad>
       <note>Get data from table if last update is greather than last update</note>
-      <xloc>176</xloc>
+      <xloc>48</xloc>
       <yloc>16</yloc>
       <width>417</width>
       <heigth>30</heigth>
@@ -482,6 +482,48 @@
       <xloc>912</xloc>
       <yloc>400</yloc>
       <width>328</width>
+      <heigth>30</heigth>
+      <fontname>Segoe UI</fontname>
+      <fontsize>9</fontsize>
+      <fontbold>N</fontbold>
+      <fontitalic>N</fontitalic>
+      <fontcolorred>0</fontcolorred>
+      <fontcolorgreen>0</fontcolorgreen>
+      <fontcolorblue>0</fontcolorblue>
+      <backgroundcolorred>255</backgroundcolorred>
+      <backgroundcolorgreen>205</backgroundcolorgreen>
+      <backgroundcolorblue>112</backgroundcolorblue>
+      <bordercolorred>100</bordercolorred>
+      <bordercolorgreen>100</bordercolorgreen>
+      <bordercolorblue>100</bordercolorblue>
+      <drawshadow>Y</drawshadow>
+    </notepad>
+    <notepad>
+      <note>Filter rows where cost per night is &lt; 10</note>
+      <xloc>528</xloc>
+      <yloc>16</yloc>
+      <width>266</width>
+      <heigth>30</heigth>
+      <fontname>Segoe UI</fontname>
+      <fontsize>9</fontsize>
+      <fontbold>N</fontbold>
+      <fontitalic>N</fontitalic>
+      <fontcolorred>0</fontcolorred>
+      <fontcolorgreen>0</fontcolorgreen>
+      <fontcolorblue>0</fontcolorblue>
+      <backgroundcolorred>255</backgroundcolorred>
+      <backgroundcolorgreen>205</backgroundcolorgreen>
+      <backgroundcolorblue>112</backgroundcolorblue>
+      <bordercolorred>100</bordercolorred>
+      <bordercolorgreen>100</bordercolorgreen>
+      <bordercolorblue>100</bordercolorblue>
+      <drawshadow>Y</drawshadow>
+    </notepad>
+    <notepad>
+      <note>Get average WC number and add it to each tuple</note>
+      <xloc>208</xloc>
+      <yloc>352</yloc>
+      <width>335</width>
       <heigth>30</heigth>
       <fontname>Segoe UI</fontname>
       <fontsize>9</fontsize>
@@ -608,7 +650,7 @@
       <enabled>Y</enabled>
     </hop>
     <hop>
-      <from>Replace WC number if null</from>
+      <from>Process accomodation info</from>
       <to>Load data in table</to>
       <enabled>Y</enabled>
     </hop>
@@ -618,16 +660,95 @@
       <enabled>Y</enabled>
     </hop>
     <hop>
+      <from>Join rows (cartesian product)</from>
+      <to>Process accomodation info</to>
+      <enabled>Y</enabled>
+    </hop>
+    <hop>
       <from>Get data from tables</from>
+      <to>Filter rows with cost &lt; 10</to>
+      <enabled>Y</enabled>
+    </hop>
+    <hop>
+      <from>Filter rows with cost &lt; 10</from>
       <to>Join rows (cartesian product)</to>
       <enabled>Y</enabled>
     </hop>
     <hop>
-      <from>Join rows (cartesian product)</from>
-      <to>Replace WC number if null</to>
+      <from>Filter rows with cost &lt; 10</from>
+      <to>Dummy (do nothing)</to>
       <enabled>Y</enabled>
     </hop>
   </order>
+  <step>
+    <name>Dummy (do nothing)</name>
+    <type>Dummy</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+    <partitioning>
+      <method>none</method>
+      <schema_name/>
+    </partitioning>
+    <attributes/>
+    <cluster_schema/>
+    <remotesteps>
+      <input>
+      </input>
+      <output>
+      </output>
+    </remotesteps>
+    <GUI>
+      <xloc>768</xloc>
+      <yloc>96</yloc>
+      <draw>Y</draw>
+    </GUI>
+  </step>
+  <step>
+    <name>Filter rows with cost &lt; 10</name>
+    <type>FilterRows</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+    <partitioning>
+      <method>none</method>
+      <schema_name/>
+    </partitioning>
+    <send_true_to>Join rows (cartesian product)</send_true_to>
+    <send_false_to>Dummy (do nothing)</send_false_to>
+    <compare>
+      <condition>
+        <negated>N</negated>
+        <leftvalue>precio_noche</leftvalue>
+        <function>&gt;=</function>
+        <rightvalue/>
+        <value>
+          <name>constant</name>
+          <type>Number</type>
+          <text>10.0</text>
+          <length>-1</length>
+          <precision>-1</precision>
+          <isnull>N</isnull>
+          <mask>####0.0#########;-####0.0#########</mask>
+        </value>
+      </condition>
+    </compare>
+    <attributes/>
+    <cluster_schema/>
+    <remotesteps>
+      <input>
+      </input>
+      <output>
+      </output>
+    </remotesteps>
+    <GUI>
+      <xloc>512</xloc>
+      <yloc>96</yloc>
+      <draw>Y</draw>
+    </GUI>
+  </step>
   <step>
     <name>Get average WC number</name>
     <type>TableInput</type>
@@ -1480,7 +1601,7 @@ WHERE espacio.id_espacio = espacio_hospedaje.id_espacio AND
       </output>
     </remotesteps>
     <GUI>
-      <xloc>512</xloc>
+      <xloc>320</xloc>
       <yloc>96</yloc>
       <draw>Y</draw>
     </GUI>
@@ -1549,7 +1670,7 @@ FROM dim_espacio_hospedaje
       </output>
     </remotesteps>
     <GUI>
-      <xloc>224</xloc>
+      <xloc>128</xloc>
       <yloc>96</yloc>
       <draw>Y</draw>
     </GUI>
@@ -1700,7 +1821,7 @@ FROM dim_espacio_hospedaje
     </GUI>
   </step>
   <step>
-    <name>Replace WC number if null</name>
+    <name>Process accomodation info</name>
     <type>ScriptValueMod</type>
     <description/>
     <distribute>Y</distribute>
@@ -1716,10 +1837,38 @@ FROM dim_espacio_hospedaje
       <jsScript>
         <jsScript_type>0</jsScript_type>
         <jsScript_name>Replace WC number if null</jsScript_name>
-        <jsScript_script>
+        <jsScript_script>// Replace null number of WCs with average
 if (num_banhos == null) {
 	var num_banhos = media_banhos;
-}</jsScript_script>
+}
+
+
+// Discretize night cost
+var discrete_cost;
+if (precio_noche &lt; 100) {
+    discrete_cost = "&lt;100";    
+} else if(precio_noche >= 100 &amp;&amp; precio_noche &lt; 200) {
+    discrete_cost = "[100,200)";
+} else if(precio_noche >= 200 &amp;&amp; precio_noche &lt; 300) {
+    discrete_cost = "[200,300)";
+} else if(precio_noche >= 300 &amp;&amp; precio_noche &lt; 400) {
+    discrete_cost = "[300,400)";
+} else if(precio_noche >= 400 &amp;&amp; precio_noche &lt; 500) {
+    discrete_cost = "[400,500)";
+} else {
+    discrete_cost = ">=500";
+}
+var precio_noche = discrete_cost;
+
+var discrete_area;
+if (superficie &lt; 50) {
+    discrete_area = "Pequeño";
+} else if (superficie >= 50 &amp;&amp; superficie &lt; 100){
+    discrete_area = "Mediano";
+} else {
+    discrete_area = "Grande";
+}
+var superficie = discrete_area;</jsScript_script>
       </jsScript>
     </jsScripts>
     <fields>
@@ -1729,6 +1878,22 @@ if (num_banhos == null) {
         <type>Number</type>
         <length>16</length>
         <precision>2</precision>
+        <replace>Y</replace>
+      </field>
+      <field>
+        <name>precio_noche</name>
+        <rename>precio_noche</rename>
+        <type>String</type>
+        <length>-1</length>
+        <precision>-1</precision>
+        <replace>Y</replace>
+      </field>
+      <field>
+        <name>superficie</name>
+        <rename>superficie</rename>
+        <type>String</type>
+        <length>-1</length>
+        <precision>-1</precision>
         <replace>Y</replace>
       </field>
     </fields>
