@@ -113,7 +113,7 @@ CREATE TABLE `dim_huesped` (
   `huesped_key` int(10) NOT NULL AUTO_INCREMENT,
 
   # DIMENSION ATRIBUTES
-  `num_id` varchar(9) COLLATE utf8_spanish_ci NOT NULL,
+  `id_cliente` varchar(9) COLLATE utf8_spanish_ci NOT NULL,
   `descubrimiento` varchar(15) COLLATE utf8_spanish_ci NOT NULL,
   `tiene_familia_numerosa` varchar(3) COLLATE utf8_spanish_ci NOT NULL,
   `edad` varchar(12) COLLATE utf8_spanish_ci NOT NULL,

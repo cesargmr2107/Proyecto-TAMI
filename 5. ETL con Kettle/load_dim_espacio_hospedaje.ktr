@@ -662,20 +662,20 @@
     <hop>
       <from>Join rows (cartesian product)</from>
       <to>Process accomodation info</to>
-      <enabled>Y</enabled>
+      <enabled>N</enabled>
     </hop>
     <hop>
       <from>Get data from tables</from>
-      <to>Filter rows with cost &lt; 10</to>
+      <to>Keep rows with cost >= 10</to>
       <enabled>Y</enabled>
     </hop>
     <hop>
-      <from>Filter rows with cost &lt; 10</from>
+      <from>Keep rows with cost >= 10</from>
       <to>Join rows (cartesian product)</to>
       <enabled>Y</enabled>
     </hop>
     <hop>
-      <from>Filter rows with cost &lt; 10</from>
+      <from>Keep rows with cost >= 10</from>
       <to>Dummy (do nothing)</to>
       <enabled>Y</enabled>
     </hop>
@@ -706,7 +706,7 @@
     </GUI>
   </step>
   <step>
-    <name>Filter rows with cost &lt; 10</name>
+    <name>Keep rows with cost >= 10</name>
     <type>FilterRows</type>
     <description/>
     <distribute>Y</distribute>
@@ -1172,7 +1172,7 @@ FROM espacio_hospedaje
       </output>
     </remotesteps>
     <GUI>
-      <xloc>224</xloc>
+      <xloc>208</xloc>
       <yloc>256</yloc>
       <draw>Y</draw>
     </GUI>
