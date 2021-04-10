@@ -429,7 +429,7 @@
     <created_user>-</created_user>
     <created_date>2021/04/08 09:21:53.732</created_date>
     <modified_user>-</modified_user>
-    <modified_date>2021/04/08 09:21:53.732</modified_date>
+    <modified_date>2021/04/10 19:45:47.662</modified_date>
     <key_for_session_key>H4sIAAAAAAAAAAMAAAAAAAAAAAA=</key_for_session_key>
     <is_key_private>N</is_key_private>
   </info>
@@ -545,10 +545,147 @@
     </hop>
     <hop>
       <from>Replace null distances with N/A</from>
+      <to>Stream lookup</to>
+      <enabled>Y</enabled>
+    </hop>
+    <hop>
+      <from>Temperature by country</from>
+      <to>Stream lookup</to>
+      <enabled>Y</enabled>
+    </hop>
+    <hop>
+      <from>Stream lookup</from>
+      <to>Calculate average temperature</to>
+      <enabled>Y</enabled>
+    </hop>
+    <hop>
+      <from>Calculate average temperature</from>
+      <to>Delete temperature over years</to>
+      <enabled>Y</enabled>
+    </hop>
+    <hop>
+      <from>Delete temperature over years</from>
       <to>Table output</to>
       <enabled>Y</enabled>
     </hop>
   </order>
+  <step>
+    <name>Calculate average temperature</name>
+    <type>ScriptValueMod</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+    <partitioning>
+      <method>none</method>
+      <schema_name/>
+    </partitioning>
+    <compatible>N</compatible>
+    <optimizationLevel>9</optimizationLevel>
+    <jsScripts>
+      <jsScript>
+        <jsScript_type>0</jsScript_type>
+        <jsScript_name>Script 1</jsScript_name>
+        <jsScript_script>//Script here
+var temperatura = (y2008 + y2009 + y2010 + y2011 + y2012 + y2013 + y2014 + y2015 + y2016 + y2017 + y2018 + y2019 + y2020 + y2021) / 14
+
+</jsScript_script>
+      </jsScript>
+    </jsScripts>
+    <fields>
+      <field>
+        <name>temperatura</name>
+        <rename>temperatura</rename>
+        <type>Number</type>
+        <length>16</length>
+        <precision>2</precision>
+        <replace>N</replace>
+      </field>
+    </fields>
+    <attributes/>
+    <cluster_schema/>
+    <remotesteps>
+      <input>
+      </input>
+      <output>
+      </output>
+    </remotesteps>
+    <GUI>
+      <xloc>832</xloc>
+      <yloc>288</yloc>
+      <draw>Y</draw>
+    </GUI>
+  </step>
+  <step>
+    <name>Delete temperature over years</name>
+    <type>SelectValues</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+    <partitioning>
+      <method>none</method>
+      <schema_name/>
+    </partitioning>
+    <fields>
+      <select_unspecified>N</select_unspecified>
+      <remove>
+        <name>y2008</name>
+      </remove>
+      <remove>
+        <name>y2009</name>
+      </remove>
+      <remove>
+        <name>y2010</name>
+      </remove>
+      <remove>
+        <name>y2011</name>
+      </remove>
+      <remove>
+        <name>y2012</name>
+      </remove>
+      <remove>
+        <name>y2013</name>
+      </remove>
+      <remove>
+        <name>y2014</name>
+      </remove>
+      <remove>
+        <name>y2015</name>
+      </remove>
+      <remove>
+        <name>y2016</name>
+      </remove>
+      <remove>
+        <name>y2017</name>
+      </remove>
+      <remove>
+        <name>y2018</name>
+      </remove>
+      <remove>
+        <name>y2019</name>
+      </remove>
+      <remove>
+        <name>y2020</name>
+      </remove>
+      <remove>
+        <name>y2021</name>
+      </remove>
+    </fields>
+    <attributes/>
+    <cluster_schema/>
+    <remotesteps>
+      <input>
+      </input>
+      <output>
+      </output>
+    </remotesteps>
+    <GUI>
+      <xloc>1008</xloc>
+      <yloc>288</yloc>
+      <draw>Y</draw>
+    </GUI>
+  </step>
   <step>
     <name>Get data from hotel table</name>
     <type>TableInput</type>
@@ -941,7 +1078,7 @@ FROM hotel</sql>
     </remotesteps>
     <GUI>
       <xloc>288</xloc>
-      <yloc>224</yloc>
+      <yloc>288</yloc>
       <draw>Y</draw>
     </GUI>
   </step>
@@ -986,8 +1123,128 @@ FROM hotel</sql>
       </output>
     </remotesteps>
     <GUI>
-      <xloc>528</xloc>
-      <yloc>224</yloc>
+      <xloc>496</xloc>
+      <yloc>288</yloc>
+      <draw>Y</draw>
+    </GUI>
+  </step>
+  <step>
+    <name>Stream lookup</name>
+    <type>StreamLookup</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+    <partitioning>
+      <method>none</method>
+      <schema_name/>
+    </partitioning>
+    <from>Temperature by country</from>
+    <input_sorted>N</input_sorted>
+    <preserve_memory>Y</preserve_memory>
+    <sorted_list>N</sorted_list>
+    <integer_pair>N</integer_pair>
+    <lookup>
+      <key>
+        <name>pais</name>
+        <field>year</field>
+      </key>
+      <value>
+        <name>y2008</name>
+        <rename>y2008</rename>
+        <default/>
+        <type>Number</type>
+      </value>
+      <value>
+        <name>y2009</name>
+        <rename>y2009</rename>
+        <default/>
+        <type>Number</type>
+      </value>
+      <value>
+        <name>y2010</name>
+        <rename>y2010</rename>
+        <default/>
+        <type>Number</type>
+      </value>
+      <value>
+        <name>y2011</name>
+        <rename>y2011</rename>
+        <default/>
+        <type>Number</type>
+      </value>
+      <value>
+        <name>y2012</name>
+        <rename>y2012</rename>
+        <default/>
+        <type>Number</type>
+      </value>
+      <value>
+        <name>y2013</name>
+        <rename>y2013</rename>
+        <default/>
+        <type>Number</type>
+      </value>
+      <value>
+        <name>y2014</name>
+        <rename>y2014</rename>
+        <default/>
+        <type>Number</type>
+      </value>
+      <value>
+        <name>y2015</name>
+        <rename>y2015</rename>
+        <default/>
+        <type>Number</type>
+      </value>
+      <value>
+        <name>y2016</name>
+        <rename>y2016</rename>
+        <default/>
+        <type>Number</type>
+      </value>
+      <value>
+        <name>y2017</name>
+        <rename>y2017</rename>
+        <default/>
+        <type>Number</type>
+      </value>
+      <value>
+        <name>y2018</name>
+        <rename>y2018</rename>
+        <default/>
+        <type>Number</type>
+      </value>
+      <value>
+        <name>y2019</name>
+        <rename>y2019</rename>
+        <default/>
+        <type>Number</type>
+      </value>
+      <value>
+        <name>y2020</name>
+        <rename>y2020</rename>
+        <default/>
+        <type>Number</type>
+      </value>
+      <value>
+        <name>y2021</name>
+        <rename>y2021</rename>
+        <default/>
+        <type>Number</type>
+      </value>
+    </lookup>
+    <attributes/>
+    <cluster_schema/>
+    <remotesteps>
+      <input>
+      </input>
+      <output>
+      </output>
+    </remotesteps>
+    <GUI>
+      <xloc>672</xloc>
+      <yloc>288</yloc>
       <draw>Y</draw>
     </GUI>
   </step>
@@ -1080,6 +1337,10 @@ FROM hotel</sql>
         <column_name>distancia_playa</column_name>
         <stream_name>distancia_playa</stream_name>
       </field>
+      <field>
+        <column_name>temperatura</column_name>
+        <stream_name>temperatura</stream_name>
+      </field>
     </fields>
     <attributes/>
     <cluster_schema/>
@@ -1090,8 +1351,214 @@ FROM hotel</sql>
       </output>
     </remotesteps>
     <GUI>
-      <xloc>736</xloc>
-      <yloc>224</yloc>
+      <xloc>1152</xloc>
+      <yloc>288</yloc>
+      <draw>Y</draw>
+    </GUI>
+  </step>
+  <step>
+    <name>Temperature by country</name>
+    <type>CsvInput</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+    <partitioning>
+      <method>none</method>
+      <schema_name/>
+    </partitioning>
+    <filename>${Internal.Entry.Current.Directory}/Fuentes externas/Temperatures.csv</filename>
+    <filename_field/>
+    <rownum_field/>
+    <include_filename>N</include_filename>
+    <separator>;</separator>
+    <enclosure>"</enclosure>
+    <header>Y</header>
+    <buffer_size>50000</buffer_size>
+    <lazy_conversion>N</lazy_conversion>
+    <add_filename_result>N</add_filename_result>
+    <parallel>N</parallel>
+    <newline_possible>N</newline_possible>
+    <format>mixed</format>
+    <encoding>UTF-8</encoding>
+    <fields>
+      <field>
+        <name>year</name>
+        <type>String</type>
+        <format/>
+        <currency>$</currency>
+        <decimal>,</decimal>
+        <group>.</group>
+        <length>41</length>
+        <precision>-1</precision>
+        <trim_type>none</trim_type>
+      </field>
+      <field>
+        <name>y2008</name>
+        <type>Number</type>
+        <format>#.#</format>
+        <currency>$</currency>
+        <decimal>,</decimal>
+        <group>.</group>
+        <length>15</length>
+        <precision>0</precision>
+        <trim_type>none</trim_type>
+      </field>
+      <field>
+        <name>y2009</name>
+        <type>Number</type>
+        <format>#.#</format>
+        <currency>$</currency>
+        <decimal>,</decimal>
+        <group>.</group>
+        <length>15</length>
+        <precision>0</precision>
+        <trim_type>none</trim_type>
+      </field>
+      <field>
+        <name>y2010</name>
+        <type>Number</type>
+        <format>#.#</format>
+        <currency>$</currency>
+        <decimal>,</decimal>
+        <group>.</group>
+        <length>15</length>
+        <precision>0</precision>
+        <trim_type>none</trim_type>
+      </field>
+      <field>
+        <name>y2011</name>
+        <type>Number</type>
+        <format>#.#</format>
+        <currency>$</currency>
+        <decimal>,</decimal>
+        <group>.</group>
+        <length>15</length>
+        <precision>0</precision>
+        <trim_type>none</trim_type>
+      </field>
+      <field>
+        <name>y2012</name>
+        <type>Number</type>
+        <format>#.#</format>
+        <currency>$</currency>
+        <decimal>,</decimal>
+        <group>.</group>
+        <length>15</length>
+        <precision>0</precision>
+        <trim_type>none</trim_type>
+      </field>
+      <field>
+        <name>y2013</name>
+        <type>Number</type>
+        <format>#.#</format>
+        <currency>$</currency>
+        <decimal>,</decimal>
+        <group>.</group>
+        <length>15</length>
+        <precision>0</precision>
+        <trim_type>none</trim_type>
+      </field>
+      <field>
+        <name>y2014</name>
+        <type>Number</type>
+        <format>#.#</format>
+        <currency>$</currency>
+        <decimal>,</decimal>
+        <group>.</group>
+        <length>15</length>
+        <precision>0</precision>
+        <trim_type>none</trim_type>
+      </field>
+      <field>
+        <name>y2015</name>
+        <type>Number</type>
+        <format>#.#</format>
+        <currency>$</currency>
+        <decimal>,</decimal>
+        <group>.</group>
+        <length>15</length>
+        <precision>0</precision>
+        <trim_type>none</trim_type>
+      </field>
+      <field>
+        <name>y2016</name>
+        <type>Number</type>
+        <format>#.#</format>
+        <currency>$</currency>
+        <decimal>,</decimal>
+        <group>.</group>
+        <length>15</length>
+        <precision>0</precision>
+        <trim_type>none</trim_type>
+      </field>
+      <field>
+        <name>y2017</name>
+        <type>Number</type>
+        <format>#.#</format>
+        <currency>$</currency>
+        <decimal>,</decimal>
+        <group>.</group>
+        <length>15</length>
+        <precision>0</precision>
+        <trim_type>none</trim_type>
+      </field>
+      <field>
+        <name>y2018</name>
+        <type>Number</type>
+        <format>#.#</format>
+        <currency>$</currency>
+        <decimal>,</decimal>
+        <group>.</group>
+        <length>15</length>
+        <precision>0</precision>
+        <trim_type>none</trim_type>
+      </field>
+      <field>
+        <name>y2019</name>
+        <type>Number</type>
+        <format>#.#</format>
+        <currency>$</currency>
+        <decimal>,</decimal>
+        <group>.</group>
+        <length>15</length>
+        <precision>0</precision>
+        <trim_type>none</trim_type>
+      </field>
+      <field>
+        <name>y2020</name>
+        <type>Number</type>
+        <format>#.#</format>
+        <currency>$</currency>
+        <decimal>,</decimal>
+        <group>.</group>
+        <length>15</length>
+        <precision>0</precision>
+        <trim_type>none</trim_type>
+      </field>
+      <field>
+        <name>y2021</name>
+        <type>Number</type>
+        <format>#.#</format>
+        <currency>$</currency>
+        <decimal>,</decimal>
+        <group>.</group>
+        <length>15</length>
+        <precision>0</precision>
+        <trim_type>none</trim_type>
+      </field>
+    </fields>
+    <attributes/>
+    <cluster_schema/>
+    <remotesteps>
+      <input>
+      </input>
+      <output>
+      </output>
+    </remotesteps>
+    <GUI>
+      <xloc>672</xloc>
+      <yloc>128</yloc>
       <draw>Y</draw>
     </GUI>
   </step>
