@@ -6,6 +6,7 @@
     <extended_description/>
     <trans_version/>
     <trans_type>Normal</trans_type>
+    <trans_status>0</trans_status>
     <directory>/</directory>
     <parameters>
     </parameters>
@@ -545,147 +546,60 @@
     </hop>
     <hop>
       <from>Replace null distances with N/A</from>
-      <to>Stream lookup</to>
+      <to>Sort main stream by country</to>
       <enabled>Y</enabled>
     </hop>
     <hop>
-      <from>Temperature by country</from>
-      <to>Stream lookup</to>
+      <from>Sort main stream by country</from>
+      <to>Merge by country to add temperature</to>
       <enabled>Y</enabled>
     </hop>
     <hop>
-      <from>Stream lookup</from>
-      <to>Calculate average temperature</to>
+      <from>Get average temperatures by country</from>
+      <to>Sort temperatures stream by country</to>
       <enabled>Y</enabled>
     </hop>
     <hop>
-      <from>Calculate average temperature</from>
-      <to>Delete temperature over years</to>
+      <from>Sort temperatures stream by country</from>
+      <to>Merge by country to add temperature</to>
       <enabled>Y</enabled>
     </hop>
     <hop>
-      <from>Delete temperature over years</from>
-      <to>Table output</to>
+      <from>Discretize temperature and numerize hotel type</from>
+      <to>Store data in dimension</to>
+      <enabled>Y</enabled>
+    </hop>
+    <hop>
+      <from>Microsoft Excel input</from>
+      <to>Select values</to>
+      <enabled>Y</enabled>
+    </hop>
+    <hop>
+      <from>Select values</from>
+      <to>Sort population stream by country</to>
+      <enabled>Y</enabled>
+    </hop>
+    <hop>
+      <from>Sort population stream by country</from>
+      <to>Merge by country to add population</to>
+      <enabled>Y</enabled>
+    </hop>
+    <hop>
+      <from>Merge by country to add temperature</from>
+      <to>Merge by country to add population</to>
+      <enabled>Y</enabled>
+    </hop>
+    <hop>
+      <from>Merge by country to add population</from>
+      <to>Discretize temperature and numerize hotel type</to>
+      <enabled>Y</enabled>
+    </hop>
+    <hop>
+      <from>Get max last update</from>
+      <to>Get data from hotel table</to>
       <enabled>Y</enabled>
     </hop>
   </order>
-  <step>
-    <name>Calculate average temperature</name>
-    <type>ScriptValueMod</type>
-    <description/>
-    <distribute>Y</distribute>
-    <custom_distribution/>
-    <copies>1</copies>
-    <partitioning>
-      <method>none</method>
-      <schema_name/>
-    </partitioning>
-    <compatible>N</compatible>
-    <optimizationLevel>9</optimizationLevel>
-    <jsScripts>
-      <jsScript>
-        <jsScript_type>0</jsScript_type>
-        <jsScript_name>Script 1</jsScript_name>
-        <jsScript_script>//Script here
-var temperatura = (y2008 + y2009 + y2010 + y2011 + y2012 + y2013 + y2014 + y2015 + y2016 + y2017 + y2018 + y2019 + y2020 + y2021) / 14
-
-</jsScript_script>
-      </jsScript>
-    </jsScripts>
-    <fields>
-      <field>
-        <name>temperatura</name>
-        <rename>temperatura</rename>
-        <type>Number</type>
-        <length>16</length>
-        <precision>2</precision>
-        <replace>N</replace>
-      </field>
-    </fields>
-    <attributes/>
-    <cluster_schema/>
-    <remotesteps>
-      <input>
-      </input>
-      <output>
-      </output>
-    </remotesteps>
-    <GUI>
-      <xloc>832</xloc>
-      <yloc>288</yloc>
-      <draw>Y</draw>
-    </GUI>
-  </step>
-  <step>
-    <name>Delete temperature over years</name>
-    <type>SelectValues</type>
-    <description/>
-    <distribute>Y</distribute>
-    <custom_distribution/>
-    <copies>1</copies>
-    <partitioning>
-      <method>none</method>
-      <schema_name/>
-    </partitioning>
-    <fields>
-      <select_unspecified>N</select_unspecified>
-      <remove>
-        <name>y2008</name>
-      </remove>
-      <remove>
-        <name>y2009</name>
-      </remove>
-      <remove>
-        <name>y2010</name>
-      </remove>
-      <remove>
-        <name>y2011</name>
-      </remove>
-      <remove>
-        <name>y2012</name>
-      </remove>
-      <remove>
-        <name>y2013</name>
-      </remove>
-      <remove>
-        <name>y2014</name>
-      </remove>
-      <remove>
-        <name>y2015</name>
-      </remove>
-      <remove>
-        <name>y2016</name>
-      </remove>
-      <remove>
-        <name>y2017</name>
-      </remove>
-      <remove>
-        <name>y2018</name>
-      </remove>
-      <remove>
-        <name>y2019</name>
-      </remove>
-      <remove>
-        <name>y2020</name>
-      </remove>
-      <remove>
-        <name>y2021</name>
-      </remove>
-    </fields>
-    <attributes/>
-    <cluster_schema/>
-    <remotesteps>
-      <input>
-      </input>
-      <output>
-      </output>
-    </remotesteps>
-    <GUI>
-      <xloc>1008</xloc>
-      <yloc>288</yloc>
-      <draw>Y</draw>
-    </GUI>
-  </step>
   <step>
     <name>Get data from hotel table</name>
     <type>TableInput</type>
@@ -713,10 +627,13 @@ var temperatura = (y2008 + y2009 + y2010 + y2011 + y2012 + y2013 + y2014 + y2015
     PRES_MARKETING as pres_marketing,
     TIENE_SH as tiene_sh,
     DISTANCIA_CENTRO as distancia_centro,
-    DISTANCIA_PLAYA as distancia_playa
-FROM hotel</sql>
+    DISTANCIA_PLAYA as distancia_playa,
+	ULTIMA_ACTUALIZACION as ultima_actualizacion_hotel
+FROM hotel
+WHERE ULTIMA_ACTUALIZACION > ?
+ORDER BY PAIS ASC</sql>
     <limit>0</limit>
-    <lookup/>
+    <lookup>Get max last update</lookup>
     <execute_each_row>N</execute_each_row>
     <variables_active>N</variables_active>
     <lazy_conversion_active>N</lazy_conversion_active>
@@ -1067,6 +984,29 @@ FROM hotel</sql>
         <date_format_timezone>Europe/Paris</date_format_timezone>
         <lenient_string_to_number>N</lenient_string_to_number>
       </value-meta>
+      <value-meta>
+        <type>Timestamp</type>
+        <storagetype>normal</storagetype>
+        <name>ultima_actualizacion_hotel</name>
+        <length>0</length>
+        <precision>-1</precision>
+        <origin>Get data from hotel table</origin>
+        <comments>ultima_actualizacion_hotel</comments>
+        <conversion_Mask/>
+        <decimal_symbol>,</decimal_symbol>
+        <grouping_symbol>.</grouping_symbol>
+        <currency_symbol/>
+        <trim_type>none</trim_type>
+        <case_insensitive>N</case_insensitive>
+        <collator_disabled>Y</collator_disabled>
+        <collator_strength>0</collator_strength>
+        <sort_descending>N</sort_descending>
+        <output_padding>N</output_padding>
+        <date_format_lenient>N</date_format_lenient>
+        <date_format_locale>en_US</date_format_locale>
+        <date_format_timezone>Europe/Paris</date_format_timezone>
+        <lenient_string_to_number>N</lenient_string_to_number>
+      </value-meta>
     </row-meta>
     <attributes/>
     <cluster_schema/>
@@ -1078,7 +1018,7 @@ FROM hotel</sql>
     </remotesteps>
     <GUI>
       <xloc>288</xloc>
-      <yloc>288</yloc>
+      <yloc>320</yloc>
       <draw>Y</draw>
     </GUI>
   </step>
@@ -1123,14 +1063,14 @@ FROM hotel</sql>
       </output>
     </remotesteps>
     <GUI>
-      <xloc>496</xloc>
-      <yloc>288</yloc>
+      <xloc>464</xloc>
+      <yloc>320</yloc>
       <draw>Y</draw>
     </GUI>
   </step>
   <step>
-    <name>Stream lookup</name>
-    <type>StreamLookup</type>
+    <name>Merge by country to add temperature</name>
+    <type>MergeJoin</type>
     <description/>
     <distribute>Y</distribute>
     <custom_distribution/>
@@ -1139,101 +1079,15 @@ FROM hotel</sql>
       <method>none</method>
       <schema_name/>
     </partitioning>
-    <from>Temperature by country</from>
-    <input_sorted>N</input_sorted>
-    <preserve_memory>Y</preserve_memory>
-    <sorted_list>N</sorted_list>
-    <integer_pair>N</integer_pair>
-    <lookup>
-      <key>
-        <name>pais</name>
-        <field>year</field>
-      </key>
-      <value>
-        <name>y2008</name>
-        <rename>y2008</rename>
-        <default/>
-        <type>Number</type>
-      </value>
-      <value>
-        <name>y2009</name>
-        <rename>y2009</rename>
-        <default/>
-        <type>Number</type>
-      </value>
-      <value>
-        <name>y2010</name>
-        <rename>y2010</rename>
-        <default/>
-        <type>Number</type>
-      </value>
-      <value>
-        <name>y2011</name>
-        <rename>y2011</rename>
-        <default/>
-        <type>Number</type>
-      </value>
-      <value>
-        <name>y2012</name>
-        <rename>y2012</rename>
-        <default/>
-        <type>Number</type>
-      </value>
-      <value>
-        <name>y2013</name>
-        <rename>y2013</rename>
-        <default/>
-        <type>Number</type>
-      </value>
-      <value>
-        <name>y2014</name>
-        <rename>y2014</rename>
-        <default/>
-        <type>Number</type>
-      </value>
-      <value>
-        <name>y2015</name>
-        <rename>y2015</rename>
-        <default/>
-        <type>Number</type>
-      </value>
-      <value>
-        <name>y2016</name>
-        <rename>y2016</rename>
-        <default/>
-        <type>Number</type>
-      </value>
-      <value>
-        <name>y2017</name>
-        <rename>y2017</rename>
-        <default/>
-        <type>Number</type>
-      </value>
-      <value>
-        <name>y2018</name>
-        <rename>y2018</rename>
-        <default/>
-        <type>Number</type>
-      </value>
-      <value>
-        <name>y2019</name>
-        <rename>y2019</rename>
-        <default/>
-        <type>Number</type>
-      </value>
-      <value>
-        <name>y2020</name>
-        <rename>y2020</rename>
-        <default/>
-        <type>Number</type>
-      </value>
-      <value>
-        <name>y2021</name>
-        <rename>y2021</rename>
-        <default/>
-        <type>Number</type>
-      </value>
-    </lookup>
+    <join_type>INNER</join_type>
+    <step1>Sort main stream by country</step1>
+    <step2>Sort temperatures stream by country</step2>
+    <keys_1>
+      <key>pais</key>
+    </keys_1>
+    <keys_2>
+      <key>country</key>
+    </keys_2>
     <attributes/>
     <cluster_schema/>
     <remotesteps>
@@ -1243,13 +1097,235 @@ FROM hotel</sql>
       </output>
     </remotesteps>
     <GUI>
-      <xloc>672</xloc>
-      <yloc>288</yloc>
+      <xloc>864</xloc>
+      <yloc>320</yloc>
       <draw>Y</draw>
     </GUI>
   </step>
   <step>
-    <name>Table output</name>
+    <name>Get average temperatures by country</name>
+    <type>CsvInput</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+    <partitioning>
+      <method>none</method>
+      <schema_name/>
+    </partitioning>
+    <filename>${Internal.Entry.Current.Directory}/Fuentes externas/Temperatures.csv</filename>
+    <filename_field/>
+    <rownum_field/>
+    <include_filename>N</include_filename>
+    <separator>,</separator>
+    <enclosure/>
+    <header>Y</header>
+    <buffer_size>50000</buffer_size>
+    <lazy_conversion>N</lazy_conversion>
+    <add_filename_result>N</add_filename_result>
+    <parallel>N</parallel>
+    <newline_possible>N</newline_possible>
+    <format>mixed</format>
+    <encoding>UTF-8</encoding>
+    <fields>
+      <field>
+        <name>country</name>
+        <type>String</type>
+        <format/>
+        <currency>$</currency>
+        <decimal>,</decimal>
+        <group>.</group>
+        <length>35</length>
+        <precision>-1</precision>
+        <trim_type>none</trim_type>
+      </field>
+      <field>
+        <name>avg_temp</name>
+        <type>Number</type>
+        <format>#.#</format>
+        <currency>$</currency>
+        <decimal>.</decimal>
+        <group>,</group>
+        <length>19</length>
+        <precision>16</precision>
+        <trim_type>none</trim_type>
+      </field>
+    </fields>
+    <attributes/>
+    <cluster_schema/>
+    <remotesteps>
+      <input>
+      </input>
+      <output>
+      </output>
+    </remotesteps>
+    <GUI>
+      <xloc>640</xloc>
+      <yloc>176</yloc>
+      <draw>Y</draw>
+    </GUI>
+  </step>
+  <step>
+    <name>Sort main stream by country</name>
+    <type>SortRows</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+    <partitioning>
+      <method>none</method>
+      <schema_name/>
+    </partitioning>
+    <directory>%%java.io.tmpdir%%</directory>
+    <prefix>out</prefix>
+    <sort_size>1000000</sort_size>
+    <free_memory/>
+    <compress>N</compress>
+    <compress_variable/>
+    <unique_rows>N</unique_rows>
+    <fields>
+      <field>
+        <name>pais</name>
+        <ascending>Y</ascending>
+        <case_sensitive>N</case_sensitive>
+        <collator_enabled>N</collator_enabled>
+        <collator_strength>0</collator_strength>
+        <presorted>N</presorted>
+      </field>
+    </fields>
+    <attributes/>
+    <cluster_schema/>
+    <remotesteps>
+      <input>
+      </input>
+      <output>
+      </output>
+    </remotesteps>
+    <GUI>
+      <xloc>640</xloc>
+      <yloc>320</yloc>
+      <draw>Y</draw>
+    </GUI>
+  </step>
+  <step>
+    <name>Sort temperatures stream by country</name>
+    <type>SortRows</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+    <partitioning>
+      <method>none</method>
+      <schema_name/>
+    </partitioning>
+    <directory>%%java.io.tmpdir%%</directory>
+    <prefix>out</prefix>
+    <sort_size>1000000</sort_size>
+    <free_memory/>
+    <compress>N</compress>
+    <compress_variable/>
+    <unique_rows>N</unique_rows>
+    <fields>
+      <field>
+        <name>country</name>
+        <ascending>Y</ascending>
+        <case_sensitive>N</case_sensitive>
+        <collator_enabled>N</collator_enabled>
+        <collator_strength>0</collator_strength>
+        <presorted>N</presorted>
+      </field>
+    </fields>
+    <attributes/>
+    <cluster_schema/>
+    <remotesteps>
+      <input>
+      </input>
+      <output>
+      </output>
+    </remotesteps>
+    <GUI>
+      <xloc>864</xloc>
+      <yloc>176</yloc>
+      <draw>Y</draw>
+    </GUI>
+  </step>
+  <step>
+    <name>Discretize temperature and numerize hotel type</name>
+    <type>ScriptValueMod</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+    <partitioning>
+      <method>none</method>
+      <schema_name/>
+    </partitioning>
+    <compatible>N</compatible>
+    <optimizationLevel>9</optimizationLevel>
+    <jsScripts>
+      <jsScript>
+        <jsScript_type>0</jsScript_type>
+        <jsScript_name>Script 1</jsScript_name>
+        <jsScript_script>// Discretize temperature
+var temperatura;
+if (avg_temp &lt; 10) {
+    temperatura = "Clima frío";    
+} else if(avg_temp >20) {
+    temperatura = "Clima cálido";
+} else {
+    temperatura = "Clima templado";
+}
+
+// Numerize hotel type
+var numerized_type;
+if (tipo == "Histórico") {
+    numerized_type = "0";
+} else if (tipo == "Conceptual"){
+    numerized_type = "1";
+} else if (tipo == "Moderno"){
+    numerized_type = "2";
+} else {
+	numerized_type = "3";
+}
+var tipo = numerized_type;
+
+</jsScript_script>
+      </jsScript>
+    </jsScripts>
+    <fields>
+      <field>
+        <name>temperatura</name>
+        <rename>temperatura</rename>
+        <type>String</type>
+        <length>-1</length>
+        <precision>-1</precision>
+        <replace>N</replace>
+      </field>
+      <field>
+        <name>tipo</name>
+        <rename>tipo</rename>
+        <type>String</type>
+        <length>-1</length>
+        <precision>-1</precision>
+        <replace>Y</replace>
+      </field>
+    </fields>
+    <attributes/>
+    <cluster_schema/>
+    <remotesteps>
+      <input>
+      </input>
+      <output>
+      </output>
+    </remotesteps>
+    <GUI>
+      <xloc>1120</xloc>
+      <yloc>464</yloc>
+      <draw>Y</draw>
+    </GUI>
+  </step>
+  <step>
+    <name>Store data in dimension</name>
     <type>TableOutput</type>
     <description/>
     <distribute>Y</distribute>
@@ -1341,6 +1417,14 @@ FROM hotel</sql>
         <column_name>temperatura</column_name>
         <stream_name>temperatura</stream_name>
       </field>
+      <field>
+        <column_name>ultima_actualizacion_hotel</column_name>
+        <stream_name>ultima_actualizacion_hotel</stream_name>
+      </field>
+      <field>
+        <column_name>poblacion</column_name>
+        <stream_name>population</stream_name>
+      </field>
     </fields>
     <attributes/>
     <cluster_schema/>
@@ -1351,14 +1435,83 @@ FROM hotel</sql>
       </output>
     </remotesteps>
     <GUI>
-      <xloc>1152</xloc>
-      <yloc>288</yloc>
+      <xloc>1344</xloc>
+      <yloc>464</yloc>
       <draw>Y</draw>
     </GUI>
   </step>
   <step>
-    <name>Temperature by country</name>
-    <type>CsvInput</type>
+    <name>Get max last update</name>
+    <type>TableInput</type>
+    <description/>
+    <distribute>N</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+    <partitioning>
+      <method>none</method>
+      <schema_name/>
+    </partitioning>
+    <connection>hotel_dwh</connection>
+    <sql>SELECT COALESCE(
+	MAX(ultima_actualizacion_hotel),
+	'1970-01-01 00:00:00'
+)
+FROM dim_hotel
+</sql>
+    <limit>0</limit>
+    <lookup/>
+    <execute_each_row>N</execute_each_row>
+    <variables_active>N</variables_active>
+    <lazy_conversion_active>N</lazy_conversion_active>
+    <cached_row_meta_active>N</cached_row_meta_active>
+    <row-meta>
+      <value-meta>
+        <type>String</type>
+        <storagetype>normal</storagetype>
+        <name>COALESCE(
+	MAX(ultima_actualizacion_hotel),
+	'1970-01-01 00:00:00'
+)</name>
+        <length>19</length>
+        <precision>-1</precision>
+        <origin>Get max last update</origin>
+        <comments>COALESCE(
+	MAX(ultima_actualizacion_hotel),
+	'1970-01-01 00:00:00'
+)</comments>
+        <conversion_Mask/>
+        <decimal_symbol>,</decimal_symbol>
+        <grouping_symbol>.</grouping_symbol>
+        <currency_symbol/>
+        <trim_type>none</trim_type>
+        <case_insensitive>N</case_insensitive>
+        <collator_disabled>Y</collator_disabled>
+        <collator_strength>0</collator_strength>
+        <sort_descending>N</sort_descending>
+        <output_padding>N</output_padding>
+        <date_format_lenient>N</date_format_lenient>
+        <date_format_locale>en_US</date_format_locale>
+        <date_format_timezone>Europe/Paris</date_format_timezone>
+        <lenient_string_to_number>N</lenient_string_to_number>
+      </value-meta>
+    </row-meta>
+    <attributes/>
+    <cluster_schema/>
+    <remotesteps>
+      <input>
+      </input>
+      <output>
+      </output>
+    </remotesteps>
+    <GUI>
+      <xloc>112</xloc>
+      <yloc>320</yloc>
+      <draw>Y</draw>
+    </GUI>
+  </step>
+  <step>
+    <name>Microsoft Excel input</name>
+    <type>ExcelInput</type>
     <description/>
     <distribute>Y</distribute>
     <custom_distribution/>
@@ -1367,185 +1520,156 @@ FROM hotel</sql>
       <method>none</method>
       <schema_name/>
     </partitioning>
-    <filename>${Internal.Entry.Current.Directory}/Fuentes externas/Temperatures.csv</filename>
-    <filename_field/>
-    <rownum_field/>
-    <include_filename>N</include_filename>
-    <separator>;</separator>
-    <enclosure>"</enclosure>
     <header>Y</header>
-    <buffer_size>50000</buffer_size>
-    <lazy_conversion>N</lazy_conversion>
-    <add_filename_result>N</add_filename_result>
-    <parallel>N</parallel>
-    <newline_possible>N</newline_possible>
-    <format>mixed</format>
-    <encoding>UTF-8</encoding>
+    <noempty>Y</noempty>
+    <stoponempty>N</stoponempty>
+    <filefield/>
+    <sheetfield/>
+    <sheetrownumfield/>
+    <rownumfield/>
+    <sheetfield/>
+    <filefield/>
+    <limit>0</limit>
+    <encoding/>
+    <add_to_result_filenames>Y</add_to_result_filenames>
+    <accept_filenames>N</accept_filenames>
+    <accept_field/>
+    <accept_stepname/>
+    <file>
+      <name>${Internal.Transformation.Filename.Directory}\Fuentes Externas\Population.xls</name>
+      <filemask/>
+      <exclude_filemask/>
+      <file_required>N</file_required>
+      <include_subfolders>N</include_subfolders>
+    </file>
     <fields>
       <field>
-        <name>year</name>
+        <name>Country Name</name>
         <type>String</type>
-        <format/>
-        <currency>$</currency>
-        <decimal>,</decimal>
-        <group>.</group>
-        <length>41</length>
+        <length>-1</length>
         <precision>-1</precision>
         <trim_type>none</trim_type>
+        <repeat>N</repeat>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
       </field>
       <field>
-        <name>y2008</name>
-        <type>Number</type>
-        <format>#.#</format>
-        <currency>$</currency>
-        <decimal>,</decimal>
-        <group>.</group>
-        <length>15</length>
-        <precision>0</precision>
+        <name>2019</name>
+        <type>Integer</type>
+        <length>-1</length>
+        <precision>-1</precision>
         <trim_type>none</trim_type>
+        <repeat>N</repeat>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+      </field>
+    </fields>
+    <sheets>
+      <sheet>
+        <name>Data</name>
+        <startrow>0</startrow>
+        <startcol>0</startcol>
+      </sheet>
+    </sheets>
+    <strict_types>N</strict_types>
+    <error_ignored>N</error_ignored>
+    <error_line_skipped>N</error_line_skipped>
+    <bad_line_files_destination_directory/>
+    <bad_line_files_extension>warning</bad_line_files_extension>
+    <error_line_files_destination_directory/>
+    <error_line_files_extension>error</error_line_files_extension>
+    <line_number_files_destination_directory/>
+    <line_number_files_extension>line</line_number_files_extension>
+    <shortFileFieldName/>
+    <pathFieldName/>
+    <hiddenFieldName/>
+    <lastModificationTimeFieldName/>
+    <uriNameFieldName/>
+    <rootUriNameFieldName/>
+    <extensionFieldName/>
+    <sizeFieldName/>
+    <spreadsheet_type>JXL</spreadsheet_type>
+    <password>Encrypted </password>
+    <attributes/>
+    <cluster_schema/>
+    <remotesteps>
+      <input>
+      </input>
+      <output>
+      </output>
+    </remotesteps>
+    <GUI>
+      <xloc>336</xloc>
+      <yloc>464</yloc>
+      <draw>Y</draw>
+    </GUI>
+  </step>
+  <step>
+    <name>Select values</name>
+    <type>SelectValues</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+    <partitioning>
+      <method>none</method>
+      <schema_name/>
+    </partitioning>
+    <fields>
+      <field>
+        <name>Country Name</name>
+        <rename>country</rename>
       </field>
       <field>
-        <name>y2009</name>
-        <type>Number</type>
-        <format>#.#</format>
-        <currency>$</currency>
-        <decimal>,</decimal>
-        <group>.</group>
-        <length>15</length>
-        <precision>0</precision>
-        <trim_type>none</trim_type>
+        <name>2019</name>
+        <rename>population</rename>
       </field>
+      <select_unspecified>N</select_unspecified>
+    </fields>
+    <attributes/>
+    <cluster_schema/>
+    <remotesteps>
+      <input>
+      </input>
+      <output>
+      </output>
+    </remotesteps>
+    <GUI>
+      <xloc>480</xloc>
+      <yloc>464</yloc>
+      <draw>Y</draw>
+    </GUI>
+  </step>
+  <step>
+    <name>Sort population stream by country</name>
+    <type>SortRows</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+    <partitioning>
+      <method>none</method>
+      <schema_name/>
+    </partitioning>
+    <directory>%%java.io.tmpdir%%</directory>
+    <prefix>out</prefix>
+    <sort_size>1000000</sort_size>
+    <free_memory/>
+    <compress>N</compress>
+    <compress_variable/>
+    <unique_rows>N</unique_rows>
+    <fields>
       <field>
-        <name>y2010</name>
-        <type>Number</type>
-        <format>#.#</format>
-        <currency>$</currency>
-        <decimal>,</decimal>
-        <group>.</group>
-        <length>15</length>
-        <precision>0</precision>
-        <trim_type>none</trim_type>
-      </field>
-      <field>
-        <name>y2011</name>
-        <type>Number</type>
-        <format>#.#</format>
-        <currency>$</currency>
-        <decimal>,</decimal>
-        <group>.</group>
-        <length>15</length>
-        <precision>0</precision>
-        <trim_type>none</trim_type>
-      </field>
-      <field>
-        <name>y2012</name>
-        <type>Number</type>
-        <format>#.#</format>
-        <currency>$</currency>
-        <decimal>,</decimal>
-        <group>.</group>
-        <length>15</length>
-        <precision>0</precision>
-        <trim_type>none</trim_type>
-      </field>
-      <field>
-        <name>y2013</name>
-        <type>Number</type>
-        <format>#.#</format>
-        <currency>$</currency>
-        <decimal>,</decimal>
-        <group>.</group>
-        <length>15</length>
-        <precision>0</precision>
-        <trim_type>none</trim_type>
-      </field>
-      <field>
-        <name>y2014</name>
-        <type>Number</type>
-        <format>#.#</format>
-        <currency>$</currency>
-        <decimal>,</decimal>
-        <group>.</group>
-        <length>15</length>
-        <precision>0</precision>
-        <trim_type>none</trim_type>
-      </field>
-      <field>
-        <name>y2015</name>
-        <type>Number</type>
-        <format>#.#</format>
-        <currency>$</currency>
-        <decimal>,</decimal>
-        <group>.</group>
-        <length>15</length>
-        <precision>0</precision>
-        <trim_type>none</trim_type>
-      </field>
-      <field>
-        <name>y2016</name>
-        <type>Number</type>
-        <format>#.#</format>
-        <currency>$</currency>
-        <decimal>,</decimal>
-        <group>.</group>
-        <length>15</length>
-        <precision>0</precision>
-        <trim_type>none</trim_type>
-      </field>
-      <field>
-        <name>y2017</name>
-        <type>Number</type>
-        <format>#.#</format>
-        <currency>$</currency>
-        <decimal>,</decimal>
-        <group>.</group>
-        <length>15</length>
-        <precision>0</precision>
-        <trim_type>none</trim_type>
-      </field>
-      <field>
-        <name>y2018</name>
-        <type>Number</type>
-        <format>#.#</format>
-        <currency>$</currency>
-        <decimal>,</decimal>
-        <group>.</group>
-        <length>15</length>
-        <precision>0</precision>
-        <trim_type>none</trim_type>
-      </field>
-      <field>
-        <name>y2019</name>
-        <type>Number</type>
-        <format>#.#</format>
-        <currency>$</currency>
-        <decimal>,</decimal>
-        <group>.</group>
-        <length>15</length>
-        <precision>0</precision>
-        <trim_type>none</trim_type>
-      </field>
-      <field>
-        <name>y2020</name>
-        <type>Number</type>
-        <format>#.#</format>
-        <currency>$</currency>
-        <decimal>,</decimal>
-        <group>.</group>
-        <length>15</length>
-        <precision>0</precision>
-        <trim_type>none</trim_type>
-      </field>
-      <field>
-        <name>y2021</name>
-        <type>Number</type>
-        <format>#.#</format>
-        <currency>$</currency>
-        <decimal>,</decimal>
-        <group>.</group>
-        <length>15</length>
-        <precision>0</precision>
-        <trim_type>none</trim_type>
+        <name>country</name>
+        <ascending>Y</ascending>
+        <case_sensitive>N</case_sensitive>
+        <collator_enabled>N</collator_enabled>
+        <collator_strength>0</collator_strength>
+        <presorted>N</presorted>
       </field>
     </fields>
     <attributes/>
@@ -1557,8 +1681,42 @@ FROM hotel</sql>
       </output>
     </remotesteps>
     <GUI>
-      <xloc>672</xloc>
-      <yloc>128</yloc>
+      <xloc>640</xloc>
+      <yloc>464</yloc>
+      <draw>Y</draw>
+    </GUI>
+  </step>
+  <step>
+    <name>Merge by country to add population</name>
+    <type>MergeJoin</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+    <partitioning>
+      <method>none</method>
+      <schema_name/>
+    </partitioning>
+    <join_type>INNER</join_type>
+    <step1>Sort population stream by country</step1>
+    <step2>Merge by country to add temperature</step2>
+    <keys_1>
+      <key>country</key>
+    </keys_1>
+    <keys_2>
+      <key>pais</key>
+    </keys_2>
+    <attributes/>
+    <cluster_schema/>
+    <remotesteps>
+      <input>
+      </input>
+      <output>
+      </output>
+    </remotesteps>
+    <GUI>
+      <xloc>864</xloc>
+      <yloc>464</yloc>
       <draw>Y</draw>
     </GUI>
   </step>

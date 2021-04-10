@@ -435,6 +435,134 @@
     <is_key_private>N</is_key_private>
   </info>
   <notepads>
+    <notepad>
+      <note>Get data from table if last update is greather than last update</note>
+      <xloc>320</xloc>
+      <yloc>160</yloc>
+      <width>330</width>
+      <heigth>26</heigth>
+      <fontname>Segoe UI</fontname>
+      <fontsize>9</fontsize>
+      <fontbold>N</fontbold>
+      <fontitalic>N</fontitalic>
+      <fontcolorred>0</fontcolorred>
+      <fontcolorgreen>0</fontcolorgreen>
+      <fontcolorblue>0</fontcolorblue>
+      <backgroundcolorred>255</backgroundcolorred>
+      <backgroundcolorgreen>205</backgroundcolorgreen>
+      <backgroundcolorblue>112</backgroundcolorblue>
+      <bordercolorred>100</bordercolorred>
+      <bordercolorgreen>100</bordercolorgreen>
+      <bordercolorblue>100</bordercolorblue>
+      <drawshadow>Y</drawshadow>
+    </notepad>
+    <notepad>
+      <note>Transform birthday to age and keep ages in range [18,120]</note>
+      <xloc>736</xloc>
+      <yloc>160</yloc>
+      <width>314</width>
+      <heigth>26</heigth>
+      <fontname>Segoe UI</fontname>
+      <fontsize>9</fontsize>
+      <fontbold>N</fontbold>
+      <fontitalic>N</fontitalic>
+      <fontcolorred>0</fontcolorred>
+      <fontcolorgreen>0</fontcolorgreen>
+      <fontcolorblue>0</fontcolorblue>
+      <backgroundcolorred>255</backgroundcolorred>
+      <backgroundcolorgreen>205</backgroundcolorgreen>
+      <backgroundcolorblue>112</backgroundcolorblue>
+      <bordercolorred>100</bordercolorred>
+      <bordercolorgreen>100</bordercolorgreen>
+      <bordercolorblue>100</bordercolorblue>
+      <drawshadow>Y</drawshadow>
+    </notepad>
+    <notepad>
+      <note>Process guest info: 
+- Discretize age
+- Numerize civil status</note>
+      <xloc>672</xloc>
+      <yloc>352</yloc>
+      <width>128</width>
+      <heigth>58</heigth>
+      <fontname>Segoe UI</fontname>
+      <fontsize>9</fontsize>
+      <fontbold>N</fontbold>
+      <fontitalic>N</fontitalic>
+      <fontcolorred>0</fontcolorred>
+      <fontcolorgreen>0</fontcolorgreen>
+      <fontcolorblue>0</fontcolorblue>
+      <backgroundcolorred>255</backgroundcolorred>
+      <backgroundcolorgreen>205</backgroundcolorgreen>
+      <backgroundcolorblue>112</backgroundcolorblue>
+      <bordercolorred>100</bordercolorred>
+      <bordercolorgreen>100</bordercolorgreen>
+      <bordercolorblue>100</bordercolorblue>
+      <drawshadow>Y</drawshadow>
+    </notepad>
+    <notepad>
+      <note>Fix incorrect nationalities (only alphabetic characters)</note>
+      <xloc>960</xloc>
+      <yloc>368</yloc>
+      <width>291</width>
+      <heigth>26</heigth>
+      <fontname>Segoe UI</fontname>
+      <fontsize>9</fontsize>
+      <fontbold>N</fontbold>
+      <fontitalic>N</fontitalic>
+      <fontcolorred>0</fontcolorred>
+      <fontcolorgreen>0</fontcolorgreen>
+      <fontcolorblue>0</fontcolorblue>
+      <backgroundcolorred>255</backgroundcolorred>
+      <backgroundcolorgreen>205</backgroundcolorgreen>
+      <backgroundcolorblue>112</backgroundcolorblue>
+      <bordercolorred>100</bordercolorred>
+      <bordercolorgreen>100</bordercolorgreen>
+      <bordercolorblue>100</bordercolorblue>
+      <drawshadow>Y</drawshadow>
+    </notepad>
+    <notepad>
+      <note>Get data and select income group and country </note>
+      <xloc>288</xloc>
+      <yloc>560</yloc>
+      <width>259</width>
+      <heigth>26</heigth>
+      <fontname>Segoe UI</fontname>
+      <fontsize>9</fontsize>
+      <fontbold>N</fontbold>
+      <fontitalic>N</fontitalic>
+      <fontcolorred>0</fontcolorred>
+      <fontcolorgreen>0</fontcolorgreen>
+      <fontcolorblue>0</fontcolorblue>
+      <backgroundcolorred>255</backgroundcolorred>
+      <backgroundcolorgreen>205</backgroundcolorgreen>
+      <backgroundcolorblue>112</backgroundcolorblue>
+      <bordercolorred>100</bordercolorred>
+      <bordercolorgreen>100</bordercolorgreen>
+      <bordercolorblue>100</bordercolorblue>
+      <drawshadow>Y</drawshadow>
+    </notepad>
+    <notepad>
+      <note>Sort streams by country in order to be merged</note>
+      <xloc>704</xloc>
+      <yloc>560</yloc>
+      <width>254</width>
+      <heigth>26</heigth>
+      <fontname>Segoe UI</fontname>
+      <fontsize>9</fontsize>
+      <fontbold>N</fontbold>
+      <fontitalic>N</fontitalic>
+      <fontcolorred>0</fontcolorred>
+      <fontcolorgreen>0</fontcolorgreen>
+      <fontcolorblue>0</fontcolorblue>
+      <backgroundcolorred>255</backgroundcolorred>
+      <backgroundcolorgreen>205</backgroundcolorgreen>
+      <backgroundcolorblue>112</backgroundcolorblue>
+      <bordercolorred>100</bordercolorred>
+      <bordercolorgreen>100</bordercolorgreen>
+      <bordercolorblue>100</bordercolorblue>
+      <drawshadow>Y</drawshadow>
+    </notepad>
   </notepads>
   <connection>
     <name>hotel</name>
@@ -595,11 +723,6 @@
       <enabled>Y</enabled>
     </hop>
     <hop>
-      <from>Multiway merge join</from>
-      <to>Table output</to>
-      <enabled>Y</enabled>
-    </hop>
-    <hop>
       <from>Select income group and country</from>
       <to>Translate income groups</to>
       <enabled>Y</enabled>
@@ -615,13 +738,18 @@
       <enabled>Y</enabled>
     </hop>
     <hop>
-      <from>Sort main stream by country</from>
-      <to>Multiway merge join</to>
+      <from>Sort external stream by country</from>
+      <to>Merge join by country</to>
       <enabled>Y</enabled>
     </hop>
     <hop>
-      <from>Sort external stream by country</from>
-      <to>Multiway merge join</to>
+      <from>Sort main stream by country</from>
+      <to>Merge join by country</to>
+      <enabled>Y</enabled>
+    </hop>
+    <hop>
+      <from>Merge join by country</from>
+      <to>Table output</to>
       <enabled>Y</enabled>
     </hop>
   </order>
@@ -647,8 +775,8 @@
       </output>
     </remotesteps>
     <GUI>
-      <xloc>800</xloc>
-      <yloc>592</yloc>
+      <xloc>1120</xloc>
+      <yloc>624</yloc>
       <draw>Y</draw>
     </GUI>
   </step>
@@ -692,8 +820,8 @@ var edad = 50;</jsScript_script>
       </output>
     </remotesteps>
     <GUI>
-      <xloc>464</xloc>
-      <yloc>192</yloc>
+      <xloc>704</xloc>
+      <yloc>224</yloc>
       <draw>Y</draw>
     </GUI>
   </step>
@@ -717,8 +845,8 @@ var edad = 50;</jsScript_script>
       </output>
     </remotesteps>
     <GUI>
-      <xloc>864</xloc>
-      <yloc>192</yloc>
+      <xloc>1040</xloc>
+      <yloc>224</yloc>
       <draw>Y</draw>
     </GUI>
   </step>
@@ -761,8 +889,8 @@ var edad = 50;</jsScript_script>
       </output>
     </remotesteps>
     <GUI>
-      <xloc>800</xloc>
-      <yloc>416</yloc>
+      <xloc>1024</xloc>
+      <yloc>448</yloc>
       <draw>Y</draw>
     </GUI>
   </step>
@@ -795,8 +923,8 @@ var edad = 50;</jsScript_script>
       </output>
     </remotesteps>
     <GUI>
-      <xloc>992</xloc>
-      <yloc>416</yloc>
+      <xloc>1216</xloc>
+      <yloc>448</yloc>
       <draw>Y</draw>
     </GUI>
   </step>
@@ -891,8 +1019,8 @@ var edad = 50;</jsScript_script>
       </output>
     </remotesteps>
     <GUI>
-      <xloc>144</xloc>
-      <yloc>400</yloc>
+      <xloc>160</xloc>
+      <yloc>624</yloc>
       <draw>Y</draw>
     </GUI>
   </step>
@@ -1207,8 +1335,8 @@ WHERE
       </output>
     </remotesteps>
     <GUI>
-      <xloc>320</xloc>
-      <yloc>192</yloc>
+      <xloc>544</xloc>
+      <yloc>224</yloc>
       <draw>Y</draw>
     </GUI>
   </step>
@@ -1276,8 +1404,8 @@ FROM dim_huesped
       </output>
     </remotesteps>
     <GUI>
-      <xloc>144</xloc>
-      <yloc>192</yloc>
+      <xloc>368</xloc>
+      <yloc>224</yloc>
       <draw>Y</draw>
     </GUI>
   </step>
@@ -1341,8 +1469,8 @@ FROM dim_huesped
       </output>
     </remotesteps>
     <GUI>
-      <xloc>640</xloc>
-      <yloc>192</yloc>
+      <xloc>864</xloc>
+      <yloc>224</yloc>
       <draw>Y</draw>
     </GUI>
   </step>
@@ -1415,8 +1543,8 @@ var situacion_civil_num = opciones_civiles[situacion_civil]
       </output>
     </remotesteps>
     <GUI>
-      <xloc>640</xloc>
-      <yloc>320</yloc>
+      <xloc>864</xloc>
+      <yloc>352</yloc>
       <draw>Y</draw>
     </GUI>
   </step>
@@ -1455,8 +1583,8 @@ var situacion_civil_num = opciones_civiles[situacion_civil]
       </output>
     </remotesteps>
     <GUI>
-      <xloc>640</xloc>
-      <yloc>416</yloc>
+      <xloc>864</xloc>
+      <yloc>448</yloc>
       <draw>Y</draw>
     </GUI>
   </step>
@@ -1491,41 +1619,8 @@ var situacion_civil_num = opciones_civiles[situacion_civil]
       </output>
     </remotesteps>
     <GUI>
-      <xloc>384</xloc>
-      <yloc>400</yloc>
-      <draw>Y</draw>
-    </GUI>
-  </step>
-  <step>
-    <name>Multiway merge join</name>
-    <type>MultiwayMergeJoin</type>
-    <description/>
-    <distribute>Y</distribute>
-    <custom_distribution/>
-    <copies>1</copies>
-    <partitioning>
-      <method>none</method>
-      <schema_name/>
-    </partitioning>
-    <join_type>INNER</join_type>
-    <step0>Sort external stream by country</step0>
-    <step1>Sort main stream by country</step1>
-    <number_input>2</number_input>
-    <keys>
-      <key>pais_residencia</key>
-      <key>pais_residencia</key>
-    </keys>
-    <attributes/>
-    <cluster_schema/>
-    <remotesteps>
-      <input>
-      </input>
-      <output>
-      </output>
-    </remotesteps>
-    <GUI>
-      <xloc>384</xloc>
-      <yloc>704</yloc>
+      <xloc>320</xloc>
+      <yloc>624</yloc>
       <draw>Y</draw>
     </GUI>
   </step>
@@ -1616,8 +1711,8 @@ var situacion_civil_num = opciones_civiles[situacion_civil]
       </output>
     </remotesteps>
     <GUI>
-      <xloc>384</xloc>
-      <yloc>800</yloc>
+      <xloc>816</xloc>
+      <yloc>752</yloc>
       <draw>Y</draw>
     </GUI>
   </step>
@@ -1668,8 +1763,8 @@ var ingresos_medios= opciones[IncomeGroup];</jsScript_script>
       </output>
     </remotesteps>
     <GUI>
-      <xloc>384</xloc>
-      <yloc>496</yloc>
+      <xloc>496</xloc>
+      <yloc>624</yloc>
       <draw>Y</draw>
     </GUI>
   </step>
@@ -1710,8 +1805,8 @@ var ingresos_medios= opciones[IncomeGroup];</jsScript_script>
       </output>
     </remotesteps>
     <GUI>
-      <xloc>576</xloc>
-      <yloc>592</yloc>
+      <xloc>976</xloc>
+      <yloc>624</yloc>
       <draw>Y</draw>
     </GUI>
   </step>
@@ -1752,8 +1847,42 @@ var ingresos_medios= opciones[IncomeGroup];</jsScript_script>
       </output>
     </remotesteps>
     <GUI>
-      <xloc>384</xloc>
-      <yloc>592</yloc>
+      <xloc>656</xloc>
+      <yloc>624</yloc>
+      <draw>Y</draw>
+    </GUI>
+  </step>
+  <step>
+    <name>Merge join by country</name>
+    <type>MergeJoin</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+    <partitioning>
+      <method>none</method>
+      <schema_name/>
+    </partitioning>
+    <join_type>INNER</join_type>
+    <step1>Sort external stream by country</step1>
+    <step2>Sort main stream by country</step2>
+    <keys_1>
+      <key>pais_residencia</key>
+    </keys_1>
+    <keys_2>
+      <key>pais_residencia</key>
+    </keys_2>
+    <attributes/>
+    <cluster_schema/>
+    <remotesteps>
+      <input>
+      </input>
+      <output>
+      </output>
+    </remotesteps>
+    <GUI>
+      <xloc>816</xloc>
+      <yloc>624</yloc>
       <draw>Y</draw>
     </GUI>
   </step>

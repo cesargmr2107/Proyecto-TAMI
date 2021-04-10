@@ -52,8 +52,8 @@ CREATE TABLE `dim_hotel` (
 
     # DIMENSION ATRIBUTES
     `id_hotel` varchar(9) COLLATE utf8_spanish_ci NOT NULL,
-    `distancia_playa` varchar(5) COLLATE utf8_spanish_ci NOT NULL,
-    `distancia_centro` varchar(5) COLLATE utf8_spanish_ci NOT NULL,
+    `distancia_playa` varchar(6) COLLATE utf8_spanish_ci NOT NULL,
+    `distancia_centro` varchar(6) COLLATE utf8_spanish_ci NOT NULL,
     `temperatura` varchar(15)  COLLATE utf8_spanish_ci NOT NULL,
     `poblacion` INT(10) NOT NULL,
     `servicio_habitaciones` varchar(3)  COLLATE utf8_spanish_ci NOT NULL,
