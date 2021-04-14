@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
 <transformation>
   <info>
     <name>load_dim_hotel</name>
@@ -685,7 +686,7 @@ var tipo = numerized_type;
       <method>none</method>
       <schema_name/>
     </partitioning>
-    <filename>D:\ruben\Desktop\Proyecto-TAMI\5. ETL con Kettle\kettle-repo\Fuentes externas\Temperatures.csv</filename>
+    <filename>${Internal.Entry.Current.Directory}\Fuentes externas\Temperatures.csv</filename>
     <filename_field/>
     <rownum_field/>
     <include_filename>N</include_filename>
@@ -765,6 +766,7 @@ var tipo = numerized_type;
     TIENE_SH as tiene_sh,
     DISTANCIA_CENTRO as distancia_centro,
     DISTANCIA_PLAYA as distancia_playa,
+	ACTIVO as activo,
 	ULTIMA_ACTUALIZACION as ultima_actualizacion_hotel
 FROM hotel
 WHERE ULTIMA_ACTUALIZACION > ?
@@ -1122,6 +1124,29 @@ ORDER BY PAIS ASC</sql>
         <lenient_string_to_number>N</lenient_string_to_number>
       </value-meta>
       <value-meta>
+        <type>Boolean</type>
+        <storagetype>normal</storagetype>
+        <name>activo</name>
+        <length>-1</length>
+        <precision>-1</precision>
+        <origin>Get data from hotel table</origin>
+        <comments>activo</comments>
+        <conversion_Mask/>
+        <decimal_symbol>,</decimal_symbol>
+        <grouping_symbol>.</grouping_symbol>
+        <currency_symbol/>
+        <trim_type>none</trim_type>
+        <case_insensitive>N</case_insensitive>
+        <collator_disabled>Y</collator_disabled>
+        <collator_strength>0</collator_strength>
+        <sort_descending>N</sort_descending>
+        <output_padding>N</output_padding>
+        <date_format_lenient>N</date_format_lenient>
+        <date_format_locale>en_US</date_format_locale>
+        <date_format_timezone>Europe/Paris</date_format_timezone>
+        <lenient_string_to_number>N</lenient_string_to_number>
+      </value-meta>
+      <value-meta>
         <type>Timestamp</type>
         <storagetype>normal</storagetype>
         <name>ultima_actualizacion_hotel</name>
@@ -1323,7 +1348,17 @@ FROM dim_hotel
     <accept_field/>
     <accept_stepname/>
     <file>
-      <name>D:\ruben\Desktop\Proyecto-TAMI\5. ETL con Kettle\kettle-repo\Fuentes externas\Population.xls</name>
+      <name>${Internal.Entry.Current.Directory}\Fuentes externas\Population.xls</name>
+      <filemask/>
+      <exclude_filemask/>
+      <file_required>N</file_required>
+      <include_subfolders>N</include_subfolders>
+      <name/>
+      <filemask/>
+      <exclude_filemask/>
+      <file_required>N</file_required>
+      <include_subfolders>N</include_subfolders>
+      <name/>
       <filemask/>
       <exclude_filemask/>
       <file_required>N</file_required>
@@ -2459,6 +2494,10 @@ FROM dim_hotel
       <field>
         <column_name>poblacion</column_name>
         <stream_name>population</stream_name>
+      </field>
+      <field>
+        <column_name>activo</column_name>
+        <stream_name>activo</stream_name>
       </field>
     </fields>
     <attributes/>

@@ -50,7 +50,7 @@ CREATE TABLE `dim_hotel` (
     # DIMENSION KEY
     `hotel_key` int(8) NOT NULL AUTO_INCREMENT,
 
-    # DIMENSION ATRIBUTES
+    # DIMENSION ATTRIBUTES
     `id_hotel` varchar(9) COLLATE utf8_spanish_ci NOT NULL,
     `distancia_playa` varchar(6) COLLATE utf8_spanish_ci NOT NULL,
     `distancia_centro` varchar(6) COLLATE utf8_spanish_ci NOT NULL,
@@ -68,7 +68,8 @@ CREATE TABLE `dim_hotel` (
     `estrellas` decimal(1,0) UNSIGNED NOT NULL,
     `tipo_hotel` decimal(1,0) UNSIGNED NOT NULL,
     `ciudad` varchar(58) COLLATE utf8_spanish_ci NOT NULL,
-
+    `activo` char(3) COLLATE utf8_spanish_ci NOT NULL,
+    
     # TIMESTAMP
     `ultima_actualizacion_hotel` datetime NOT NULL,    
     
@@ -82,7 +83,7 @@ CREATE TABLE `dim_espacio_hospedaje` (
     # DIMENSION KEY
     `espacio_hospedaje_key` int(8) NOT NULL AUTO_INCREMENT,
 
-    # DIMENSION ATRIBUTES
+    # DIMENSION ATTRIBUTES
     `id_espacio` varchar(9) NOT NULL,
     `num_banhos` decimal(1,0) NOT NULL,
     `num_camas` decimal(1,0) COLLATE utf8_spanish_ci NOT NULL,
@@ -112,21 +113,26 @@ CREATE TABLE `dim_huesped` (
   # DIMENSION KEY
   `huesped_key` int(10) NOT NULL AUTO_INCREMENT,
 
-  # DIMENSION ATRIBUTES
-  `id_cliente` varchar(9) COLLATE utf8_spanish_ci NOT NULL,
-  `descubrimiento` varchar(15) COLLATE utf8_spanish_ci NOT NULL,
-  `tiene_familia_numerosa` varchar(3) COLLATE utf8_spanish_ci NOT NULL,
-  `edad` varchar(12) COLLATE utf8_spanish_ci NOT NULL,
-  `genero` varchar(12) COLLATE utf8_spanish_ci NOT NULL,
-  `nacionalidad` varchar(20) COLLATE utf8_spanish_ci NOT NULL,
-  `es_cliente_vip` varchar(3) COLLATE utf8_spanish_ci NOT NULL,
-  `situacion_civil` decimal(1,0) COLLATE utf8_spanish_ci NOT NULL,
-  `medio_transporte` varchar(10) COLLATE utf8_spanish_ci NOT NULL,
-  `ingresos_medios` varchar(10) COLLATE utf8_spanish_ci NOT NULL,
-  `pais_residencia` varchar(40) COLLATE utf8_spanish_ci NOT NULL,
+  # DIMENSION ATTRIBUTES
+  `id_cliente` varchar(9) COLLATE utf8_spanish_ci DEFAULT NULL,
+  `descubrimiento` varchar(15) COLLATE utf8_spanish_ci DEFAULT NULL,
+  `tiene_familia_numerosa` varchar(3) COLLATE utf8_spanish_ci DEFAULT NULL,
+  `edad` varchar(12) COLLATE utf8_spanish_ci DEFAULT NULL,
+  `genero` varchar(12) COLLATE utf8_spanish_ci DEFAULT NULL,
+  `nacionalidad` varchar(20) COLLATE utf8_spanish_ci DEFAULT NULL,
+  `es_cliente_vip` varchar(3) COLLATE utf8_spanish_ci DEFAULT NULL,
+  `situacion_civil` decimal(1,0) COLLATE utf8_spanish_ci DEFAULT NULL,
+  `medio_transporte` varchar(10) COLLATE utf8_spanish_ci DEFAULT NULL,
+  `ingresos_medios` varchar(10) COLLATE utf8_spanish_ci DEFAULT NULL,
+  `pais_residencia` varchar(40) COLLATE utf8_spanish_ci DEFAULT NULL,
+
+  # ATTRIBUTES FOR SCD2
+  `huesped_num_version` smallint(5) DEFAULT NULL,
+  `huesped_valido_desde` date DEFAULT NULL,
+  `huesped_valido_hasta` date DEFAULT NULL,  
   
   # TIMESTAMP
-  `ultima_actualizacion_huesped` datetime NOT NULL,    
+  `ultima_actualizacion_huesped` datetime NOT NULL DEFAULT '1970-01-01 00:00:00',    
     
   PRIMARY KEY (`huesped_key`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
