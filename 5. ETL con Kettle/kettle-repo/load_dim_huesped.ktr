@@ -437,31 +437,10 @@
   <notepads>
     <notepad>
       <note>Get data from table if last update is greather than last update</note>
-      <xloc>320</xloc>
+      <xloc>640</xloc>
       <yloc>160</yloc>
-      <width>330</width>
-      <heigth>26</heigth>
-      <fontname>Segoe UI</fontname>
-      <fontsize>9</fontsize>
-      <fontbold>N</fontbold>
-      <fontitalic>N</fontitalic>
-      <fontcolorred>0</fontcolorred>
-      <fontcolorgreen>0</fontcolorgreen>
-      <fontcolorblue>0</fontcolorblue>
-      <backgroundcolorred>255</backgroundcolorred>
-      <backgroundcolorgreen>205</backgroundcolorgreen>
-      <backgroundcolorblue>112</backgroundcolorblue>
-      <bordercolorred>100</bordercolorred>
-      <bordercolorgreen>100</bordercolorgreen>
-      <bordercolorblue>100</bordercolorblue>
-      <drawshadow>Y</drawshadow>
-    </notepad>
-    <notepad>
-      <note>Transform birthday to age and keep ages in range [18,120]</note>
-      <xloc>736</xloc>
-      <yloc>160</yloc>
-      <width>314</width>
-      <heigth>26</heigth>
+      <width>417</width>
+      <heigth>30</heigth>
       <fontname>Segoe UI</fontname>
       <fontsize>9</fontsize>
       <fontbold>N</fontbold>
@@ -481,10 +460,10 @@
       <note>Process guest info: 
 - Discretize age
 - Numerize civil status</note>
-      <xloc>672</xloc>
+      <xloc>800</xloc>
       <yloc>352</yloc>
-      <width>128</width>
-      <heigth>58</heigth>
+      <width>157</width>
+      <heigth>70</heigth>
       <fontname>Segoe UI</fontname>
       <fontsize>9</fontsize>
       <fontbold>N</fontbold>
@@ -502,10 +481,10 @@
     </notepad>
     <notepad>
       <note>Fix incorrect nationalities (only alphabetic characters)</note>
-      <xloc>960</xloc>
+      <xloc>1136</xloc>
       <yloc>368</yloc>
-      <width>291</width>
-      <heigth>26</heigth>
+      <width>362</width>
+      <heigth>30</heigth>
       <fontname>Segoe UI</fontname>
       <fontsize>9</fontsize>
       <fontbold>N</fontbold>
@@ -525,8 +504,8 @@
       <note>Get data and select income group and country </note>
       <xloc>288</xloc>
       <yloc>560</yloc>
-      <width>259</width>
-      <heigth>26</heigth>
+      <width>322</width>
+      <heigth>30</heigth>
       <fontname>Segoe UI</fontname>
       <fontsize>9</fontsize>
       <fontbold>N</fontbold>
@@ -546,8 +525,8 @@
       <note>Sort streams by country in order to be merged</note>
       <xloc>704</xloc>
       <yloc>560</yloc>
-      <width>254</width>
-      <heigth>26</heigth>
+      <width>316</width>
+      <heigth>30</heigth>
       <fontname>Segoe UI</fontname>
       <fontsize>9</fontsize>
       <fontbold>N</fontbold>
@@ -565,10 +544,10 @@
     </notepad>
     <notepad>
       <note>Load SCD2 with attributes age and civil status</note>
-      <xloc>928</xloc>
-      <yloc>752</yloc>
-      <width>250</width>
-      <heigth>26</heigth>
+      <xloc>1056</xloc>
+      <yloc>768</yloc>
+      <width>313</width>
+      <heigth>30</heigth>
       <fontname>Segoe UI</fontname>
       <fontsize>9</fontsize>
       <fontbold>N</fontbold>
@@ -699,21 +678,6 @@
       <enabled>Y</enabled>
     </hop>
     <hop>
-      <from>Birthday To Age</from>
-      <to>Keep ages between 18 and 120</to>
-      <enabled>Y</enabled>
-    </hop>
-    <hop>
-      <from>Keep ages between 18 and 120</from>
-      <to>Dummy (do nothing)</to>
-      <enabled>Y</enabled>
-    </hop>
-    <hop>
-      <from>Keep ages between 18 and 120</from>
-      <to>Process guest info</to>
-      <enabled>Y</enabled>
-    </hop>
-    <hop>
       <from>Process guest info</from>
       <to>Regex evaluation</to>
       <enabled>Y</enabled>
@@ -773,6 +737,11 @@
       <to>Load SCD2 dim_huesped</to>
       <enabled>Y</enabled>
     </hop>
+    <hop>
+      <from>Birthday To Age</from>
+      <to>Process guest info</to>
+      <enabled>Y</enabled>
+    </hop>
   </order>
   <step>
     <name>Append streams</name>
@@ -796,7 +765,7 @@
       </output>
     </remotesteps>
     <GUI>
-      <xloc>1120</xloc>
+      <xloc>1312</xloc>
       <yloc>624</yloc>
       <draw>Y</draw>
     </GUI>
@@ -836,31 +805,6 @@ var age = Math.abs(year - 1970);</jsScript_script>
         <replace>N</replace>
       </field>
     </fields>
-    <attributes/>
-    <cluster_schema/>
-    <remotesteps>
-      <input>
-      </input>
-      <output>
-      </output>
-    </remotesteps>
-    <GUI>
-      <xloc>704</xloc>
-      <yloc>224</yloc>
-      <draw>Y</draw>
-    </GUI>
-  </step>
-  <step>
-    <name>Dummy (do nothing)</name>
-    <type>Dummy</type>
-    <description/>
-    <distribute>Y</distribute>
-    <custom_distribution/>
-    <copies>1</copies>
-    <partitioning>
-      <method>none</method>
-      <schema_name/>
-    </partitioning>
     <attributes/>
     <cluster_schema/>
     <remotesteps>
@@ -914,7 +858,7 @@ var age = Math.abs(year - 1970);</jsScript_script>
       </output>
     </remotesteps>
     <GUI>
-      <xloc>1024</xloc>
+      <xloc>1200</xloc>
       <yloc>448</yloc>
       <draw>Y</draw>
     </GUI>
@@ -948,7 +892,7 @@ var age = Math.abs(year - 1970);</jsScript_script>
       </output>
     </remotesteps>
     <GUI>
-      <xloc>1216</xloc>
+      <xloc>1392</xloc>
       <yloc>448</yloc>
       <draw>Y</draw>
     </GUI>
@@ -1044,7 +988,7 @@ var age = Math.abs(year - 1970);</jsScript_script>
       </output>
     </remotesteps>
     <GUI>
-      <xloc>160</xloc>
+      <xloc>80</xloc>
       <yloc>624</yloc>
       <draw>Y</draw>
     </GUI>
@@ -1360,7 +1304,7 @@ WHERE
       </output>
     </remotesteps>
     <GUI>
-      <xloc>544</xloc>
+      <xloc>816</xloc>
       <yloc>224</yloc>
       <draw>Y</draw>
     </GUI>
@@ -1429,72 +1373,7 @@ FROM dim_huesped
       </output>
     </remotesteps>
     <GUI>
-      <xloc>368</xloc>
-      <yloc>224</yloc>
-      <draw>Y</draw>
-    </GUI>
-  </step>
-  <step>
-    <name>Keep ages between 18 and 120</name>
-    <type>FilterRows</type>
-    <description/>
-    <distribute>Y</distribute>
-    <custom_distribution/>
-    <copies>1</copies>
-    <partitioning>
-      <method>none</method>
-      <schema_name/>
-    </partitioning>
-    <send_true_to>Process guest info</send_true_to>
-    <send_false_to>Dummy (do nothing)</send_false_to>
-    <compare>
-      <condition>
-        <negated>N</negated>
-        <conditions>
-          <condition>
-            <negated>N</negated>
-            <leftvalue>edad</leftvalue>
-            <function>&gt;=</function>
-            <rightvalue/>
-            <value>
-              <name>constant</name>
-              <type>Number</type>
-              <text>18.0</text>
-              <length>-1</length>
-              <precision>-1</precision>
-              <isnull>N</isnull>
-              <mask>####0.0#########;-####0.0#########</mask>
-            </value>
-          </condition>
-          <condition>
-            <negated>N</negated>
-            <operator>AND</operator>
-            <leftvalue>edad</leftvalue>
-            <function>&lt;=</function>
-            <rightvalue/>
-            <value>
-              <name>constant</name>
-              <type>Number</type>
-              <text>120.0</text>
-              <length>-1</length>
-              <precision>-1</precision>
-              <isnull>N</isnull>
-              <mask>####0.0#########;-####0.0#########</mask>
-            </value>
-          </condition>
-        </conditions>
-      </condition>
-    </compare>
-    <attributes/>
-    <cluster_schema/>
-    <remotesteps>
-      <input>
-      </input>
-      <output>
-      </output>
-    </remotesteps>
-    <GUI>
-      <xloc>864</xloc>
+      <xloc>592</xloc>
       <yloc>224</yloc>
       <draw>Y</draw>
     </GUI>
@@ -1578,7 +1457,7 @@ FROM dim_huesped
       <field>
         <name>ultima_actualizacion_huesped</name>
         <lookup>ultima_actualizacion_huesped</lookup>
-        <update>Insert</update>
+        <update>Update</update>
       </field>
       <return>
         <name>huesped_key</name>
@@ -1606,7 +1485,7 @@ FROM dim_huesped
       </output>
     </remotesteps>
     <GUI>
-      <xloc>816</xloc>
+      <xloc>928</xloc>
       <yloc>752</yloc>
       <draw>Y</draw>
     </GUI>
@@ -1622,7 +1501,7 @@ FROM dim_huesped
       <method>none</method>
       <schema_name/>
     </partitioning>
-    <join_type>INNER</join_type>
+    <join_type>RIGHT OUTER</join_type>
     <step1>Sort external stream by country</step1>
     <step2>Sort main stream by country</step2>
     <keys_1>
@@ -1640,7 +1519,7 @@ FROM dim_huesped
       </output>
     </remotesteps>
     <GUI>
-      <xloc>816</xloc>
+      <xloc>928</xloc>
       <yloc>624</yloc>
       <draw>Y</draw>
     </GUI>
@@ -1714,7 +1593,7 @@ var situacion_civil_num = opciones_civiles[situacion_civil]
       </output>
     </remotesteps>
     <GUI>
-      <xloc>864</xloc>
+      <xloc>1040</xloc>
       <yloc>352</yloc>
       <draw>Y</draw>
     </GUI>
@@ -1754,7 +1633,7 @@ var situacion_civil_num = opciones_civiles[situacion_civil]
       </output>
     </remotesteps>
     <GUI>
-      <xloc>864</xloc>
+      <xloc>1040</xloc>
       <yloc>448</yloc>
       <draw>Y</draw>
     </GUI>
@@ -1789,7 +1668,7 @@ var situacion_civil_num = opciones_civiles[situacion_civil]
       </output>
     </remotesteps>
     <GUI>
-      <xloc>320</xloc>
+      <xloc>288</xloc>
       <yloc>624</yloc>
       <draw>Y</draw>
     </GUI>
@@ -1831,7 +1710,7 @@ var situacion_civil_num = opciones_civiles[situacion_civil]
       </output>
     </remotesteps>
     <GUI>
-      <xloc>656</xloc>
+      <xloc>704</xloc>
       <yloc>624</yloc>
       <draw>Y</draw>
     </GUI>
@@ -1873,7 +1752,7 @@ var situacion_civil_num = opciones_civiles[situacion_civil]
       </output>
     </remotesteps>
     <GUI>
-      <xloc>976</xloc>
+      <xloc>1136</xloc>
       <yloc>624</yloc>
       <draw>Y</draw>
     </GUI>

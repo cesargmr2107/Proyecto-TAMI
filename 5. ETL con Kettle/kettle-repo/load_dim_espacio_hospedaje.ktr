@@ -436,11 +436,12 @@
   </info>
   <notepads>
     <notepad>
-      <note>Get data from table if last update is greather than last update</note>
-      <xloc>32</xloc>
-      <yloc>16</yloc>
-      <width>330</width>
-      <heigth>26</heigth>
+      <note>Get data from table if last update
+is greather than last update</note>
+      <xloc>128</xloc>
+      <yloc>32</yloc>
+      <width>232</width>
+      <heigth>50</heigth>
       <fontname>Segoe UI</fontname>
       <fontsize>9</fontsize>
       <fontbold>N</fontbold>
@@ -459,7 +460,7 @@
     <notepad>
       <note>Replace number of WCs if null</note>
       <xloc>912</xloc>
-      <yloc>256</yloc>
+      <yloc>352</yloc>
       <width>210</width>
       <heigth>30</heigth>
       <fontname>Segoe UI</fontname>
@@ -480,7 +481,7 @@
     <notepad>
       <note>Store processed data in dim_espacio_hospedaje</note>
       <xloc>912</xloc>
-      <yloc>400</yloc>
+      <yloc>464</yloc>
       <width>328</width>
       <heigth>30</heigth>
       <fontname>Segoe UI</fontname>
@@ -499,11 +500,12 @@
       <drawshadow>Y</drawshadow>
     </notepad>
     <notepad>
-      <note>Filter rows where cost per night is &lt; 10</note>
-      <xloc>528</xloc>
-      <yloc>16</yloc>
-      <width>266</width>
-      <heigth>30</heigth>
+      <note>Dectect rows where cost per night is &lt; 10 and
+change it to default cost of 10</note>
+      <xloc>512</xloc>
+      <yloc>32</yloc>
+      <width>312</width>
+      <heigth>50</heigth>
       <fontname>Segoe UI</fontname>
       <fontsize>9</fontsize>
       <fontbold>N</fontbold>
@@ -522,7 +524,7 @@
     <notepad>
       <note>Get average WC number and add it to each tuple</note>
       <xloc>208</xloc>
-      <yloc>352</yloc>
+      <yloc>432</yloc>
       <width>335</width>
       <heigth>30</heigth>
       <fontname>Segoe UI</fontname>
@@ -650,11 +652,6 @@
       <enabled>Y</enabled>
     </hop>
     <hop>
-      <from>Process accomodation info</from>
-      <to>Load data in table</to>
-      <enabled>Y</enabled>
-    </hop>
-    <hop>
       <from>Get average WC number</from>
       <to>Join rows (cartesian product)</to>
       <enabled>Y</enabled>
@@ -670,41 +667,31 @@
       <enabled>Y</enabled>
     </hop>
     <hop>
-      <from>Keep rows with cost >= 10</from>
-      <to>Join rows (cartesian product)</to>
+      <from>Process accomodation info</from>
+      <to>Store data in accomodation dimension</to>
       <enabled>Y</enabled>
     </hop>
     <hop>
       <from>Keep rows with cost >= 10</from>
-      <to>Dummy (do nothing)</to>
+      <to>Set cost to default value of 10</to>
+      <enabled>Y</enabled>
+    </hop>
+    <hop>
+      <from>Keep rows with cost >= 10</from>
+      <to>Append streams</to>
+      <enabled>Y</enabled>
+    </hop>
+    <hop>
+      <from>Append streams</from>
+      <to>Join rows (cartesian product)</to>
+      <enabled>Y</enabled>
+    </hop>
+    <hop>
+      <from>Set cost to default value of 10</from>
+      <to>Append streams</to>
       <enabled>Y</enabled>
     </hop>
   </order>
-  <step>
-    <name>Dummy (do nothing)</name>
-    <type>Dummy</type>
-    <description/>
-    <distribute>Y</distribute>
-    <custom_distribution/>
-    <copies>1</copies>
-    <partitioning>
-      <method>none</method>
-      <schema_name/>
-    </partitioning>
-    <attributes/>
-    <cluster_schema/>
-    <remotesteps>
-      <input>
-      </input>
-      <output>
-      </output>
-    </remotesteps>
-    <GUI>
-      <xloc>768</xloc>
-      <yloc>96</yloc>
-      <draw>Y</draw>
-    </GUI>
-  </step>
   <step>
     <name>Get average WC number</name>
     <type>TableInput</type>
@@ -727,374 +714,6 @@ FROM espacio_hospedaje
     <lazy_conversion_active>N</lazy_conversion_active>
     <cached_row_meta_active>N</cached_row_meta_active>
     <row-meta>
-      <value-meta>
-        <type>String</type>
-        <storagetype>normal</storagetype>
-        <name>id_espacio</name>
-        <length>9</length>
-        <precision>-1</precision>
-        <origin>Get data from tables</origin>
-        <comments>id_espacio</comments>
-        <conversion_Mask/>
-        <decimal_symbol>,</decimal_symbol>
-        <grouping_symbol>.</grouping_symbol>
-        <currency_symbol/>
-        <trim_type>none</trim_type>
-        <case_insensitive>N</case_insensitive>
-        <collator_disabled>Y</collator_disabled>
-        <collator_strength>0</collator_strength>
-        <sort_descending>N</sort_descending>
-        <output_padding>N</output_padding>
-        <date_format_lenient>N</date_format_lenient>
-        <date_format_locale>en_US</date_format_locale>
-        <date_format_timezone>Europe/Paris</date_format_timezone>
-        <lenient_string_to_number>N</lenient_string_to_number>
-      </value-meta>
-      <value-meta>
-        <type>Integer</type>
-        <storagetype>normal</storagetype>
-        <name>num_banhos</name>
-        <length>1</length>
-        <precision>0</precision>
-        <origin>Get data from tables</origin>
-        <comments>num_banhos</comments>
-        <conversion_Mask>####0;-####0</conversion_Mask>
-        <decimal_symbol>,</decimal_symbol>
-        <grouping_symbol>.</grouping_symbol>
-        <currency_symbol/>
-        <trim_type>none</trim_type>
-        <case_insensitive>N</case_insensitive>
-        <collator_disabled>Y</collator_disabled>
-        <collator_strength>0</collator_strength>
-        <sort_descending>N</sort_descending>
-        <output_padding>N</output_padding>
-        <date_format_lenient>N</date_format_lenient>
-        <date_format_locale>en_US</date_format_locale>
-        <date_format_timezone>Europe/Paris</date_format_timezone>
-        <lenient_string_to_number>N</lenient_string_to_number>
-      </value-meta>
-      <value-meta>
-        <type>Integer</type>
-        <storagetype>normal</storagetype>
-        <name>num_camas</name>
-        <length>1</length>
-        <precision>0</precision>
-        <origin>Get data from tables</origin>
-        <comments>num_camas</comments>
-        <conversion_Mask>####0;-####0</conversion_Mask>
-        <decimal_symbol>,</decimal_symbol>
-        <grouping_symbol>.</grouping_symbol>
-        <currency_symbol/>
-        <trim_type>none</trim_type>
-        <case_insensitive>N</case_insensitive>
-        <collator_disabled>Y</collator_disabled>
-        <collator_strength>0</collator_strength>
-        <sort_descending>N</sort_descending>
-        <output_padding>N</output_padding>
-        <date_format_lenient>N</date_format_lenient>
-        <date_format_locale>en_US</date_format_locale>
-        <date_format_timezone>Europe/Paris</date_format_timezone>
-        <lenient_string_to_number>N</lenient_string_to_number>
-      </value-meta>
-      <value-meta>
-        <type>String</type>
-        <storagetype>normal</storagetype>
-        <name>tiene_terraza</name>
-        <length>2</length>
-        <precision>-1</precision>
-        <origin>Get data from tables</origin>
-        <comments>tiene_terraza</comments>
-        <conversion_Mask/>
-        <decimal_symbol>,</decimal_symbol>
-        <grouping_symbol>.</grouping_symbol>
-        <currency_symbol/>
-        <trim_type>none</trim_type>
-        <case_insensitive>N</case_insensitive>
-        <collator_disabled>Y</collator_disabled>
-        <collator_strength>0</collator_strength>
-        <sort_descending>N</sort_descending>
-        <output_padding>N</output_padding>
-        <date_format_lenient>N</date_format_lenient>
-        <date_format_locale>en_US</date_format_locale>
-        <date_format_timezone>Europe/Paris</date_format_timezone>
-        <lenient_string_to_number>N</lenient_string_to_number>
-      </value-meta>
-      <value-meta>
-        <type>String</type>
-        <storagetype>normal</storagetype>
-        <name>admite_fumadores</name>
-        <length>2</length>
-        <precision>-1</precision>
-        <origin>Get data from tables</origin>
-        <comments>admite_fumadores</comments>
-        <conversion_Mask/>
-        <decimal_symbol>,</decimal_symbol>
-        <grouping_symbol>.</grouping_symbol>
-        <currency_symbol/>
-        <trim_type>none</trim_type>
-        <case_insensitive>N</case_insensitive>
-        <collator_disabled>Y</collator_disabled>
-        <collator_strength>0</collator_strength>
-        <sort_descending>N</sort_descending>
-        <output_padding>N</output_padding>
-        <date_format_lenient>N</date_format_lenient>
-        <date_format_locale>en_US</date_format_locale>
-        <date_format_timezone>Europe/Paris</date_format_timezone>
-        <lenient_string_to_number>N</lenient_string_to_number>
-      </value-meta>
-      <value-meta>
-        <type>String</type>
-        <storagetype>normal</storagetype>
-        <name>admite_mascotas</name>
-        <length>2</length>
-        <precision>-1</precision>
-        <origin>Get data from tables</origin>
-        <comments>admite_mascotas</comments>
-        <conversion_Mask/>
-        <decimal_symbol>,</decimal_symbol>
-        <grouping_symbol>.</grouping_symbol>
-        <currency_symbol/>
-        <trim_type>none</trim_type>
-        <case_insensitive>N</case_insensitive>
-        <collator_disabled>Y</collator_disabled>
-        <collator_strength>0</collator_strength>
-        <sort_descending>N</sort_descending>
-        <output_padding>N</output_padding>
-        <date_format_lenient>N</date_format_lenient>
-        <date_format_locale>en_US</date_format_locale>
-        <date_format_timezone>Europe/Paris</date_format_timezone>
-        <lenient_string_to_number>N</lenient_string_to_number>
-      </value-meta>
-      <value-meta>
-        <type>String</type>
-        <storagetype>normal</storagetype>
-        <name>cancelacion_gratis</name>
-        <length>2</length>
-        <precision>-1</precision>
-        <origin>Get data from tables</origin>
-        <comments>cancelacion_gratis</comments>
-        <conversion_Mask/>
-        <decimal_symbol>,</decimal_symbol>
-        <grouping_symbol>.</grouping_symbol>
-        <currency_symbol/>
-        <trim_type>none</trim_type>
-        <case_insensitive>N</case_insensitive>
-        <collator_disabled>Y</collator_disabled>
-        <collator_strength>0</collator_strength>
-        <sort_descending>N</sort_descending>
-        <output_padding>N</output_padding>
-        <date_format_lenient>N</date_format_lenient>
-        <date_format_locale>en_US</date_format_locale>
-        <date_format_timezone>Europe/Paris</date_format_timezone>
-        <lenient_string_to_number>N</lenient_string_to_number>
-      </value-meta>
-      <value-meta>
-        <type>String</type>
-        <storagetype>normal</storagetype>
-        <name>movilidad_adaptada</name>
-        <length>2</length>
-        <precision>-1</precision>
-        <origin>Get data from tables</origin>
-        <comments>movilidad_adaptada</comments>
-        <conversion_Mask/>
-        <decimal_symbol>,</decimal_symbol>
-        <grouping_symbol>.</grouping_symbol>
-        <currency_symbol/>
-        <trim_type>none</trim_type>
-        <case_insensitive>N</case_insensitive>
-        <collator_disabled>Y</collator_disabled>
-        <collator_strength>0</collator_strength>
-        <sort_descending>N</sort_descending>
-        <output_padding>N</output_padding>
-        <date_format_lenient>N</date_format_lenient>
-        <date_format_locale>en_US</date_format_locale>
-        <date_format_timezone>Europe/Paris</date_format_timezone>
-        <lenient_string_to_number>N</lenient_string_to_number>
-      </value-meta>
-      <value-meta>
-        <type>Number</type>
-        <storagetype>normal</storagetype>
-        <name>precio_noche</name>
-        <length>5</length>
-        <precision>2</precision>
-        <origin>Get data from tables</origin>
-        <comments>precio_noche</comments>
-        <conversion_Mask>####0.0#########;-####0.0#########</conversion_Mask>
-        <decimal_symbol>,</decimal_symbol>
-        <grouping_symbol>.</grouping_symbol>
-        <currency_symbol/>
-        <trim_type>none</trim_type>
-        <case_insensitive>N</case_insensitive>
-        <collator_disabled>Y</collator_disabled>
-        <collator_strength>0</collator_strength>
-        <sort_descending>N</sort_descending>
-        <output_padding>N</output_padding>
-        <date_format_lenient>N</date_format_lenient>
-        <date_format_locale>en_US</date_format_locale>
-        <date_format_timezone>Europe/Paris</date_format_timezone>
-        <lenient_string_to_number>N</lenient_string_to_number>
-      </value-meta>
-      <value-meta>
-        <type>String</type>
-        <storagetype>normal</storagetype>
-        <name>luminosidad</name>
-        <length>5</length>
-        <precision>-1</precision>
-        <origin>Get data from tables</origin>
-        <comments>luminosidad</comments>
-        <conversion_Mask/>
-        <decimal_symbol>,</decimal_symbol>
-        <grouping_symbol>.</grouping_symbol>
-        <currency_symbol/>
-        <trim_type>none</trim_type>
-        <case_insensitive>N</case_insensitive>
-        <collator_disabled>Y</collator_disabled>
-        <collator_strength>0</collator_strength>
-        <sort_descending>N</sort_descending>
-        <output_padding>N</output_padding>
-        <date_format_lenient>N</date_format_lenient>
-        <date_format_locale>en_US</date_format_locale>
-        <date_format_timezone>Europe/Paris</date_format_timezone>
-        <lenient_string_to_number>N</lenient_string_to_number>
-      </value-meta>
-      <value-meta>
-        <type>String</type>
-        <storagetype>normal</storagetype>
-        <name>tipo_hospedaje</name>
-        <length>11</length>
-        <precision>-1</precision>
-        <origin>Get data from tables</origin>
-        <comments>tipo_hospedaje</comments>
-        <conversion_Mask/>
-        <decimal_symbol>,</decimal_symbol>
-        <grouping_symbol>.</grouping_symbol>
-        <currency_symbol/>
-        <trim_type>none</trim_type>
-        <case_insensitive>N</case_insensitive>
-        <collator_disabled>Y</collator_disabled>
-        <collator_strength>0</collator_strength>
-        <sort_descending>N</sort_descending>
-        <output_padding>N</output_padding>
-        <date_format_lenient>N</date_format_lenient>
-        <date_format_locale>en_US</date_format_locale>
-        <date_format_timezone>Europe/Paris</date_format_timezone>
-        <lenient_string_to_number>N</lenient_string_to_number>
-      </value-meta>
-      <value-meta>
-        <type>Number</type>
-        <storagetype>normal</storagetype>
-        <name>superficie</name>
-        <length>6</length>
-        <precision>3</precision>
-        <origin>Get data from tables</origin>
-        <comments>superficie</comments>
-        <conversion_Mask>####0.0#########;-####0.0#########</conversion_Mask>
-        <decimal_symbol>,</decimal_symbol>
-        <grouping_symbol>.</grouping_symbol>
-        <currency_symbol/>
-        <trim_type>none</trim_type>
-        <case_insensitive>N</case_insensitive>
-        <collator_disabled>Y</collator_disabled>
-        <collator_strength>0</collator_strength>
-        <sort_descending>N</sort_descending>
-        <output_padding>N</output_padding>
-        <date_format_lenient>N</date_format_lenient>
-        <date_format_locale>en_US</date_format_locale>
-        <date_format_timezone>Europe/Paris</date_format_timezone>
-        <lenient_string_to_number>N</lenient_string_to_number>
-      </value-meta>
-      <value-meta>
-        <type>String</type>
-        <storagetype>normal</storagetype>
-        <name>tiene_internet</name>
-        <length>2</length>
-        <precision>-1</precision>
-        <origin>Get data from tables</origin>
-        <comments>tiene_internet</comments>
-        <conversion_Mask/>
-        <decimal_symbol>,</decimal_symbol>
-        <grouping_symbol>.</grouping_symbol>
-        <currency_symbol/>
-        <trim_type>none</trim_type>
-        <case_insensitive>N</case_insensitive>
-        <collator_disabled>Y</collator_disabled>
-        <collator_strength>0</collator_strength>
-        <sort_descending>N</sort_descending>
-        <output_padding>N</output_padding>
-        <date_format_lenient>N</date_format_lenient>
-        <date_format_locale>en_US</date_format_locale>
-        <date_format_timezone>Europe/Paris</date_format_timezone>
-        <lenient_string_to_number>N</lenient_string_to_number>
-      </value-meta>
-      <value-meta>
-        <type>String</type>
-        <storagetype>normal</storagetype>
-        <name>tiene_vistas</name>
-        <length>2</length>
-        <precision>-1</precision>
-        <origin>Get data from tables</origin>
-        <comments>tiene_vistas</comments>
-        <conversion_Mask/>
-        <decimal_symbol>,</decimal_symbol>
-        <grouping_symbol>.</grouping_symbol>
-        <currency_symbol/>
-        <trim_type>none</trim_type>
-        <case_insensitive>N</case_insensitive>
-        <collator_disabled>Y</collator_disabled>
-        <collator_strength>0</collator_strength>
-        <sort_descending>N</sort_descending>
-        <output_padding>N</output_padding>
-        <date_format_lenient>N</date_format_lenient>
-        <date_format_locale>en_US</date_format_locale>
-        <date_format_timezone>Europe/Paris</date_format_timezone>
-        <lenient_string_to_number>N</lenient_string_to_number>
-      </value-meta>
-      <value-meta>
-        <type>String</type>
-        <storagetype>normal</storagetype>
-        <name>esta_climatizado</name>
-        <length>2</length>
-        <precision>-1</precision>
-        <origin>Get data from tables</origin>
-        <comments>esta_climatizado</comments>
-        <conversion_Mask/>
-        <decimal_symbol>,</decimal_symbol>
-        <grouping_symbol>.</grouping_symbol>
-        <currency_symbol/>
-        <trim_type>none</trim_type>
-        <case_insensitive>N</case_insensitive>
-        <collator_disabled>Y</collator_disabled>
-        <collator_strength>0</collator_strength>
-        <sort_descending>N</sort_descending>
-        <output_padding>N</output_padding>
-        <date_format_lenient>N</date_format_lenient>
-        <date_format_locale>en_US</date_format_locale>
-        <date_format_timezone>Europe/Paris</date_format_timezone>
-        <lenient_string_to_number>N</lenient_string_to_number>
-      </value-meta>
-      <value-meta>
-        <type>Timestamp</type>
-        <storagetype>normal</storagetype>
-        <name>ultima_actualizacion_hospedaje</name>
-        <length>0</length>
-        <precision>-1</precision>
-        <origin>Get data from tables</origin>
-        <comments>ultima_actualizacion_hospedaje</comments>
-        <conversion_Mask/>
-        <decimal_symbol>,</decimal_symbol>
-        <grouping_symbol>.</grouping_symbol>
-        <currency_symbol/>
-        <trim_type>none</trim_type>
-        <case_insensitive>N</case_insensitive>
-        <collator_disabled>Y</collator_disabled>
-        <collator_strength>0</collator_strength>
-        <sort_descending>N</sort_descending>
-        <output_padding>N</output_padding>
-        <date_format_lenient>N</date_format_lenient>
-        <date_format_locale>en_US</date_format_locale>
-        <date_format_timezone>Europe/Paris</date_format_timezone>
-        <lenient_string_to_number>N</lenient_string_to_number>
-      </value-meta>
       <value-meta>
         <type>Integer</type>
         <storagetype>normal</storagetype>
@@ -1129,7 +748,7 @@ FROM espacio_hospedaje
     </remotesteps>
     <GUI>
       <xloc>208</xloc>
-      <yloc>256</yloc>
+      <yloc>352</yloc>
       <draw>Y</draw>
     </GUI>
   </step>
@@ -1558,7 +1177,7 @@ WHERE espacio.id_espacio = espacio_hospedaje.id_espacio AND
     </remotesteps>
     <GUI>
       <xloc>320</xloc>
-      <yloc>96</yloc>
+      <yloc>112</yloc>
       <draw>Y</draw>
     </GUI>
   </step>
@@ -1627,7 +1246,7 @@ FROM dim_espacio_hospedaje
     </remotesteps>
     <GUI>
       <xloc>128</xloc>
-      <yloc>96</yloc>
+      <yloc>112</yloc>
       <draw>Y</draw>
     </GUI>
   </step>
@@ -1664,7 +1283,7 @@ FROM dim_espacio_hospedaje
     </remotesteps>
     <GUI>
       <xloc>512</xloc>
-      <yloc>256</yloc>
+      <yloc>352</yloc>
       <draw>Y</draw>
     </GUI>
   </step>
@@ -1679,8 +1298,8 @@ FROM dim_espacio_hospedaje
       <method>none</method>
       <schema_name/>
     </partitioning>
-    <send_true_to>Join rows (cartesian product)</send_true_to>
-    <send_false_to>Dummy (do nothing)</send_false_to>
+    <send_true_to>Append streams</send_true_to>
+    <send_false_to>Set cost to default value of 10</send_false_to>
     <compare>
       <condition>
         <negated>N</negated>
@@ -1708,115 +1327,7 @@ FROM dim_espacio_hospedaje
     </remotesteps>
     <GUI>
       <xloc>512</xloc>
-      <yloc>96</yloc>
-      <draw>Y</draw>
-    </GUI>
-  </step>
-  <step>
-    <name>Load data in table</name>
-    <type>TableOutput</type>
-    <description/>
-    <distribute>Y</distribute>
-    <custom_distribution/>
-    <copies>1</copies>
-    <partitioning>
-      <method>none</method>
-      <schema_name/>
-    </partitioning>
-    <connection>hotel_dwh</connection>
-    <schema>hotel_dwh</schema>
-    <table>dim_espacio_hospedaje</table>
-    <commit>1000</commit>
-    <truncate>N</truncate>
-    <ignore_errors>N</ignore_errors>
-    <use_batch>Y</use_batch>
-    <specify_fields>Y</specify_fields>
-    <partitioning_enabled>N</partitioning_enabled>
-    <partitioning_field/>
-    <partitioning_daily>N</partitioning_daily>
-    <partitioning_monthly>Y</partitioning_monthly>
-    <tablename_in_field>N</tablename_in_field>
-    <tablename_field/>
-    <tablename_in_table>Y</tablename_in_table>
-    <return_keys>N</return_keys>
-    <return_field/>
-    <fields>
-      <field>
-        <column_name>id_espacio</column_name>
-        <stream_name>id_espacio</stream_name>
-      </field>
-      <field>
-        <column_name>num_banhos</column_name>
-        <stream_name>num_banhos</stream_name>
-      </field>
-      <field>
-        <column_name>num_camas</column_name>
-        <stream_name>num_camas</stream_name>
-      </field>
-      <field>
-        <column_name>tiene_terraza</column_name>
-        <stream_name>tiene_terraza</stream_name>
-      </field>
-      <field>
-        <column_name>admite_fumadores</column_name>
-        <stream_name>admite_fumadores</stream_name>
-      </field>
-      <field>
-        <column_name>admite_mascotas</column_name>
-        <stream_name>admite_mascotas</stream_name>
-      </field>
-      <field>
-        <column_name>tiene_cancelacion_gratis</column_name>
-        <stream_name>cancelacion_gratis</stream_name>
-      </field>
-      <field>
-        <column_name>tiene_movilidad_adaptada</column_name>
-        <stream_name>movilidad_adaptada</stream_name>
-      </field>
-      <field>
-        <column_name>precio_noche</column_name>
-        <stream_name>precio_noche</stream_name>
-      </field>
-      <field>
-        <column_name>luminosidad</column_name>
-        <stream_name>luminosidad</stream_name>
-      </field>
-      <field>
-        <column_name>tipo_alojamiento</column_name>
-        <stream_name>tipo_hospedaje</stream_name>
-      </field>
-      <field>
-        <column_name>superficie</column_name>
-        <stream_name>superficie</stream_name>
-      </field>
-      <field>
-        <column_name>tiene_internet</column_name>
-        <stream_name>tiene_internet</stream_name>
-      </field>
-      <field>
-        <column_name>tiene_vistas</column_name>
-        <stream_name>tiene_vistas</stream_name>
-      </field>
-      <field>
-        <column_name>tiene_climatizacion</column_name>
-        <stream_name>esta_climatizado</stream_name>
-      </field>
-      <field>
-        <column_name>ultima_actualizacion_hospedaje</column_name>
-        <stream_name>ultima_actualizacion_hospedaje</stream_name>
-      </field>
-    </fields>
-    <attributes/>
-    <cluster_schema/>
-    <remotesteps>
-      <input>
-      </input>
-      <output>
-      </output>
-    </remotesteps>
-    <GUI>
-      <xloc>768</xloc>
-      <yloc>400</yloc>
+      <yloc>112</yloc>
       <draw>Y</draw>
     </GUI>
   </step>
@@ -1906,8 +1417,187 @@ var superficie = discrete_area;</jsScript_script>
       </output>
     </remotesteps>
     <GUI>
+      <xloc>752</xloc>
+      <yloc>352</yloc>
+      <draw>Y</draw>
+    </GUI>
+  </step>
+  <step>
+    <name>Store data in accomodation dimension</name>
+    <type>InsertUpdate</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+    <partitioning>
+      <method>none</method>
+      <schema_name/>
+    </partitioning>
+    <connection>hotel_dwh</connection>
+    <commit>100</commit>
+    <update_bypassed>N</update_bypassed>
+    <lookup>
+      <schema>hotel_dwh</schema>
+      <table>dim_espacio_hospedaje</table>
+      <key>
+        <name>id_espacio</name>
+        <field>id_espacio</field>
+        <condition>=</condition>
+        <name2/>
+      </key>
+      <value>
+        <name>id_espacio</name>
+        <rename>id_espacio</rename>
+        <update>Y</update>
+      </value>
+      <value>
+        <name>num_banhos</name>
+        <rename>num_banhos</rename>
+        <update>Y</update>
+      </value>
+      <value>
+        <name>num_camas</name>
+        <rename>num_camas</rename>
+        <update>Y</update>
+      </value>
+      <value>
+        <name>tiene_terraza</name>
+        <rename>tiene_terraza</rename>
+        <update>Y</update>
+      </value>
+      <value>
+        <name>admite_fumadores</name>
+        <rename>admite_fumadores</rename>
+        <update>Y</update>
+      </value>
+      <value>
+        <name>admite_mascotas</name>
+        <rename>admite_mascotas</rename>
+        <update>Y</update>
+      </value>
+      <value>
+        <name>tiene_cancelacion_gratis</name>
+        <rename>cancelacion_gratis</rename>
+        <update>Y</update>
+      </value>
+      <value>
+        <name>tiene_movilidad_adaptada</name>
+        <rename>movilidad_adaptada</rename>
+        <update>Y</update>
+      </value>
+      <value>
+        <name>precio_noche</name>
+        <rename>precio_noche</rename>
+        <update>Y</update>
+      </value>
+      <value>
+        <name>luminosidad</name>
+        <rename>luminosidad</rename>
+        <update>Y</update>
+      </value>
+      <value>
+        <name>tipo_alojamiento</name>
+        <rename>tipo_hospedaje</rename>
+        <update>Y</update>
+      </value>
+      <value>
+        <name>superficie</name>
+        <rename>superficie</rename>
+        <update>Y</update>
+      </value>
+      <value>
+        <name>tiene_internet</name>
+        <rename>tiene_internet</rename>
+        <update>Y</update>
+      </value>
+      <value>
+        <name>tiene_vistas</name>
+        <rename>tiene_vistas</rename>
+        <update>Y</update>
+      </value>
+      <value>
+        <name>tiene_climatizacion</name>
+        <rename>esta_climatizado</rename>
+        <update>Y</update>
+      </value>
+      <value>
+        <name>ultima_actualizacion_hospedaje</name>
+        <rename>ultima_actualizacion_hospedaje</rename>
+        <update>Y</update>
+      </value>
+    </lookup>
+    <attributes/>
+    <cluster_schema/>
+    <remotesteps>
+      <input>
+      </input>
+      <output>
+      </output>
+    </remotesteps>
+    <GUI>
+      <xloc>752</xloc>
+      <yloc>480</yloc>
+      <draw>Y</draw>
+    </GUI>
+  </step>
+  <step>
+    <name>Set cost to default value of 10</name>
+    <type>SetValueConstant</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+    <partitioning>
+      <method>none</method>
+      <schema_name/>
+    </partitioning>
+    <usevar>N</usevar>
+    <fields>
+      <field>
+        <name>precio_noche</name>
+        <value>10</value>
+        <mask/>
+        <set_empty_string>N</set_empty_string>
+      </field>
+    </fields>
+    <attributes/>
+    <cluster_schema/>
+    <remotesteps>
+      <input>
+      </input>
+      <output>
+      </output>
+    </remotesteps>
+    <GUI>
       <xloc>768</xloc>
-      <yloc>256</yloc>
+      <yloc>112</yloc>
+      <draw>Y</draw>
+    </GUI>
+  </step>
+  <step>
+    <name>Append streams</name>
+    <type>Append</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+    <partitioning>
+      <method>none</method>
+      <schema_name/>
+    </partitioning>
+    <head_name>Keep rows with cost >= 10</head_name>
+    <tail_name>Set cost to default value of 10</tail_name>
+    <attributes/>
+    <cluster_schema/>
+    <remotesteps>
+      <input>
+      </input>
+      <output>
+      </output>
+    </remotesteps>
+    <GUI>
+      <xloc>512</xloc>
+      <yloc>240</yloc>
       <draw>Y</draw>
     </GUI>
   </step>

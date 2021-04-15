@@ -435,67 +435,69 @@
   </info>
   <notepads>
     <notepad>
-      <note>Generate</note>
-      <xloc>168</xloc>
-      <yloc>197</yloc>
-      <width>66</width>
-      <heigth>28</heigth>
-      <fontname>Microsoft Sans Serif</fontname>
-      <fontsize>8</fontsize>
+      <note>Generate 3660 rows
+based on locale</note>
+      <xloc>128</xloc>
+      <yloc>176</yloc>
+      <width>142</width>
+      <heigth>50</heigth>
+      <fontname>Segoe UI</fontname>
+      <fontsize>9</fontsize>
       <fontbold>N</fontbold>
       <fontitalic>N</fontitalic>
       <fontcolorred>0</fontcolorred>
       <fontcolorgreen>0</fontcolorgreen>
       <fontcolorblue>0</fontcolorblue>
       <backgroundcolorred>255</backgroundcolorred>
-      <backgroundcolorgreen>255</backgroundcolorgreen>
-      <backgroundcolorblue>0</backgroundcolorblue>
+      <backgroundcolorgreen>205</backgroundcolorgreen>
+      <backgroundcolorblue>112</backgroundcolorblue>
       <bordercolorred>100</bordercolorred>
       <bordercolorgreen>100</bordercolorgreen>
       <bordercolorblue>100</bordercolorblue>
-      <drawshadow>N</drawshadow>
+      <drawshadow>Y</drawshadow>
     </notepad>
     <notepad>
-      <note>Transformation</note>
-      <xloc>167</xloc>
-      <yloc>287</yloc>
-      <width>111</width>
+      <note>Transform to all dates from
+the previous 10 years</note>
+      <xloc>80</xloc>
+      <yloc>272</yloc>
+      <width>190</width>
+      <heigth>50</heigth>
+      <fontname>Segoe UI</fontname>
+      <fontsize>9</fontsize>
+      <fontbold>N</fontbold>
+      <fontitalic>N</fontitalic>
+      <fontcolorred>0</fontcolorred>
+      <fontcolorgreen>0</fontcolorgreen>
+      <fontcolorblue>0</fontcolorblue>
+      <backgroundcolorred>255</backgroundcolorred>
+      <backgroundcolorgreen>205</backgroundcolorgreen>
+      <backgroundcolorblue>112</backgroundcolorblue>
+      <bordercolorred>100</bordercolorred>
+      <bordercolorgreen>100</bordercolorgreen>
+      <bordercolorblue>100</bordercolorblue>
+      <drawshadow>Y</drawshadow>
+    </notepad>
+    <notepad>
+      <note>Load dimension with date data</note>
+      <xloc>656</xloc>
+      <yloc>400</yloc>
+      <width>216</width>
       <heigth>30</heigth>
-      <fontname/>
-      <fontsize>-1</fontsize>
+      <fontname>Segoe UI</fontname>
+      <fontsize>9</fontsize>
       <fontbold>N</fontbold>
       <fontitalic>N</fontitalic>
       <fontcolorred>0</fontcolorred>
       <fontcolorgreen>0</fontcolorgreen>
       <fontcolorblue>0</fontcolorblue>
       <backgroundcolorred>255</backgroundcolorred>
-      <backgroundcolorgreen>255</backgroundcolorgreen>
-      <backgroundcolorblue>0</backgroundcolorblue>
+      <backgroundcolorgreen>205</backgroundcolorgreen>
+      <backgroundcolorblue>112</backgroundcolorblue>
       <bordercolorred>100</bordercolorred>
       <bordercolorgreen>100</bordercolorgreen>
       <bordercolorblue>100</bordercolorblue>
-      <drawshadow>N</drawshadow>
-    </notepad>
-    <notepad>
-      <note>Load</note>
-      <xloc>169</xloc>
-      <yloc>377</yloc>
-      <width>41</width>
-      <heigth>28</heigth>
-      <fontname>Microsoft Sans Serif</fontname>
-      <fontsize>8</fontsize>
-      <fontbold>N</fontbold>
-      <fontitalic>N</fontitalic>
-      <fontcolorred>0</fontcolorred>
-      <fontcolorgreen>0</fontcolorgreen>
-      <fontcolorblue>0</fontcolorblue>
-      <backgroundcolorred>255</backgroundcolorred>
-      <backgroundcolorgreen>255</backgroundcolorgreen>
-      <backgroundcolorblue>0</backgroundcolorblue>
-      <bordercolorred>100</bordercolorred>
-      <bordercolorgreen>100</bordercolorgreen>
-      <bordercolorblue>100</bordercolorblue>
-      <drawshadow>N</drawshadow>
+      <drawshadow>Y</drawshadow>
     </notepad>
   </notepads>
   <connection>
@@ -752,7 +754,7 @@ var date_key = year4 + month_number + (day_in_month&lt;10?"0":"") + day_in_month
       </output>
     </remotesteps>
     <GUI>
-      <xloc>512</xloc>
+      <xloc>560</xloc>
       <yloc>288</yloc>
       <draw>Y</draw>
     </GUI>
@@ -880,7 +882,7 @@ var date_key = year4 + month_number + (day_in_month&lt;10?"0":"") + day_in_month
     </remotesteps>
     <GUI>
       <xloc>352</xloc>
-      <yloc>208</yloc>
+      <yloc>176</yloc>
       <draw>Y</draw>
     </GUI>
   </step>
@@ -963,7 +965,7 @@ var date_key = year4 + month_number + (day_in_month&lt;10?"0":"") + day_in_month
       </output>
     </remotesteps>
     <GUI>
-      <xloc>512</xloc>
+      <xloc>560</xloc>
       <yloc>400</yloc>
       <draw>Y</draw>
     </GUI>

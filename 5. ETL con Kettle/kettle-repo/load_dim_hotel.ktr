@@ -435,6 +435,95 @@
     <is_key_private>N</is_key_private>
   </info>
   <notepads>
+    <notepad>
+      <note>Get average temperatures by country from external source</note>
+      <xloc>624</xloc>
+      <yloc>32</yloc>
+      <width>395</width>
+      <heigth>30</heigth>
+      <fontname>Segoe UI</fontname>
+      <fontsize>9</fontsize>
+      <fontbold>N</fontbold>
+      <fontitalic>N</fontitalic>
+      <fontcolorred>0</fontcolorred>
+      <fontcolorgreen>0</fontcolorgreen>
+      <fontcolorblue>0</fontcolorblue>
+      <backgroundcolorred>255</backgroundcolorred>
+      <backgroundcolorgreen>205</backgroundcolorgreen>
+      <backgroundcolorblue>112</backgroundcolorblue>
+      <bordercolorred>100</bordercolorred>
+      <bordercolorgreen>100</bordercolorgreen>
+      <bordercolorblue>100</bordercolorblue>
+      <drawshadow>Y</drawshadow>
+    </notepad>
+    <notepad>
+      <note>Get data from hotel table,
+replace null distances with N/A and
+merge with average temperatures by country</note>
+      <xloc>1120</xloc>
+      <yloc>240</yloc>
+      <width>308</width>
+      <heigth>70</heigth>
+      <fontname>Segoe UI</fontname>
+      <fontsize>9</fontsize>
+      <fontbold>N</fontbold>
+      <fontitalic>N</fontitalic>
+      <fontcolorred>0</fontcolorred>
+      <fontcolorgreen>0</fontcolorgreen>
+      <fontcolorblue>0</fontcolorblue>
+      <backgroundcolorred>255</backgroundcolorred>
+      <backgroundcolorgreen>205</backgroundcolorgreen>
+      <backgroundcolorblue>112</backgroundcolorblue>
+      <bordercolorred>100</bordercolorred>
+      <bordercolorgreen>100</bordercolorgreen>
+      <bordercolorblue>100</bordercolorblue>
+      <drawshadow>Y</drawshadow>
+    </notepad>
+    <notepad>
+      <note>Get population by country from external source,
+select country and 2019 columns and
+merge with main stream by country</note>
+      <xloc>1120</xloc>
+      <yloc>384</yloc>
+      <width>327</width>
+      <heigth>70</heigth>
+      <fontname>Segoe UI</fontname>
+      <fontsize>9</fontsize>
+      <fontbold>N</fontbold>
+      <fontitalic>N</fontitalic>
+      <fontcolorred>0</fontcolorred>
+      <fontcolorgreen>0</fontcolorgreen>
+      <fontcolorblue>0</fontcolorblue>
+      <backgroundcolorred>255</backgroundcolorred>
+      <backgroundcolorgreen>205</backgroundcolorgreen>
+      <backgroundcolorblue>112</backgroundcolorblue>
+      <bordercolorred>100</bordercolorred>
+      <bordercolorgreen>100</bordercolorgreen>
+      <bordercolorblue>100</bordercolorblue>
+      <drawshadow>Y</drawshadow>
+    </notepad>
+    <notepad>
+      <note>Discretize temperature and numerize hotel type and
+store data in hotel dimension</note>
+      <xloc>928</xloc>
+      <yloc>608</yloc>
+      <width>355</width>
+      <heigth>50</heigth>
+      <fontname>Segoe UI</fontname>
+      <fontsize>9</fontsize>
+      <fontbold>N</fontbold>
+      <fontitalic>N</fontitalic>
+      <fontcolorred>0</fontcolorred>
+      <fontcolorgreen>0</fontcolorgreen>
+      <fontcolorblue>0</fontcolorblue>
+      <backgroundcolorred>255</backgroundcolorred>
+      <backgroundcolorgreen>205</backgroundcolorgreen>
+      <backgroundcolorblue>112</backgroundcolorblue>
+      <bordercolorred>100</bordercolorred>
+      <bordercolorgreen>100</bordercolorgreen>
+      <bordercolorblue>100</bordercolorblue>
+      <drawshadow>Y</drawshadow>
+    </notepad>
   </notepads>
   <connection>
     <name>hotel</name>
@@ -565,17 +654,12 @@
       <enabled>Y</enabled>
     </hop>
     <hop>
-      <from>Discretize temperature and numerize hotel type</from>
-      <to>Store data in dimension</to>
+      <from>Load populations by country</from>
+      <to>Select countries and 2019 data</to>
       <enabled>Y</enabled>
     </hop>
     <hop>
-      <from>Microsoft Excel input</from>
-      <to>Select values</to>
-      <enabled>Y</enabled>
-    </hop>
-    <hop>
-      <from>Select values</from>
+      <from>Select countries and 2019 data</from>
       <to>Sort population stream by country</to>
       <enabled>Y</enabled>
     </hop>
@@ -599,12 +683,17 @@
       <to>Get data from hotel table</to>
       <enabled>Y</enabled>
     </hop>
+    <hop>
+      <from>Discretize temperature and numerize hotel type</from>
+      <to>Store data in hotel dimension</to>
+      <enabled>Y</enabled>
+    </hop>
   </order>
   <step>
     <name>Discretize temperature and numerize hotel type</name>
     <type>ScriptValueMod</type>
     <description/>
-    <distribute>Y</distribute>
+    <distribute>N</distribute>
     <custom_distribution/>
     <copies>1</copies>
     <partitioning>
@@ -670,8 +759,8 @@ var tipo = numerized_type;
       </output>
     </remotesteps>
     <GUI>
-      <xloc>1120</xloc>
-      <yloc>368</yloc>
+      <xloc>944</xloc>
+      <yloc>528</yloc>
       <draw>Y</draw>
     </GUI>
   </step>
@@ -733,8 +822,8 @@ var tipo = numerized_type;
       </output>
     </remotesteps>
     <GUI>
-      <xloc>640</xloc>
-      <yloc>64</yloc>
+      <xloc>672</xloc>
+      <yloc>96</yloc>
       <draw>Y</draw>
     </GUI>
   </step>
@@ -1179,8 +1268,8 @@ ORDER BY PAIS ASC</sql>
       </output>
     </remotesteps>
     <GUI>
-      <xloc>288</xloc>
-      <yloc>208</yloc>
+      <xloc>256</xloc>
+      <yloc>240</yloc>
       <draw>Y</draw>
     </GUI>
   </step>
@@ -1248,8 +1337,8 @@ FROM dim_hotel
       </output>
     </remotesteps>
     <GUI>
-      <xloc>112</xloc>
-      <yloc>208</yloc>
+      <xloc>80</xloc>
+      <yloc>240</yloc>
       <draw>Y</draw>
     </GUI>
   </step>
@@ -1264,7 +1353,7 @@ FROM dim_hotel
       <method>none</method>
       <schema_name/>
     </partitioning>
-    <join_type>INNER</join_type>
+    <join_type>RIGHT OUTER</join_type>
     <step1>Sort population stream by country</step1>
     <step2>Merge by country to add temperature</step2>
     <keys_1>
@@ -1282,8 +1371,8 @@ FROM dim_hotel
       </output>
     </remotesteps>
     <GUI>
-      <xloc>864</xloc>
-      <yloc>368</yloc>
+      <xloc>944</xloc>
+      <yloc>400</yloc>
       <draw>Y</draw>
     </GUI>
   </step>
@@ -1298,7 +1387,7 @@ FROM dim_hotel
       <method>none</method>
       <schema_name/>
     </partitioning>
-    <join_type>INNER</join_type>
+    <join_type>LEFT OUTER</join_type>
     <step1>Sort main stream by country</step1>
     <step2>Sort temperatures stream by country</step2>
     <keys_1>
@@ -1316,13 +1405,13 @@ FROM dim_hotel
       </output>
     </remotesteps>
     <GUI>
-      <xloc>864</xloc>
-      <yloc>208</yloc>
+      <xloc>944</xloc>
+      <yloc>240</yloc>
       <draw>Y</draw>
     </GUI>
   </step>
   <step>
-    <name>Microsoft Excel input</name>
+    <name>Load populations by country</name>
     <type>ExcelInput</type>
     <description/>
     <distribute>Y</distribute>
@@ -2181,8 +2270,8 @@ FROM dim_hotel
       </output>
     </remotesteps>
     <GUI>
-      <xloc>352</xloc>
-      <yloc>368</yloc>
+      <xloc>192</xloc>
+      <yloc>400</yloc>
       <draw>Y</draw>
     </GUI>
   </step>
@@ -2227,13 +2316,13 @@ FROM dim_hotel
       </output>
     </remotesteps>
     <GUI>
-      <xloc>464</xloc>
-      <yloc>208</yloc>
+      <xloc>480</xloc>
+      <yloc>240</yloc>
       <draw>Y</draw>
     </GUI>
   </step>
   <step>
-    <name>Select values</name>
+    <name>Select countries and 2019 data</name>
     <type>SelectValues</type>
     <description/>
     <distribute>Y</distribute>
@@ -2263,8 +2352,8 @@ FROM dim_hotel
       </output>
     </remotesteps>
     <GUI>
-      <xloc>496</xloc>
-      <yloc>368</yloc>
+      <xloc>416</xloc>
+      <yloc>400</yloc>
       <draw>Y</draw>
     </GUI>
   </step>
@@ -2305,8 +2394,8 @@ FROM dim_hotel
       </output>
     </remotesteps>
     <GUI>
-      <xloc>640</xloc>
-      <yloc>208</yloc>
+      <xloc>704</xloc>
+      <yloc>240</yloc>
       <draw>Y</draw>
     </GUI>
   </step>
@@ -2348,7 +2437,7 @@ FROM dim_hotel
     </remotesteps>
     <GUI>
       <xloc>656</xloc>
-      <yloc>368</yloc>
+      <yloc>400</yloc>
       <draw>Y</draw>
     </GUI>
   </step>
@@ -2389,14 +2478,14 @@ FROM dim_hotel
       </output>
     </remotesteps>
     <GUI>
-      <xloc>864</xloc>
-      <yloc>64</yloc>
+      <xloc>944</xloc>
+      <yloc>96</yloc>
       <draw>Y</draw>
     </GUI>
   </step>
   <step>
-    <name>Store data in dimension</name>
-    <type>TableOutput</type>
+    <name>Store data in hotel dimension</name>
+    <type>InsertUpdate</type>
     <description/>
     <distribute>Y</distribute>
     <custom_distribution/>
@@ -2406,100 +2495,113 @@ FROM dim_hotel
       <schema_name/>
     </partitioning>
     <connection>hotel_dwh</connection>
-    <schema>hotel_dwh</schema>
-    <table>dim_hotel</table>
-    <commit>1000</commit>
-    <truncate>N</truncate>
-    <ignore_errors>N</ignore_errors>
-    <use_batch>Y</use_batch>
-    <specify_fields>Y</specify_fields>
-    <partitioning_enabled>N</partitioning_enabled>
-    <partitioning_field/>
-    <partitioning_daily>N</partitioning_daily>
-    <partitioning_monthly>Y</partitioning_monthly>
-    <tablename_in_field>N</tablename_in_field>
-    <tablename_field/>
-    <tablename_in_table>Y</tablename_in_table>
-    <return_keys>N</return_keys>
-    <return_field/>
-    <fields>
-      <field>
-        <column_name>id_hotel</column_name>
-        <stream_name>id_hotel</stream_name>
-      </field>
-      <field>
-        <column_name>pais</column_name>
-        <stream_name>pais</stream_name>
-      </field>
-      <field>
-        <column_name>ciudad</column_name>
-        <stream_name>ciudad</stream_name>
-      </field>
-      <field>
-        <column_name>estrellas</column_name>
-        <stream_name>estrellas</stream_name>
-      </field>
-      <field>
-        <column_name>parking</column_name>
-        <stream_name>parking</stream_name>
-      </field>
-      <field>
-        <column_name>traslado_aeropuerto</column_name>
-        <stream_name>traslado_aeropuerto</stream_name>
-      </field>
-      <field>
-        <column_name>valoracion</column_name>
-        <stream_name>valoracion</stream_name>
-      </field>
-      <field>
-        <column_name>tipo_hotel</column_name>
-        <stream_name>tipo</stream_name>
-      </field>
-      <field>
-        <column_name>tiene_ascensor</column_name>
-        <stream_name>tiene_ascensor</stream_name>
-      </field>
-      <field>
-        <column_name>presupuesto</column_name>
-        <stream_name>presupuesto</stream_name>
-      </field>
-      <field>
-        <column_name>ingresos</column_name>
-        <stream_name>ingresos</stream_name>
-      </field>
-      <field>
-        <column_name>pres_marketing</column_name>
-        <stream_name>pres_marketing</stream_name>
-      </field>
-      <field>
-        <column_name>servicio_habitaciones</column_name>
-        <stream_name>tiene_sh</stream_name>
-      </field>
-      <field>
-        <column_name>distancia_centro</column_name>
-        <stream_name>distancia_centro</stream_name>
-      </field>
-      <field>
-        <column_name>distancia_playa</column_name>
-        <stream_name>distancia_playa</stream_name>
-      </field>
-      <field>
-        <column_name>temperatura</column_name>
-        <stream_name>temperatura</stream_name>
-      </field>
-      <field>
-        <column_name>ultima_actualizacion_hotel</column_name>
-        <stream_name>ultima_actualizacion_hotel</stream_name>
-      </field>
-      <field>
-        <column_name>poblacion</column_name>
-        <stream_name>population</stream_name>
-      </field>
-      <field>
-        <column_name>activo</column_name>
-        <stream_name>activo</stream_name>
-      </field>
-    </fields>
+    <commit>100</commit>
+    <update_bypassed>N</update_bypassed>
+    <lookup>
+      <schema>hotel_dwh</schema>
+      <table>dim_hotel</table>
+      <key>
+        <name>id_hotel</name>
+        <field>id_hotel</field>
+        <condition>=</condition>
+        <name2/>
+      </key>
+      <value>
+        <name>poblacion</name>
+        <rename>population</rename>
+        <update>Y</update>
+      </value>
+      <value>
+        <name>id_hotel</name>
+        <rename>id_hotel</rename>
+        <update>Y</update>
+      </value>
+      <value>
+        <name>pais</name>
+        <rename>pais</rename>
+        <update>Y</update>
+      </value>
+      <value>
+        <name>ciudad</name>
+        <rename>ciudad</rename>
+        <update>Y</update>
+      </value>
+      <value>
+        <name>estrellas</name>
+        <rename>estrellas</rename>
+        <update>Y</update>
+      </value>
+      <value>
+        <name>parking</name>
+        <rename>parking</rename>
+        <update>Y</update>
+      </value>
+      <value>
+        <name>traslado_aeropuerto</name>
+        <rename>traslado_aeropuerto</rename>
+        <update>Y</update>
+      </value>
+      <value>
+        <name>valoracion</name>
+        <rename>valoracion</rename>
+        <update>Y</update>
+      </value>
+      <value>
+        <name>tipo_hotel</name>
+        <rename>tipo</rename>
+        <update>Y</update>
+      </value>
+      <value>
+        <name>tiene_ascensor</name>
+        <rename>tiene_ascensor</rename>
+        <update>Y</update>
+      </value>
+      <value>
+        <name>presupuesto</name>
+        <rename>presupuesto</rename>
+        <update>Y</update>
+      </value>
+      <value>
+        <name>ingresos</name>
+        <rename>ingresos</rename>
+        <update>Y</update>
+      </value>
+      <value>
+        <name>pres_marketing</name>
+        <rename>pres_marketing</rename>
+        <update>Y</update>
+      </value>
+      <value>
+        <name>servicio_habitaciones</name>
+        <rename>tiene_sh</rename>
+        <update>Y</update>
+      </value>
+      <value>
+        <name>distancia_centro</name>
+        <rename>distancia_centro</rename>
+        <update>Y</update>
+      </value>
+      <value>
+        <name>distancia_playa</name>
+        <rename>distancia_playa</rename>
+        <update>Y</update>
+      </value>
+      <value>
+        <name>activo</name>
+        <rename>activo</rename>
+        <update>Y</update>
+      </value>
+      <value>
+        <name>ultima_actualizacion_hotel</name>
+        <rename>ultima_actualizacion_hotel</rename>
+        <update>Y</update>
+      </value>
+      <value>
+        <name>temperatura</name>
+        <rename>temperatura</rename>
+        <update>Y</update>
+      </value>
+    </lookup>
     <attributes/>
     <cluster_schema/>
     <remotesteps>
@@ -2509,8 +2611,8 @@ FROM dim_hotel
       </output>
     </remotesteps>
     <GUI>
-      <xloc>1344</xloc>
-      <yloc>368</yloc>
+      <xloc>1328</xloc>
+      <yloc>528</yloc>
       <draw>Y</draw>
     </GUI>
   </step>
