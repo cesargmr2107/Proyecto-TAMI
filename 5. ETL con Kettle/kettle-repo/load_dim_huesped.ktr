@@ -788,10 +788,9 @@
         <jsScript_type>0</jsScript_type>
         <jsScript_name>Birthday To Age</jsScript_name>
         <jsScript_script>// Get age from birthday
-var dob = fecha_nacimiento;
-var month_diff = Date.now() - dob.getTime();   
-var age_dt = new Date(month_diff);    
-var year = age_dt.getUTCFullYear();  
+var long_dif = Date.now() - fecha_nacimiento.getTime();   
+var date_dif = new Date(long_dif);    
+var year = date_dif.getUTCFullYear();  
 var age = Math.abs(year - 1970);</jsScript_script>
       </jsScript>
     </jsScripts>
