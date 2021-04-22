@@ -26,3 +26,16 @@ WHERE
             p.ULTIMA_ACTUALIZACION
         )
     ) > ?
+
+
+SELECT
+    ID_RESERVA as id_reserva,
+    ID_CLIENTE as id_cliente,
+    ID_ESPACIO as id_espacio,
+    FECHA_RESERVA as fecha_reserva,
+    FECHA_ENTRADA as fecha_entrada,
+    FECHA_SALIDA as fecha_salida,
+    PRECIO as precio,
+    PORC_DESCUENTO as porc_descuento
+FROM reserva
+WHERE ULTIMA_ACTUALIZACION > ? 	
