@@ -545,9 +545,31 @@
     <notepad>
       <note>Load SCD2 with attributes age and civil status</note>
       <xloc>1056</xloc>
-      <yloc>768</yloc>
+      <yloc>864</yloc>
       <width>313</width>
       <heigth>30</heigth>
+      <fontname>Segoe UI</fontname>
+      <fontsize>9</fontsize>
+      <fontbold>N</fontbold>
+      <fontitalic>N</fontitalic>
+      <fontcolorred>0</fontcolorred>
+      <fontcolorgreen>0</fontcolorgreen>
+      <fontcolorblue>0</fontcolorblue>
+      <backgroundcolorred>255</backgroundcolorred>
+      <backgroundcolorgreen>205</backgroundcolorgreen>
+      <backgroundcolorblue>112</backgroundcolorblue>
+      <bordercolorred>100</bordercolorred>
+      <bordercolorgreen>100</bordercolorgreen>
+      <bordercolorblue>100</bordercolorblue>
+      <drawshadow>Y</drawshadow>
+    </notepad>
+    <notepad>
+      <note>Replace null income group with default
+value of medium-low</note>
+      <xloc>1136</xloc>
+      <yloc>736</yloc>
+      <width>272</width>
+      <heigth>50</heigth>
       <fontname>Segoe UI</fontname>
       <fontsize>9</fontsize>
       <fontbold>N</fontbold>
@@ -733,13 +755,18 @@
       <enabled>Y</enabled>
     </hop>
     <hop>
-      <from>Merge join by country</from>
-      <to>Load SCD2 dim_huesped</to>
+      <from>Birthday To Age</from>
+      <to>Process guest info</to>
       <enabled>Y</enabled>
     </hop>
     <hop>
-      <from>Birthday To Age</from>
-      <to>Process guest info</to>
+      <from>Merge join by country</from>
+      <to>If income group is null replace with medium-low</to>
+      <enabled>Y</enabled>
+    </hop>
+    <hop>
+      <from>If income group is null replace with medium-low</from>
+      <to>Load SCD2 dim_huesped</to>
       <enabled>Y</enabled>
     </hop>
   </order>
@@ -900,7 +927,7 @@ var age = Math.abs(year - 1970);</jsScript_script>
     <name>Get countries by income</name>
     <type>CsvInput</type>
     <description/>
-    <distribute>Y</distribute>
+    <distribute>N</distribute>
     <custom_distribution/>
     <copies>1</copies>
     <partitioning>
@@ -1485,7 +1512,7 @@ FROM dim_huesped
     </remotesteps>
     <GUI>
       <xloc>928</xloc>
-      <yloc>752</yloc>
+      <yloc>848</yloc>
       <draw>Y</draw>
     </GUI>
   </step>
@@ -1504,7 +1531,7 @@ FROM dim_huesped
     <step1>Sort external stream by country</step1>
     <step2>Sort main stream by country</step2>
     <keys_1>
-      <key>pais_residencia</key>
+      <key>pais</key>
     </keys_1>
     <keys_2>
       <key>pais_residencia</key>
@@ -1641,7 +1668,7 @@ var situacion_civil_num = opciones_civiles[situacion_civil]
     <name>Select income group and country</name>
     <type>SelectValues</type>
     <description/>
-    <distribute>Y</distribute>
+    <distribute>N</distribute>
     <custom_distribution/>
     <copies>1</copies>
     <partitioning>
@@ -1651,10 +1678,11 @@ var situacion_civil_num = opciones_civiles[situacion_civil]
     <fields>
       <field>
         <name>IncomeGroup</name>
+        <rename/>
       </field>
       <field>
         <name>TableName</name>
-        <rename>pais_residencia</rename>
+        <rename>pais</rename>
       </field>
       <select_unspecified>N</select_unspecified>
     </fields>
@@ -1692,7 +1720,7 @@ var situacion_civil_num = opciones_civiles[situacion_civil]
     <unique_rows>N</unique_rows>
     <fields>
       <field>
-        <name>pais_residencia</name>
+        <name>pais</name>
         <ascending>Y</ascending>
         <case_sensitive>N</case_sensitive>
         <collator_enabled>N</collator_enabled>
@@ -1760,7 +1788,7 @@ var situacion_civil_num = opciones_civiles[situacion_civil]
     <name>Translate income groups</name>
     <type>ScriptValueMod</type>
     <description/>
-    <distribute>Y</distribute>
+    <distribute>N</distribute>
     <custom_distribution/>
     <copies>1</copies>
     <partitioning>
@@ -1805,6 +1833,46 @@ var ingresos_medios= opciones[IncomeGroup];</jsScript_script>
     <GUI>
       <xloc>496</xloc>
       <yloc>624</yloc>
+      <draw>Y</draw>
+    </GUI>
+  </step>
+  <step>
+    <name>If income group is null replace with medium-low</name>
+    <type>IfNull</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+    <partitioning>
+      <method>none</method>
+      <schema_name/>
+    </partitioning>
+    <replaceAllByValue/>
+    <replaceAllMask/>
+    <selectFields>Y</selectFields>
+    <selectValuesType>N</selectValuesType>
+    <setEmptyStringAll>N</setEmptyStringAll>
+    <valuetypes>
+      </valuetypes>
+    <fields>
+      <field>
+        <name>ingresos_medios</name>
+        <value>Medio-Bajo</value>
+        <mask/>
+        <set_empty_string>N</set_empty_string>
+      </field>
+    </fields>
+    <attributes/>
+    <cluster_schema/>
+    <remotesteps>
+      <input>
+      </input>
+      <output>
+      </output>
+    </remotesteps>
+    <GUI>
+      <xloc>928</xloc>
+      <yloc>736</yloc>
       <draw>Y</draw>
     </GUI>
   </step>
