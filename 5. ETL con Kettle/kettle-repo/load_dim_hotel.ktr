@@ -739,7 +739,7 @@ with mean income value</note>
     <hop>
       <from>Replace null distances with N/A</from>
       <to>Join rows (cartesian product)</to>
-      <enabled>N</enabled>
+      <enabled>Y</enabled>
     </hop>
     <hop>
       <from>Join rows (cartesian product)</from>
