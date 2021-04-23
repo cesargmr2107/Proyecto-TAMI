@@ -563,7 +563,7 @@ the previous 10 years</note>
       <enabled>Y</enabled>
     </hop>
     <hop>
-      <from>Generate 10 years</from>
+      <from>Generate 100 years</from>
       <to>Day Sequence</to>
       <enabled>Y</enabled>
     </hop>
@@ -772,7 +772,7 @@ var date_key = year4 + month_number + (day_in_month&lt;10?"0":"") + day_in_month
     </partitioning>
     <valuename>DaySequence</valuename>
     <use_database>N</use_database>
-    <connection/>
+    <connection>hotel_dwh</connection>
     <schema/>
     <seqname>SEQ_</seqname>
     <use_counter>Y</use_counter>
@@ -795,7 +795,7 @@ var date_key = year4 + month_number + (day_in_month&lt;10?"0":"") + day_in_month
     </GUI>
   </step>
   <step>
-    <name>Generate 10 years</name>
+    <name>Generate 100 years</name>
     <type>RowGenerator</type>
     <description/>
     <distribute>Y</distribute>
@@ -837,7 +837,7 @@ var date_key = year4 + month_number + (day_in_month&lt;10?"0":"") + day_in_month
         <currency/>
         <decimal/>
         <group/>
-        <nullif>2012-01-01</nullif>
+        <nullif>2010-01-01</nullif>
         <length>-1</length>
         <precision>-1</precision>
         <set_empty_string>N</set_empty_string>
@@ -867,7 +867,7 @@ var date_key = year4 + month_number + (day_in_month&lt;10?"0":"") + day_in_month
         <set_empty_string>N</set_empty_string>
       </field>
     </fields>
-    <limit>3660</limit>
+    <limit>36600</limit>
     <never_ending>N</never_ending>
     <interval_in_ms/>
     <row_time_field/>

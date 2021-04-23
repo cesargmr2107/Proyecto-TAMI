@@ -15,8 +15,8 @@ CREATE TABLE `fact_reserva` (
   
   # FOREIGN KEYS
   `espacio_hospedaje_key` INT(8) NOT NULL,
-  `fecha_entrada` INT(8) NOT NULL,
-  `fecha_salida` INT(8) NOT NULL,
+  `fecha_entrada_key` INT(8) NOT NULL,
+  `fecha_salida_key` INT(8) NOT NULL,
   `huesped_key` INT(8) NOT NULL,
   `hotel_key` INT(8) NOT NULL,
   
@@ -34,8 +34,8 @@ CREATE TABLE `fact_reserva` (
   # KEY CONSTRAINTS
   PRIMARY KEY (`reserva_key`),
   FOREIGN KEY (`espacio_hospedaje_key`) REFERENCES `dim_espacio_hospedaje`(`espacio_hospedaje_key`),
-  FOREIGN KEY (`fecha_entrada`) REFERENCES `dim_fecha`(`date_key`),
-  FOREIGN KEY (`fecha_salida`) REFERENCES `dim_fecha`(`date_key`),
+  FOREIGN KEY (`fecha_entrada_key`) REFERENCES `dim_fecha`(`date_key`),
+  FOREIGN KEY (`fecha_salida_key`) REFERENCES `dim_fecha`(`date_key`),
   FOREIGN KEY (`huesped_key`) REFERENCES `dim_huesped`(`huesped_key`),
   FOREIGN KEY (`hotel_key`) REFERENCES `dim_hotel` (`hotel_key`)
   
