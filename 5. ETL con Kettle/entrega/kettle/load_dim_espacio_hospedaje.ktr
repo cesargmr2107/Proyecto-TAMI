@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <transformation>
   <info>
-    <name>load_fact_reserva</name>
+    <name>load_dim_espacio_hospedaje</name>
     <description/>
     <extended_description/>
     <trans_version/>
     <trans_type>Normal</trans_type>
+    <trans_status>0</trans_status>
     <directory>/</directory>
     <parameters>
     </parameters>
@@ -427,19 +428,19 @@
     <clusterschemas>
     </clusterschemas>
     <created_user>-</created_user>
-    <created_date>2021/04/22 10:14:37.598</created_date>
+    <created_date>2021/04/08 10:07:46.297</created_date>
     <modified_user>-</modified_user>
-    <modified_date>2021/04/22 10:14:37.598</modified_date>
+    <modified_date>2021/04/08 10:07:46.297</modified_date>
     <key_for_session_key>H4sIAAAAAAAAAAMAAAAAAAAAAAA=</key_for_session_key>
     <is_key_private>N</is_key_private>
   </info>
   <notepads>
     <notepad>
-      <note>Get max last update from fact table
-</note>
+      <note>Get data from table if last update
+is greather than last update</note>
       <xloc>128</xloc>
-      <yloc>48</yloc>
-      <width>246</width>
+      <yloc>32</yloc>
+      <width>232</width>
       <heigth>50</heigth>
       <fontname>Segoe UI</fontname>
       <fontsize>9</fontsize>
@@ -457,11 +458,53 @@
       <drawshadow>Y</drawshadow>
     </notepad>
     <notepad>
-      <note>Get all dwh keys to
-link each dimension</note>
-      <xloc>288</xloc>
-      <yloc>448</yloc>
-      <width>142</width>
+      <note>Replace number of WCs if null</note>
+      <xloc>912</xloc>
+      <yloc>352</yloc>
+      <width>210</width>
+      <heigth>30</heigth>
+      <fontname>Segoe UI</fontname>
+      <fontsize>9</fontsize>
+      <fontbold>N</fontbold>
+      <fontitalic>N</fontitalic>
+      <fontcolorred>0</fontcolorred>
+      <fontcolorgreen>0</fontcolorgreen>
+      <fontcolorblue>0</fontcolorblue>
+      <backgroundcolorred>255</backgroundcolorred>
+      <backgroundcolorgreen>205</backgroundcolorgreen>
+      <backgroundcolorblue>112</backgroundcolorblue>
+      <bordercolorred>100</bordercolorred>
+      <bordercolorgreen>100</bordercolorgreen>
+      <bordercolorblue>100</bordercolorblue>
+      <drawshadow>Y</drawshadow>
+    </notepad>
+    <notepad>
+      <note>Store processed data in dim_espacio_hospedaje</note>
+      <xloc>912</xloc>
+      <yloc>464</yloc>
+      <width>328</width>
+      <heigth>30</heigth>
+      <fontname>Segoe UI</fontname>
+      <fontsize>9</fontsize>
+      <fontbold>N</fontbold>
+      <fontitalic>N</fontitalic>
+      <fontcolorred>0</fontcolorred>
+      <fontcolorgreen>0</fontcolorgreen>
+      <fontcolorblue>0</fontcolorblue>
+      <backgroundcolorred>255</backgroundcolorred>
+      <backgroundcolorgreen>205</backgroundcolorgreen>
+      <backgroundcolorblue>112</backgroundcolorblue>
+      <bordercolorred>100</bordercolorred>
+      <bordercolorgreen>100</bordercolorgreen>
+      <bordercolorblue>100</bordercolorblue>
+      <drawshadow>Y</drawshadow>
+    </notepad>
+    <notepad>
+      <note>Dectect rows where cost per night is &lt; 10 and
+change it to default cost of 10</note>
+      <xloc>512</xloc>
+      <yloc>32</yloc>
+      <width>312</width>
       <heigth>50</heigth>
       <fontname>Segoe UI</fontname>
       <fontsize>9</fontsize>
@@ -479,12 +522,11 @@ link each dimension</note>
       <drawshadow>Y</drawshadow>
     </notepad>
     <notepad>
-      <note>Calculate all metrics and
-store data in fact table</note>
-      <xloc>640</xloc>
-      <yloc>560</yloc>
-      <width>172</width>
-      <heigth>50</heigth>
+      <note>Get average WC number and add it to each tuple</note>
+      <xloc>208</xloc>
+      <yloc>432</yloc>
+      <width>335</width>
+      <heigth>30</heigth>
       <fontname>Segoe UI</fontname>
       <fontsize>9</fontsize>
       <fontbold>N</fontbold>
@@ -606,364 +648,81 @@ store data in fact table</note>
   <order>
     <hop>
       <from>Get max last update</from>
-      <to>Get new bookings</to>
+      <to>Get data from tables</to>
       <enabled>Y</enabled>
     </hop>
     <hop>
-      <from>Get new bookings</from>
-      <to>Get date keys in format 'yyyyMMdd'</to>
+      <from>Get average WC number</from>
+      <to>Join rows (cartesian product)</to>
       <enabled>Y</enabled>
     </hop>
     <hop>
-      <from>Get date keys in format 'yyyyMMdd'</from>
-      <to>Lookup accomodation key</to>
+      <from>Join rows (cartesian product)</from>
+      <to>Process accomodation info</to>
       <enabled>Y</enabled>
     </hop>
     <hop>
-      <from>Lookup accomodation key</from>
-      <to>Lookup hotel ID in which accomodation is located</to>
+      <from>Get data from tables</from>
+      <to>Keep rows with cost >= 10</to>
       <enabled>Y</enabled>
     </hop>
     <hop>
-      <from>Lookup hotel ID in which accomodation is located</from>
-      <to>Lookup hotel key</to>
+      <from>Process accomodation info</from>
+      <to>Store data in accomodation dimension</to>
       <enabled>Y</enabled>
     </hop>
     <hop>
-      <from>Lookup hotel key</from>
-      <to>Lookup customer key</to>
+      <from>Keep rows with cost >= 10</from>
+      <to>Set cost to default value of 10</to>
       <enabled>Y</enabled>
     </hop>
     <hop>
-      <from>Lookup customer key</from>
-      <to>Calculate metrics (I)</to>
+      <from>Keep rows with cost >= 10</from>
+      <to>Append streams</to>
       <enabled>Y</enabled>
     </hop>
     <hop>
-      <from>Calculate metrics (I)</from>
-      <to>Calculate metrics (II)</to>
+      <from>Append streams</from>
+      <to>Join rows (cartesian product)</to>
       <enabled>Y</enabled>
     </hop>
     <hop>
-      <from>Calculate metrics (II)</from>
-      <to>Load fact table</to>
+      <from>Set cost to default value of 10</from>
+      <to>Append streams</to>
       <enabled>Y</enabled>
     </hop>
   </order>
   <step>
-    <name>Calculate metrics (I)</name>
-    <type>Calculator</type>
-    <description/>
-    <distribute>Y</distribute>
-    <custom_distribution/>
-    <copies>1</copies>
-    <partitioning>
-      <method>none</method>
-      <schema_name/>
-    </partitioning>
-    <failIfNoFile>Y</failIfNoFile>
-    <calculation>
-      <field_name>numero_reservas</field_name>
-      <calc_type>CONSTANT</calc_type>
-      <field_a>1</field_a>
-      <field_b/>
-      <field_c/>
-      <value_type>Integer</value_type>
-      <value_length>-1</value_length>
-      <value_precision>-1</value_precision>
-      <remove>N</remove>
-      <conversion_mask/>
-      <decimal_symbol/>
-      <grouping_symbol/>
-      <currency_symbol/>
-    </calculation>
-    <calculation>
-      <field_name>factor1</field_name>
-      <calc_type>CONSTANT</calc_type>
-      <field_a>100</field_a>
-      <field_b/>
-      <field_c/>
-      <value_type>Number</value_type>
-      <value_length>-1</value_length>
-      <value_precision>-1</value_precision>
-      <remove>N</remove>
-      <conversion_mask/>
-      <decimal_symbol/>
-      <grouping_symbol/>
-      <currency_symbol/>
-    </calculation>
-    <calculation>
-      <field_name>factor2</field_name>
-      <calc_type>CONSTANT</calc_type>
-      <field_a>86400000</field_a>
-      <field_b/>
-      <field_c/>
-      <value_type>Integer</value_type>
-      <value_length>-1</value_length>
-      <value_precision>-1</value_precision>
-      <remove>N</remove>
-      <conversion_mask/>
-      <decimal_symbol/>
-      <grouping_symbol/>
-      <currency_symbol/>
-    </calculation>
-    <calculation>
-      <field_name>porc_desc_cast</field_name>
-      <calc_type>COPY_FIELD</calc_type>
-      <field_a>porc_descuento</field_a>
-      <field_b/>
-      <field_c/>
-      <value_type>Number</value_type>
-      <value_length>-1</value_length>
-      <value_precision>-1</value_precision>
-      <remove>N</remove>
-      <conversion_mask/>
-      <decimal_symbol/>
-      <grouping_symbol/>
-      <currency_symbol/>
-    </calculation>
-    <calculation>
-      <field_name>porc_desc_div</field_name>
-      <calc_type>DIVIDE</calc_type>
-      <field_a>porc_desc_cast</field_a>
-      <field_b>factor1</field_b>
-      <field_c/>
-      <value_type>Number</value_type>
-      <value_length>-1</value_length>
-      <value_precision>-1</value_precision>
-      <remove>N</remove>
-      <conversion_mask/>
-      <decimal_symbol/>
-      <grouping_symbol/>
-      <currency_symbol/>
-    </calculation>
-    <calculation>
-      <field_name>descuento_aplicado</field_name>
-      <calc_type>MULTIPLY</calc_type>
-      <field_a>porc_desc_div</field_a>
-      <field_b>precio</field_b>
-      <field_c/>
-      <value_type>Number</value_type>
-      <value_length>-1</value_length>
-      <value_precision>-1</value_precision>
-      <remove>N</remove>
-      <conversion_mask/>
-      <decimal_symbol/>
-      <grouping_symbol/>
-      <currency_symbol/>
-    </calculation>
-    <calculation>
-      <field_name>importe_final</field_name>
-      <calc_type>SUBTRACT</calc_type>
-      <field_a>precio</field_a>
-      <field_b>descuento_aplicado</field_b>
-      <field_c/>
-      <value_type>Number</value_type>
-      <value_length>-1</value_length>
-      <value_precision>-1</value_precision>
-      <remove>N</remove>
-      <conversion_mask/>
-      <decimal_symbol/>
-      <grouping_symbol/>
-      <currency_symbol/>
-    </calculation>
-    <calculation>
-      <field_name>duracion_millisecs</field_name>
-      <calc_type>SUBTRACT</calc_type>
-      <field_a>fecha_salida_datetime</field_a>
-      <field_b>fecha_entrada_datetime</field_b>
-      <field_c/>
-      <value_type>Integer</value_type>
-      <value_length>-1</value_length>
-      <value_precision>-1</value_precision>
-      <remove>N</remove>
-      <conversion_mask/>
-      <decimal_symbol/>
-      <grouping_symbol/>
-      <currency_symbol/>
-    </calculation>
-    <calculation>
-      <field_name>duracion</field_name>
-      <calc_type>DIVIDE</calc_type>
-      <field_a>duracion_millisecs</field_a>
-      <field_b>factor2</field_b>
-      <field_c/>
-      <value_type>Integer</value_type>
-      <value_length>-1</value_length>
-      <value_precision>-1</value_precision>
-      <remove>N</remove>
-      <conversion_mask/>
-      <decimal_symbol/>
-      <grouping_symbol/>
-      <currency_symbol/>
-    </calculation>
-    <attributes/>
-    <cluster_schema/>
-    <remotesteps>
-      <input>
-      </input>
-      <output>
-      </output>
-    </remotesteps>
-    <GUI>
-      <xloc>784</xloc>
-      <yloc>464</yloc>
-      <draw>Y</draw>
-    </GUI>
-  </step>
-  <step>
-    <name>Calculate metrics (II)</name>
-    <type>SelectValues</type>
-    <description/>
-    <distribute>Y</distribute>
-    <custom_distribution/>
-    <copies>1</copies>
-    <partitioning>
-      <method>none</method>
-      <schema_name/>
-    </partitioning>
-    <fields>
-      <field>
-        <name>precio</name>
-        <rename>importe_medio</rename>
-      </field>
-      <field>
-        <name>precio</name>
-        <rename>importe_bruto</rename>
-      </field>
-      <select_unspecified>Y</select_unspecified>
-    </fields>
-    <attributes/>
-    <cluster_schema/>
-    <remotesteps>
-      <input>
-      </input>
-      <output>
-      </output>
-    </remotesteps>
-    <GUI>
-      <xloc>960</xloc>
-      <yloc>464</yloc>
-      <draw>Y</draw>
-    </GUI>
-  </step>
-  <step>
-    <name>Get date keys in format 'yyyyMMdd'</name>
-    <type>SelectValues</type>
-    <description/>
-    <distribute>Y</distribute>
-    <custom_distribution/>
-    <copies>1</copies>
-    <partitioning>
-      <method>none</method>
-      <schema_name/>
-    </partitioning>
-    <fields>
-      <field>
-        <name>fecha_entrada</name>
-      </field>
-      <field>
-        <name>fecha_salida</name>
-      </field>
-      <field>
-        <name>fecha_entrada</name>
-        <rename>fecha_entrada_datetime</rename>
-      </field>
-      <field>
-        <name>fecha_salida</name>
-        <rename>fecha_salida_datetime</rename>
-      </field>
-      <select_unspecified>Y</select_unspecified>
-      <meta>
-        <name>fecha_entrada</name>
-        <rename>fecha_entrada_key</rename>
-        <type>String</type>
-        <length>-2</length>
-        <precision>-2</precision>
-        <conversion_mask>yyyyMMdd</conversion_mask>
-        <date_format_lenient>false</date_format_lenient>
-        <date_format_locale/>
-        <date_format_timezone/>
-        <lenient_string_to_number>false</lenient_string_to_number>
-        <encoding/>
-        <decimal_symbol/>
-        <grouping_symbol/>
-        <currency_symbol/>
-        <storage_type/>
-      </meta>
-      <meta>
-        <name>fecha_salida</name>
-        <rename>fecha_salida_key</rename>
-        <type>String</type>
-        <length>-2</length>
-        <precision>-2</precision>
-        <conversion_mask>yyyyMMdd</conversion_mask>
-        <date_format_lenient>false</date_format_lenient>
-        <date_format_locale/>
-        <date_format_timezone/>
-        <lenient_string_to_number>false</lenient_string_to_number>
-        <encoding/>
-        <decimal_symbol/>
-        <grouping_symbol/>
-        <currency_symbol/>
-        <storage_type/>
-      </meta>
-    </fields>
-    <attributes/>
-    <cluster_schema/>
-    <remotesteps>
-      <input>
-      </input>
-      <output>
-      </output>
-    </remotesteps>
-    <GUI>
-      <xloc>352</xloc>
-      <yloc>240</yloc>
-      <draw>Y</draw>
-    </GUI>
-  </step>
-  <step>
-    <name>Get max last update</name>
+    <name>Get average WC number</name>
     <type>TableInput</type>
     <description/>
-    <distribute>Y</distribute>
+    <distribute>N</distribute>
     <custom_distribution/>
     <copies>1</copies>
     <partitioning>
       <method>none</method>
       <schema_name/>
     </partitioning>
-    <connection>hotel_dwh</connection>
-    <sql>SELECT
-	COALESCE(
-		MAX(ultima_actualizacion_reserva),
-		'1970-01-01'
-	)
-FROM fact_reserva
-</sql>
+    <connection>hotel</connection>
+    <sql>SELECT ROUND(AVG(NUM_BANHOS)) AS media_banhos
+FROM espacio_hospedaje
+	 </sql>
     <limit>0</limit>
     <lookup/>
     <execute_each_row>N</execute_each_row>
-    <variables_active>Y</variables_active>
+    <variables_active>N</variables_active>
     <lazy_conversion_active>N</lazy_conversion_active>
     <cached_row_meta_active>N</cached_row_meta_active>
     <row-meta>
       <value-meta>
-        <type>String</type>
+        <type>Integer</type>
         <storagetype>normal</storagetype>
-        <name>COALESCE(
-		MAX(ultima_actualizacion_reserva),
-		'1970-01-01'
-	)</name>
-        <length>19</length>
-        <precision>-1</precision>
-        <origin>Get max last update</origin>
-        <comments>COALESCE(
-		MAX(ultima_actualizacion_reserva),
-		'1970-01-01'
-	)</comments>
-        <conversion_Mask/>
+        <name>media_banhos</name>
+        <length>2</length>
+        <precision>0</precision>
+        <origin>Get average WC number</origin>
+        <comments>media_banhos</comments>
+        <conversion_Mask>####0;-####0</conversion_Mask>
         <decimal_symbol>,</decimal_symbol>
         <grouping_symbol>.</grouping_symbol>
         <currency_symbol/>
@@ -988,16 +747,16 @@ FROM fact_reserva
       </output>
     </remotesteps>
     <GUI>
-      <xloc>144</xloc>
-      <yloc>128</yloc>
+      <xloc>208</xloc>
+      <yloc>352</yloc>
       <draw>Y</draw>
     </GUI>
   </step>
   <step>
-    <name>Get new bookings</name>
+    <name>Get data from tables</name>
     <type>TableInput</type>
     <description/>
-    <distribute>Y</distribute>
+    <distribute>N</distribute>
     <custom_distribution/>
     <copies>1</copies>
     <partitioning>
@@ -1006,20 +765,35 @@ FROM fact_reserva
     </partitioning>
     <connection>hotel</connection>
     <sql>SELECT
-    ID_RESERVA as id_reserva,
-    ID_CLIENTE as id_cliente,
-    ID_ESPACIO as id_espacio,
-    FECHA_RESERVA as fecha_reserva,
-    FECHA_ENTRADA as fecha_entrada,
-    FECHA_SALIDA as fecha_salida,
-    PRECIO as precio,
-    PORC_DESCUENTO as porc_descuento,
-	ULTIMA_ACTUALIZACION as ultima_actualizacion_reserva
-FROM cliente_reserva_esp_hospedaje
-WHERE ULTIMA_ACTUALIZACION > ? 	</sql>
+    espacio.id_espacio as id_espacio,
+    NUM_BANHOS as num_banhos,
+    NUM_CAMAS as num_camas,
+    TIENE_TERRAZA as tiene_terraza,
+    ADMITE_FUMADORES as admite_fumadores,
+    ADMITE_MASCOTAS as admite_mascotas,
+    CANCELACION_GRATIS as cancelacion_gratis,
+    MOVILIDAD_ADAPTADA as movilidad_adaptada,
+    PRECIO_NOCHE as precio_noche,
+    LUMINOSIDAD as luminosidad,
+    TIPO_HOSPEDAJE as tipo_hospedaje,
+    SUPERFICIE as superficie,
+    TIENE_INTERNET as tiene_internet,
+    TIENE_VISTAS as tiene_vistas,
+    ESTA_CLIMATIZADO as esta_climatizado,
+	GREATEST(
+		espacio.ultima_actualizacion,
+		espacio_hospedaje.ultima_actualizacion
+	) AS ultima_actualizacion_hospedaje
+FROM espacio, espacio_hospedaje
+WHERE espacio.id_espacio = espacio_hospedaje.id_espacio AND
+	  GREATEST(
+		espacio.ultima_actualizacion,
+		espacio_hospedaje.ultima_actualizacion
+	  ) > ?
+	 </sql>
     <limit>0</limit>
     <lookup>Get max last update</lookup>
-    <execute_each_row>Y</execute_each_row>
+    <execute_each_row>N</execute_each_row>
     <variables_active>N</variables_active>
     <lazy_conversion_active>N</lazy_conversion_active>
     <cached_row_meta_active>N</cached_row_meta_active>
@@ -1027,56 +801,10 @@ WHERE ULTIMA_ACTUALIZACION > ? 	</sql>
       <value-meta>
         <type>String</type>
         <storagetype>normal</storagetype>
-        <name>id_reserva</name>
-        <length>20</length>
-        <precision>-1</precision>
-        <origin>Get new bookings</origin>
-        <comments>id_reserva</comments>
-        <conversion_Mask/>
-        <decimal_symbol>,</decimal_symbol>
-        <grouping_symbol>.</grouping_symbol>
-        <currency_symbol/>
-        <trim_type>none</trim_type>
-        <case_insensitive>N</case_insensitive>
-        <collator_disabled>Y</collator_disabled>
-        <collator_strength>0</collator_strength>
-        <sort_descending>N</sort_descending>
-        <output_padding>N</output_padding>
-        <date_format_lenient>N</date_format_lenient>
-        <date_format_locale>en_US</date_format_locale>
-        <date_format_timezone>Europe/Paris</date_format_timezone>
-        <lenient_string_to_number>N</lenient_string_to_number>
-      </value-meta>
-      <value-meta>
-        <type>String</type>
-        <storagetype>normal</storagetype>
-        <name>id_cliente</name>
-        <length>9</length>
-        <precision>-1</precision>
-        <origin>Get new bookings</origin>
-        <comments>id_cliente</comments>
-        <conversion_Mask/>
-        <decimal_symbol>,</decimal_symbol>
-        <grouping_symbol>.</grouping_symbol>
-        <currency_symbol/>
-        <trim_type>none</trim_type>
-        <case_insensitive>N</case_insensitive>
-        <collator_disabled>Y</collator_disabled>
-        <collator_strength>0</collator_strength>
-        <sort_descending>N</sort_descending>
-        <output_padding>N</output_padding>
-        <date_format_lenient>N</date_format_lenient>
-        <date_format_locale>en_US</date_format_locale>
-        <date_format_timezone>Europe/Paris</date_format_timezone>
-        <lenient_string_to_number>N</lenient_string_to_number>
-      </value-meta>
-      <value-meta>
-        <type>String</type>
-        <storagetype>normal</storagetype>
         <name>id_espacio</name>
         <length>9</length>
         <precision>-1</precision>
-        <origin>Get new bookings</origin>
+        <origin>Get data from tables</origin>
         <comments>id_espacio</comments>
         <conversion_Mask/>
         <decimal_symbol>,</decimal_symbol>
@@ -1094,13 +822,59 @@ WHERE ULTIMA_ACTUALIZACION > ? 	</sql>
         <lenient_string_to_number>N</lenient_string_to_number>
       </value-meta>
       <value-meta>
-        <type>Date</type>
+        <type>Integer</type>
         <storagetype>normal</storagetype>
-        <name>fecha_reserva</name>
-        <length>-1</length>
+        <name>num_banhos</name>
+        <length>1</length>
+        <precision>0</precision>
+        <origin>Get data from tables</origin>
+        <comments>num_banhos</comments>
+        <conversion_Mask>####0;-####0</conversion_Mask>
+        <decimal_symbol>,</decimal_symbol>
+        <grouping_symbol>.</grouping_symbol>
+        <currency_symbol/>
+        <trim_type>none</trim_type>
+        <case_insensitive>N</case_insensitive>
+        <collator_disabled>Y</collator_disabled>
+        <collator_strength>0</collator_strength>
+        <sort_descending>N</sort_descending>
+        <output_padding>N</output_padding>
+        <date_format_lenient>N</date_format_lenient>
+        <date_format_locale>en_US</date_format_locale>
+        <date_format_timezone>Europe/Paris</date_format_timezone>
+        <lenient_string_to_number>N</lenient_string_to_number>
+      </value-meta>
+      <value-meta>
+        <type>Integer</type>
+        <storagetype>normal</storagetype>
+        <name>num_camas</name>
+        <length>1</length>
+        <precision>0</precision>
+        <origin>Get data from tables</origin>
+        <comments>num_camas</comments>
+        <conversion_Mask>####0;-####0</conversion_Mask>
+        <decimal_symbol>,</decimal_symbol>
+        <grouping_symbol>.</grouping_symbol>
+        <currency_symbol/>
+        <trim_type>none</trim_type>
+        <case_insensitive>N</case_insensitive>
+        <collator_disabled>Y</collator_disabled>
+        <collator_strength>0</collator_strength>
+        <sort_descending>N</sort_descending>
+        <output_padding>N</output_padding>
+        <date_format_lenient>N</date_format_lenient>
+        <date_format_locale>en_US</date_format_locale>
+        <date_format_timezone>Europe/Paris</date_format_timezone>
+        <lenient_string_to_number>N</lenient_string_to_number>
+      </value-meta>
+      <value-meta>
+        <type>String</type>
+        <storagetype>normal</storagetype>
+        <name>tiene_terraza</name>
+        <length>2</length>
         <precision>-1</precision>
-        <origin>Get new bookings</origin>
-        <comments>fecha_reserva</comments>
+        <origin>Get data from tables</origin>
+        <comments>tiene_terraza</comments>
         <conversion_Mask/>
         <decimal_symbol>,</decimal_symbol>
         <grouping_symbol>.</grouping_symbol>
@@ -1117,13 +891,13 @@ WHERE ULTIMA_ACTUALIZACION > ? 	</sql>
         <lenient_string_to_number>N</lenient_string_to_number>
       </value-meta>
       <value-meta>
-        <type>Date</type>
+        <type>String</type>
         <storagetype>normal</storagetype>
-        <name>fecha_entrada</name>
-        <length>-1</length>
+        <name>admite_fumadores</name>
+        <length>2</length>
         <precision>-1</precision>
-        <origin>Get new bookings</origin>
-        <comments>fecha_entrada</comments>
+        <origin>Get data from tables</origin>
+        <comments>admite_fumadores</comments>
         <conversion_Mask/>
         <decimal_symbol>,</decimal_symbol>
         <grouping_symbol>.</grouping_symbol>
@@ -1140,13 +914,59 @@ WHERE ULTIMA_ACTUALIZACION > ? 	</sql>
         <lenient_string_to_number>N</lenient_string_to_number>
       </value-meta>
       <value-meta>
-        <type>Date</type>
+        <type>String</type>
         <storagetype>normal</storagetype>
-        <name>fecha_salida</name>
-        <length>-1</length>
+        <name>admite_mascotas</name>
+        <length>2</length>
         <precision>-1</precision>
-        <origin>Get new bookings</origin>
-        <comments>fecha_salida</comments>
+        <origin>Get data from tables</origin>
+        <comments>admite_mascotas</comments>
+        <conversion_Mask/>
+        <decimal_symbol>,</decimal_symbol>
+        <grouping_symbol>.</grouping_symbol>
+        <currency_symbol/>
+        <trim_type>none</trim_type>
+        <case_insensitive>N</case_insensitive>
+        <collator_disabled>Y</collator_disabled>
+        <collator_strength>0</collator_strength>
+        <sort_descending>N</sort_descending>
+        <output_padding>N</output_padding>
+        <date_format_lenient>N</date_format_lenient>
+        <date_format_locale>en_US</date_format_locale>
+        <date_format_timezone>Europe/Paris</date_format_timezone>
+        <lenient_string_to_number>N</lenient_string_to_number>
+      </value-meta>
+      <value-meta>
+        <type>String</type>
+        <storagetype>normal</storagetype>
+        <name>cancelacion_gratis</name>
+        <length>2</length>
+        <precision>-1</precision>
+        <origin>Get data from tables</origin>
+        <comments>cancelacion_gratis</comments>
+        <conversion_Mask/>
+        <decimal_symbol>,</decimal_symbol>
+        <grouping_symbol>.</grouping_symbol>
+        <currency_symbol/>
+        <trim_type>none</trim_type>
+        <case_insensitive>N</case_insensitive>
+        <collator_disabled>Y</collator_disabled>
+        <collator_strength>0</collator_strength>
+        <sort_descending>N</sort_descending>
+        <output_padding>N</output_padding>
+        <date_format_lenient>N</date_format_lenient>
+        <date_format_locale>en_US</date_format_locale>
+        <date_format_timezone>Europe/Paris</date_format_timezone>
+        <lenient_string_to_number>N</lenient_string_to_number>
+      </value-meta>
+      <value-meta>
+        <type>String</type>
+        <storagetype>normal</storagetype>
+        <name>movilidad_adaptada</name>
+        <length>2</length>
+        <precision>-1</precision>
+        <origin>Get data from tables</origin>
+        <comments>movilidad_adaptada</comments>
         <conversion_Mask/>
         <decimal_symbol>,</decimal_symbol>
         <grouping_symbol>.</grouping_symbol>
@@ -1165,11 +985,11 @@ WHERE ULTIMA_ACTUALIZACION > ? 	</sql>
       <value-meta>
         <type>Number</type>
         <storagetype>normal</storagetype>
-        <name>precio</name>
-        <length>7</length>
+        <name>precio_noche</name>
+        <length>5</length>
         <precision>2</precision>
-        <origin>Get new bookings</origin>
-        <comments>precio</comments>
+        <origin>Get data from tables</origin>
+        <comments>precio_noche</comments>
         <conversion_Mask>####0.0#########;-####0.0#########</conversion_Mask>
         <decimal_symbol>,</decimal_symbol>
         <grouping_symbol>.</grouping_symbol>
@@ -1186,14 +1006,129 @@ WHERE ULTIMA_ACTUALIZACION > ? 	</sql>
         <lenient_string_to_number>N</lenient_string_to_number>
       </value-meta>
       <value-meta>
-        <type>Integer</type>
+        <type>String</type>
         <storagetype>normal</storagetype>
-        <name>porc_descuento</name>
+        <name>luminosidad</name>
+        <length>5</length>
+        <precision>-1</precision>
+        <origin>Get data from tables</origin>
+        <comments>luminosidad</comments>
+        <conversion_Mask/>
+        <decimal_symbol>,</decimal_symbol>
+        <grouping_symbol>.</grouping_symbol>
+        <currency_symbol/>
+        <trim_type>none</trim_type>
+        <case_insensitive>N</case_insensitive>
+        <collator_disabled>Y</collator_disabled>
+        <collator_strength>0</collator_strength>
+        <sort_descending>N</sort_descending>
+        <output_padding>N</output_padding>
+        <date_format_lenient>N</date_format_lenient>
+        <date_format_locale>en_US</date_format_locale>
+        <date_format_timezone>Europe/Paris</date_format_timezone>
+        <lenient_string_to_number>N</lenient_string_to_number>
+      </value-meta>
+      <value-meta>
+        <type>String</type>
+        <storagetype>normal</storagetype>
+        <name>tipo_hospedaje</name>
+        <length>11</length>
+        <precision>-1</precision>
+        <origin>Get data from tables</origin>
+        <comments>tipo_hospedaje</comments>
+        <conversion_Mask/>
+        <decimal_symbol>,</decimal_symbol>
+        <grouping_symbol>.</grouping_symbol>
+        <currency_symbol/>
+        <trim_type>none</trim_type>
+        <case_insensitive>N</case_insensitive>
+        <collator_disabled>Y</collator_disabled>
+        <collator_strength>0</collator_strength>
+        <sort_descending>N</sort_descending>
+        <output_padding>N</output_padding>
+        <date_format_lenient>N</date_format_lenient>
+        <date_format_locale>en_US</date_format_locale>
+        <date_format_timezone>Europe/Paris</date_format_timezone>
+        <lenient_string_to_number>N</lenient_string_to_number>
+      </value-meta>
+      <value-meta>
+        <type>Number</type>
+        <storagetype>normal</storagetype>
+        <name>superficie</name>
+        <length>6</length>
+        <precision>3</precision>
+        <origin>Get data from tables</origin>
+        <comments>superficie</comments>
+        <conversion_Mask>####0.0#########;-####0.0#########</conversion_Mask>
+        <decimal_symbol>,</decimal_symbol>
+        <grouping_symbol>.</grouping_symbol>
+        <currency_symbol/>
+        <trim_type>none</trim_type>
+        <case_insensitive>N</case_insensitive>
+        <collator_disabled>Y</collator_disabled>
+        <collator_strength>0</collator_strength>
+        <sort_descending>N</sort_descending>
+        <output_padding>N</output_padding>
+        <date_format_lenient>N</date_format_lenient>
+        <date_format_locale>en_US</date_format_locale>
+        <date_format_timezone>Europe/Paris</date_format_timezone>
+        <lenient_string_to_number>N</lenient_string_to_number>
+      </value-meta>
+      <value-meta>
+        <type>String</type>
+        <storagetype>normal</storagetype>
+        <name>tiene_internet</name>
         <length>2</length>
-        <precision>0</precision>
-        <origin>Get new bookings</origin>
-        <comments>porc_descuento</comments>
-        <conversion_Mask>####0;-####0</conversion_Mask>
+        <precision>-1</precision>
+        <origin>Get data from tables</origin>
+        <comments>tiene_internet</comments>
+        <conversion_Mask/>
+        <decimal_symbol>,</decimal_symbol>
+        <grouping_symbol>.</grouping_symbol>
+        <currency_symbol/>
+        <trim_type>none</trim_type>
+        <case_insensitive>N</case_insensitive>
+        <collator_disabled>Y</collator_disabled>
+        <collator_strength>0</collator_strength>
+        <sort_descending>N</sort_descending>
+        <output_padding>N</output_padding>
+        <date_format_lenient>N</date_format_lenient>
+        <date_format_locale>en_US</date_format_locale>
+        <date_format_timezone>Europe/Paris</date_format_timezone>
+        <lenient_string_to_number>N</lenient_string_to_number>
+      </value-meta>
+      <value-meta>
+        <type>String</type>
+        <storagetype>normal</storagetype>
+        <name>tiene_vistas</name>
+        <length>2</length>
+        <precision>-1</precision>
+        <origin>Get data from tables</origin>
+        <comments>tiene_vistas</comments>
+        <conversion_Mask/>
+        <decimal_symbol>,</decimal_symbol>
+        <grouping_symbol>.</grouping_symbol>
+        <currency_symbol/>
+        <trim_type>none</trim_type>
+        <case_insensitive>N</case_insensitive>
+        <collator_disabled>Y</collator_disabled>
+        <collator_strength>0</collator_strength>
+        <sort_descending>N</sort_descending>
+        <output_padding>N</output_padding>
+        <date_format_lenient>N</date_format_lenient>
+        <date_format_locale>en_US</date_format_locale>
+        <date_format_timezone>Europe/Paris</date_format_timezone>
+        <lenient_string_to_number>N</lenient_string_to_number>
+      </value-meta>
+      <value-meta>
+        <type>String</type>
+        <storagetype>normal</storagetype>
+        <name>esta_climatizado</name>
+        <length>2</length>
+        <precision>-1</precision>
+        <origin>Get data from tables</origin>
+        <comments>esta_climatizado</comments>
+        <conversion_Mask/>
         <decimal_symbol>,</decimal_symbol>
         <grouping_symbol>.</grouping_symbol>
         <currency_symbol/>
@@ -1211,11 +1146,11 @@ WHERE ULTIMA_ACTUALIZACION > ? 	</sql>
       <value-meta>
         <type>Timestamp</type>
         <storagetype>normal</storagetype>
-        <name>ultima_actualizacion_reserva</name>
+        <name>ultima_actualizacion_hospedaje</name>
         <length>0</length>
         <precision>-1</precision>
-        <origin>Get new bookings</origin>
-        <comments>ultima_actualizacion_reserva</comments>
+        <origin>Get data from tables</origin>
+        <comments>ultima_actualizacion_hospedaje</comments>
         <conversion_Mask/>
         <decimal_symbol>,</decimal_symbol>
         <grouping_symbol>.</grouping_symbol>
@@ -1241,13 +1176,254 @@ WHERE ULTIMA_ACTUALIZACION > ? 	</sql>
       </output>
     </remotesteps>
     <GUI>
-      <xloc>352</xloc>
-      <yloc>128</yloc>
+      <xloc>320</xloc>
+      <yloc>112</yloc>
       <draw>Y</draw>
     </GUI>
   </step>
   <step>
-    <name>Load fact table</name>
+    <name>Get max last update</name>
+    <type>TableInput</type>
+    <description/>
+    <distribute>N</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+    <partitioning>
+      <method>none</method>
+      <schema_name/>
+    </partitioning>
+    <connection>hotel_dwh</connection>
+    <sql>SELECT COALESCE(
+	MAX(ultima_actualizacion_hospedaje),
+	'1970-01-01 00:00:00'
+)
+FROM dim_espacio_hospedaje
+</sql>
+    <limit>0</limit>
+    <lookup/>
+    <execute_each_row>N</execute_each_row>
+    <variables_active>N</variables_active>
+    <lazy_conversion_active>N</lazy_conversion_active>
+    <cached_row_meta_active>N</cached_row_meta_active>
+    <row-meta>
+      <value-meta>
+        <type>String</type>
+        <storagetype>normal</storagetype>
+        <name>COALESCE(
+	MAX(ultima_actualizacion_hospedaje),
+	'1970-01-01 00:00:00'
+)</name>
+        <length>19</length>
+        <precision>-1</precision>
+        <origin>Get max last update</origin>
+        <comments>COALESCE(
+	MAX(ultima_actualizacion_hospedaje),
+	'1970-01-01 00:00:00'
+)</comments>
+        <conversion_Mask/>
+        <decimal_symbol>,</decimal_symbol>
+        <grouping_symbol>.</grouping_symbol>
+        <currency_symbol/>
+        <trim_type>none</trim_type>
+        <case_insensitive>N</case_insensitive>
+        <collator_disabled>Y</collator_disabled>
+        <collator_strength>0</collator_strength>
+        <sort_descending>N</sort_descending>
+        <output_padding>N</output_padding>
+        <date_format_lenient>N</date_format_lenient>
+        <date_format_locale>en_US</date_format_locale>
+        <date_format_timezone>Europe/Paris</date_format_timezone>
+        <lenient_string_to_number>N</lenient_string_to_number>
+      </value-meta>
+    </row-meta>
+    <attributes/>
+    <cluster_schema/>
+    <remotesteps>
+      <input>
+      </input>
+      <output>
+      </output>
+    </remotesteps>
+    <GUI>
+      <xloc>128</xloc>
+      <yloc>112</yloc>
+      <draw>Y</draw>
+    </GUI>
+  </step>
+  <step>
+    <name>Join rows (cartesian product)</name>
+    <type>JoinRows</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>4</copies>
+    <partitioning>
+      <method>none</method>
+      <schema_name/>
+    </partitioning>
+    <directory>%%java.io.tmpdir%%</directory>
+    <prefix>out</prefix>
+    <cache_size>500</cache_size>
+    <main/>
+    <compare>
+      <condition>
+        <negated>N</negated>
+        <leftvalue/>
+        <function>=</function>
+        <rightvalue/>
+      </condition>
+    </compare>
+    <attributes/>
+    <cluster_schema/>
+    <remotesteps>
+      <input>
+      </input>
+      <output>
+      </output>
+    </remotesteps>
+    <GUI>
+      <xloc>512</xloc>
+      <yloc>352</yloc>
+      <draw>Y</draw>
+    </GUI>
+  </step>
+  <step>
+    <name>Keep rows with cost >= 10</name>
+    <type>FilterRows</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+    <partitioning>
+      <method>none</method>
+      <schema_name/>
+    </partitioning>
+    <send_true_to>Append streams</send_true_to>
+    <send_false_to>Set cost to default value of 10</send_false_to>
+    <compare>
+      <condition>
+        <negated>N</negated>
+        <leftvalue>precio_noche</leftvalue>
+        <function>&gt;=</function>
+        <rightvalue/>
+        <value>
+          <name>constant</name>
+          <type>Number</type>
+          <text>10.0</text>
+          <length>-1</length>
+          <precision>-1</precision>
+          <isnull>N</isnull>
+          <mask>####0.0#########;-####0.0#########</mask>
+        </value>
+      </condition>
+    </compare>
+    <attributes/>
+    <cluster_schema/>
+    <remotesteps>
+      <input>
+      </input>
+      <output>
+      </output>
+    </remotesteps>
+    <GUI>
+      <xloc>512</xloc>
+      <yloc>112</yloc>
+      <draw>Y</draw>
+    </GUI>
+  </step>
+  <step>
+    <name>Process accomodation info</name>
+    <type>ScriptValueMod</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+    <partitioning>
+      <method>none</method>
+      <schema_name/>
+    </partitioning>
+    <compatible>N</compatible>
+    <optimizationLevel>9</optimizationLevel>
+    <jsScripts>
+      <jsScript>
+        <jsScript_type>0</jsScript_type>
+        <jsScript_name>Replace WC number if null</jsScript_name>
+        <jsScript_script>// Replace null number of WCs with average
+if (num_banhos == null) {
+	var num_banhos = media_banhos;
+}
+
+
+// Discretize night cost
+var discrete_cost;
+if (precio_noche &lt; 100) {
+    discrete_cost = "&lt;100";    
+} else if(precio_noche >= 100 &amp;&amp; precio_noche &lt; 200) {
+    discrete_cost = "[100,200)";
+} else if(precio_noche >= 200 &amp;&amp; precio_noche &lt; 300) {
+    discrete_cost = "[200,300)";
+} else if(precio_noche >= 300 &amp;&amp; precio_noche &lt; 400) {
+    discrete_cost = "[300,400)";
+} else if(precio_noche >= 400 &amp;&amp; precio_noche &lt; 500) {
+    discrete_cost = "[400,500)";
+} else {
+    discrete_cost = ">=500";
+}
+var precio_noche = discrete_cost;
+
+var discrete_area;
+if (superficie &lt; 50) {
+    discrete_area = "Pequeño";
+} else if (superficie >= 50 &amp;&amp; superficie &lt; 100){
+    discrete_area = "Mediano";
+} else {
+    discrete_area = "Grande";
+}
+var superficie = discrete_area;</jsScript_script>
+      </jsScript>
+    </jsScripts>
+    <fields>
+      <field>
+        <name>num_banhos</name>
+        <rename>num_banhos</rename>
+        <type>Number</type>
+        <length>16</length>
+        <precision>2</precision>
+        <replace>Y</replace>
+      </field>
+      <field>
+        <name>precio_noche</name>
+        <rename>precio_noche</rename>
+        <type>String</type>
+        <length>-1</length>
+        <precision>-1</precision>
+        <replace>Y</replace>
+      </field>
+      <field>
+        <name>superficie</name>
+        <rename>superficie</rename>
+        <type>String</type>
+        <length>-1</length>
+        <precision>-1</precision>
+        <replace>Y</replace>
+      </field>
+    </fields>
+    <attributes/>
+    <cluster_schema/>
+    <remotesteps>
+      <input>
+      </input>
+      <output>
+      </output>
+    </remotesteps>
+    <GUI>
+      <xloc>752</xloc>
+      <yloc>352</yloc>
+      <draw>Y</draw>
+    </GUI>
+  </step>
+  <step>
+    <name>Store data in accomodation dimension</name>
     <type>InsertUpdate</type>
     <description/>
     <distribute>Y</distribute>
@@ -1262,114 +1438,7 @@ WHERE ULTIMA_ACTUALIZACION > ? 	</sql>
     <update_bypassed>N</update_bypassed>
     <lookup>
       <schema>hotel_dwh</schema>
-      <table>fact_reserva</table>
-      <key>
-        <name>id_reserva</name>
-        <field>id_reserva</field>
-        <condition>=</condition>
-        <name2/>
-      </key>
-      <value>
-        <name>importe_medio</name>
-        <rename>importe_medio</rename>
-        <update>Y</update>
-      </value>
-      <value>
-        <name>importe_bruto</name>
-        <rename>importe_bruto</rename>
-        <update>Y</update>
-      </value>
-      <value>
-        <name>descuento_aplicado</name>
-        <rename>descuento_aplicado</rename>
-        <update>Y</update>
-      </value>
-      <value>
-        <name>duracion</name>
-        <rename>duracion</rename>
-        <update>Y</update>
-      </value>
-      <value>
-        <name>espacio_hospedaje_key</name>
-        <rename>espacio_hospedaje_key</rename>
-        <update>Y</update>
-      </value>
-      <value>
-        <name>fecha_entrada_key</name>
-        <rename>fecha_entrada_key</rename>
-        <update>Y</update>
-      </value>
-      <value>
-        <name>fecha_salida_key</name>
-        <rename>fecha_salida_key</rename>
-        <update>Y</update>
-      </value>
-      <value>
-        <name>hotel_key</name>
-        <rename>hotel_key</rename>
-        <update>Y</update>
-      </value>
-      <value>
-        <name>huesped_key</name>
-        <rename>huesped_key</rename>
-        <update>Y</update>
-      </value>
-      <value>
-        <name>id_reserva</name>
-        <rename>id_reserva</rename>
-        <update>Y</update>
-      </value>
-      <value>
-        <name>importe_final</name>
-        <rename>importe_final</rename>
-        <update>Y</update>
-      </value>
-      <value>
-        <name>numero_reservas</name>
-        <rename>numero_reservas</rename>
-        <update>Y</update>
-      </value>
-      <value>
-        <name>ultima_actualizacion_reserva</name>
-        <rename>ultima_actualizacion_reserva</rename>
-        <update>Y</update>
-      </value>
-    </lookup>
-    <attributes/>
-    <cluster_schema/>
-    <remotesteps>
-      <input>
-      </input>
-      <output>
-      </output>
-    </remotesteps>
-    <GUI>
-      <xloc>960</xloc>
-      <yloc>576</yloc>
-      <draw>Y</draw>
-    </GUI>
-  </step>
-  <step>
-    <name>Lookup accomodation key</name>
-    <type>DBLookup</type>
-    <description/>
-    <distribute>Y</distribute>
-    <custom_distribution/>
-    <copies>1</copies>
-    <partitioning>
-      <method>none</method>
-      <schema_name/>
-    </partitioning>
-    <connection>hotel_dwh</connection>
-    <cache>N</cache>
-    <cache_load_all>N</cache_load_all>
-    <cache_size>0</cache_size>
-    <lookup>
-      <schema>hotel_dwh</schema>
       <table>dim_espacio_hospedaje</table>
-      <orderby/>
-      <fail_on_multiple>N</fail_on_multiple>
-      <eat_row_on_failure>N</eat_row_on_failure>
       <key>
         <name>id_espacio</name>
         <field>id_espacio</field>
@@ -1377,115 +1446,84 @@ WHERE ULTIMA_ACTUALIZACION > ? 	</sql>
         <name2/>
       </key>
       <value>
-        <name>espacio_hospedaje_key</name>
-        <rename>espacio_hospedaje_key</rename>
-        <default/>
-        <type>None</type>
-      </value>
-    </lookup>
-    <attributes/>
-    <cluster_schema/>
-    <remotesteps>
-      <input>
-      </input>
-      <output>
-      </output>
-    </remotesteps>
-    <GUI>
-      <xloc>608</xloc>
-      <yloc>240</yloc>
-      <draw>Y</draw>
-    </GUI>
-  </step>
-  <step>
-    <name>Lookup customer key</name>
-    <type>DimensionLookup</type>
-    <description/>
-    <distribute>Y</distribute>
-    <custom_distribution/>
-    <copies>1</copies>
-    <partitioning>
-      <method>none</method>
-      <schema_name/>
-    </partitioning>
-    <schema>hotel_dwh</schema>
-    <table>dim_huesped</table>
-    <connection>hotel_dwh</connection>
-    <commit>100</commit>
-    <update>Y</update>
-    <fields>
-      <key>
-        <name>id_cliente</name>
-        <lookup>id_cliente</lookup>
-      </key>
-      <date>
-        <name/>
-        <from>huesped_valido_desde</from>
-        <to>huesped_valido_hasta</to>
-      </date>
-      <return>
-        <name>huesped_key</name>
-        <rename/>
-        <creation_method>tablemax</creation_method>
-        <use_autoinc>N</use_autoinc>
-        <version>huesped_num_version</version>
-      </return>
-    </fields>
-    <sequence/>
-    <min_year>1900</min_year>
-    <max_year>2199</max_year>
-    <cache_size>5000</cache_size>
-    <preload_cache>N</preload_cache>
-    <use_start_date_alternative>N</use_start_date_alternative>
-    <start_date_alternative>none</start_date_alternative>
-    <start_date_field_name/>
-    <useBatch>N</useBatch>
-    <attributes/>
-    <cluster_schema/>
-    <remotesteps>
-      <input>
-      </input>
-      <output>
-      </output>
-    </remotesteps>
-    <GUI>
-      <xloc>608</xloc>
-      <yloc>464</yloc>
-      <draw>Y</draw>
-    </GUI>
-  </step>
-  <step>
-    <name>Lookup hotel ID in which accomodation is located</name>
-    <type>DBLookup</type>
-    <description/>
-    <distribute>Y</distribute>
-    <custom_distribution/>
-    <copies>1</copies>
-    <partitioning>
-      <method>none</method>
-      <schema_name/>
-    </partitioning>
-    <connection>hotel</connection>
-    <cache>N</cache>
-    <cache_load_all>N</cache_load_all>
-    <cache_size>0</cache_size>
-    <lookup>
-      <schema>hotel</schema>
-      <table>espacio</table>
-      <orderby/>
-      <fail_on_multiple>N</fail_on_multiple>
-      <eat_row_on_failure>N</eat_row_on_failure>
-      <key>
         <name>id_espacio</name>
-        <field>ID_ESPACIO</field>
-        <condition>=</condition>
-        <name2/>
-      </key>
+        <rename>id_espacio</rename>
+        <update>Y</update>
+      </value>
       <value>
-        <name>ID_HOTEL</name>
-        <rename>id_hotel</rename>
-        <default/>
-        <type>None</type>
+        <name>num_banhos</name>
+        <rename>num_banhos</rename>
+        <update>Y</update>
+      </value>
+      <value>
+        <name>num_camas</name>
+        <rename>num_camas</rename>
+        <update>Y</update>
+      </value>
+      <value>
+        <name>tiene_terraza</name>
+        <rename>tiene_terraza</rename>
+        <update>Y</update>
+      </value>
+      <value>
+        <name>admite_fumadores</name>
+        <rename>admite_fumadores</rename>
+        <update>Y</update>
+      </value>
+      <value>
+        <name>admite_mascotas</name>
+        <rename>admite_mascotas</rename>
+        <update>Y</update>
+      </value>
+      <value>
+        <name>tiene_cancelacion_gratis</name>
+        <rename>cancelacion_gratis</rename>
+        <update>Y</update>
+      </value>
+      <value>
+        <name>tiene_movilidad_adaptada</name>
+        <rename>movilidad_adaptada</rename>
+        <update>Y</update>
+      </value>
+      <value>
+        <name>precio_noche</name>
+        <rename>precio_noche</rename>
+        <update>Y</update>
+      </value>
+      <value>
+        <name>luminosidad</name>
+        <rename>luminosidad</rename>
+        <update>Y</update>
+      </value>
+      <value>
+        <name>tipo_alojamiento</name>
+        <rename>tipo_hospedaje</rename>
+        <update>Y</update>
+      </value>
+      <value>
+        <name>superficie</name>
+        <rename>superficie</rename>
+        <update>Y</update>
+      </value>
+      <value>
+        <name>tiene_internet</name>
+        <rename>tiene_internet</rename>
+        <update>Y</update>
+      </value>
+      <value>
+        <name>tiene_vistas</name>
+        <rename>tiene_vistas</rename>
+        <update>Y</update>
+      </value>
+      <value>
+        <name>tiene_climatizacion</name>
+        <rename>esta_climatizado</rename>
+        <update>Y</update>
+      </value>
+      <value>
+        <name>ultima_actualizacion_hospedaje</name>
+        <rename>ultima_actualizacion_hospedaje</rename>
+        <update>Y</update>
       </value>
     </lookup>
     <attributes/>
@@ -1497,14 +1535,14 @@ WHERE ULTIMA_ACTUALIZACION > ? 	</sql>
       </output>
     </remotesteps>
     <GUI>
-      <xloc>352</xloc>
-      <yloc>352</yloc>
+      <xloc>752</xloc>
+      <yloc>480</yloc>
       <draw>Y</draw>
     </GUI>
   </step>
   <step>
-    <name>Lookup hotel key</name>
-    <type>DBLookup</type>
+    <name>Set cost to default value of 10</name>
+    <type>SetValueConstant</type>
     <description/>
     <distribute>Y</distribute>
     <custom_distribution/>
@@ -1513,29 +1551,15 @@ WHERE ULTIMA_ACTUALIZACION > ? 	</sql>
       <method>none</method>
       <schema_name/>
     </partitioning>
-    <connection>hotel_dwh</connection>
-    <cache>N</cache>
-    <cache_load_all>N</cache_load_all>
-    <cache_size>0</cache_size>
-    <lookup>
-      <schema/>
-      <table>dim_hotel</table>
-      <orderby/>
-      <fail_on_multiple>N</fail_on_multiple>
-      <eat_row_on_failure>N</eat_row_on_failure>
-      <key>
-        <name>id_hotel</name>
-        <field>id_hotel</field>
-        <condition>=</condition>
-        <name2/>
-      </key>
-      <value>
-        <name>hotel_key</name>
-        <rename>hotel_key</rename>
-        <default/>
-        <type>None</type>
-      </value>
-    </lookup>
+    <usevar>N</usevar>
+    <fields>
+      <field>
+        <name>precio_noche</name>
+        <value>10</value>
+        <mask/>
+        <set_empty_string>N</set_empty_string>
+      </field>
+    </fields>
     <attributes/>
     <cluster_schema/>
     <remotesteps>
@@ -1545,8 +1569,35 @@ WHERE ULTIMA_ACTUALIZACION > ? 	</sql>
       </output>
     </remotesteps>
     <GUI>
-      <xloc>608</xloc>
-      <yloc>352</yloc>
+      <xloc>768</xloc>
+      <yloc>112</yloc>
+      <draw>Y</draw>
+    </GUI>
+  </step>
+  <step>
+    <name>Append streams</name>
+    <type>Append</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+    <partitioning>
+      <method>none</method>
+      <schema_name/>
+    </partitioning>
+    <head_name>Keep rows with cost >= 10</head_name>
+    <tail_name>Set cost to default value of 10</tail_name>
+    <attributes/>
+    <cluster_schema/>
+    <remotesteps>
+      <input>
+      </input>
+      <output>
+      </output>
+    </remotesteps>
+    <GUI>
+      <xloc>512</xloc>
+      <yloc>240</yloc>
       <draw>Y</draw>
     </GUI>
   </step>
