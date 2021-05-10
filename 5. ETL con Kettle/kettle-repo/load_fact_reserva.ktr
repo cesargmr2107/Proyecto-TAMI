@@ -434,72 +434,6 @@
     <is_key_private>N</is_key_private>
   </info>
   <notepads>
-    <notepad>
-      <note>Get max last update from fact table
-</note>
-      <xloc>128</xloc>
-      <yloc>48</yloc>
-      <width>246</width>
-      <heigth>50</heigth>
-      <fontname>Segoe UI</fontname>
-      <fontsize>9</fontsize>
-      <fontbold>N</fontbold>
-      <fontitalic>N</fontitalic>
-      <fontcolorred>0</fontcolorred>
-      <fontcolorgreen>0</fontcolorgreen>
-      <fontcolorblue>0</fontcolorblue>
-      <backgroundcolorred>255</backgroundcolorred>
-      <backgroundcolorgreen>205</backgroundcolorgreen>
-      <backgroundcolorblue>112</backgroundcolorblue>
-      <bordercolorred>100</bordercolorred>
-      <bordercolorgreen>100</bordercolorgreen>
-      <bordercolorblue>100</bordercolorblue>
-      <drawshadow>Y</drawshadow>
-    </notepad>
-    <notepad>
-      <note>Get all dwh keys to
-link each dimension</note>
-      <xloc>288</xloc>
-      <yloc>448</yloc>
-      <width>142</width>
-      <heigth>50</heigth>
-      <fontname>Segoe UI</fontname>
-      <fontsize>9</fontsize>
-      <fontbold>N</fontbold>
-      <fontitalic>N</fontitalic>
-      <fontcolorred>0</fontcolorred>
-      <fontcolorgreen>0</fontcolorgreen>
-      <fontcolorblue>0</fontcolorblue>
-      <backgroundcolorred>255</backgroundcolorred>
-      <backgroundcolorgreen>205</backgroundcolorgreen>
-      <backgroundcolorblue>112</backgroundcolorblue>
-      <bordercolorred>100</bordercolorred>
-      <bordercolorgreen>100</bordercolorgreen>
-      <bordercolorblue>100</bordercolorblue>
-      <drawshadow>Y</drawshadow>
-    </notepad>
-    <notepad>
-      <note>Calculate all metrics and
-store data in fact table</note>
-      <xloc>640</xloc>
-      <yloc>560</yloc>
-      <width>172</width>
-      <heigth>50</heigth>
-      <fontname>Segoe UI</fontname>
-      <fontsize>9</fontsize>
-      <fontbold>N</fontbold>
-      <fontitalic>N</fontitalic>
-      <fontcolorred>0</fontcolorred>
-      <fontcolorgreen>0</fontcolorgreen>
-      <fontcolorblue>0</fontcolorblue>
-      <backgroundcolorred>255</backgroundcolorred>
-      <backgroundcolorgreen>205</backgroundcolorgreen>
-      <backgroundcolorblue>112</backgroundcolorblue>
-      <bordercolorred>100</bordercolorred>
-      <bordercolorgreen>100</bordercolorgreen>
-      <bordercolorblue>100</bordercolorblue>
-      <drawshadow>Y</drawshadow>
-    </notepad>
   </notepads>
   <connection>
     <name>hotel</name>
@@ -1412,22 +1346,22 @@ WHERE ULTIMA_ACTUALIZACION > ? 	</sql>
     <table>dim_huesped</table>
     <connection>hotel_dwh</connection>
     <commit>100</commit>
-    <update>Y</update>
+    <update>N</update>
     <fields>
       <key>
         <name>id_cliente</name>
         <lookup>id_cliente</lookup>
       </key>
       <date>
-        <name/>
+        <name>ultima_actualizacion_huesped</name>
         <from>huesped_valido_desde</from>
         <to>huesped_valido_hasta</to>
       </date>
       <return>
         <name>huesped_key</name>
         <rename/>
-        <creation_method>tablemax</creation_method>
-        <use_autoinc>N</use_autoinc>
+        <creation_method>autoinc</creation_method>
+        <use_autoinc>Y</use_autoinc>
         <version>huesped_num_version</version>
       </return>
     </fields>
