@@ -950,7 +950,8 @@ FROM fact_reserva
     PORC_DESCUENTO as porc_descuento,
 	ULTIMA_ACTUALIZACION as ultima_actualizacion_reserva
 FROM cliente_reserva_esp_hospedaje
-WHERE ULTIMA_ACTUALIZACION > ? 	</sql>
+WHERE ULTIMA_ACTUALIZACION > ?
+	  AND ID_CLIENTE IN (SELECT ID_CLIENTE FROM huesped)</sql>
     <limit>0</limit>
     <lookup>Get max last update</lookup>
     <execute_each_row>Y</execute_each_row>
